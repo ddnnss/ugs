@@ -1,0 +1,252 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start about -->
+	<section class="about">
+		<div class="about-bg">
+			<img src="{% static 'img/about-bg.svg' %}" alt="">
+		</div>
+		<div class="wrapper">
+			<div class="about-info">
+				<div class="section-top" data-aos="fade-right" data-aos-duration="500" data-aos-once="true">
+					<h1 class="section-title">О системе</h1>
+					<span>О системе</span>
+				</div>
+				<div class="about-img" data-aos="fade" data-aos-duration="500" data-aos-once="true">
+					<img src="{% static 'img/about-img.svg' %}" alt="">
+				</div>
+				<p data-aos="fade-right" data-aos-duration="500" data-aos-once="true">UGS - это сервис по возмещению убытков игроков от проигрышей в ставках на спорт. Сервис является решением проблемы постоянного проигрыша игроков, которые играют на крупные суммы. </p>
+				<p data-aos="fade-right" data-aos-duration="500" data-aos-once="true">UGS работает максимально прозрачно и получает всего 10% по партнерскому соглашению, а проигравшему игроку возмещается половина проигранной ставки. </p>
+				<p data-aos="fade-right" data-aos-duration="500" data-aos-once="true">Чтобы получить возмещение на нашей платформе в случае проигрыша ставки, нужно отсканировать чек ставки, загрузить его на нашу платформу и не переживать по поводу исходов спортивных событий.</p>
+			</div>
+		</div>
+	</section>
+	<!-- end about -->
+	<!-- start statistics -->
+	<section class="statistics">
+		<div class="wrapper">
+			<div class="section-top" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+				<h2 class="section-title">Цифры</h2>
+				<span>Цифры</span>
+			</div>
+			<div class="statistics-row">
+				<div class="statistics-col" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<div class="statistics-ico" id="statistics1"></div>
+					<span class="statistics-subtitle">Успешной <br>работы</span>
+				</div>
+				<div class="statistics-col" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<div class="statistics-ico" id="statistics2"></div>
+					<span class="statistics-subtitle">Довольных <br>клиентов</span>
+				</div>
+				<div class="statistics-col" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<div class="statistics-ico" id="statistics3"></div>
+					<span class="statistics-subtitle">Кэшбэка <br>выплачено</span>
+				</div>
+				<div class="statistics-col" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<div class="statistics-ico" id="statistics4"></div>
+					<span class="statistics-subtitle">Самый большой процент кэшбэка</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end statistics -->
+	<!-- start mission -->
+	<section class="mission">
+		<div class="wrapper">
+			<div class="mission-col">
+				<div class="mission-bg">
+					<img src="{% static 'img/mission-bg.svg' %}" alt="">
+				</div>
+				<div class="mission-info" data-aos="fade-right" data-aos-duration="500" data-aos-once="true">
+					<div class="section-top">
+						<h2 class="section-title">Миссия</h2>
+					</div>
+					<p>Миссия UGS – давать игрокам, которые оказались в сложной ситуации, шанс отыграться. </p>
+					<p>Высокий процент кэшбэка и отсутствие жестких ограничений позволяет нашему сервису предоставлять лучшие условия для крупных игроков. </p>
+				</div>
+			</div>
+			<div class="mission-col mission-last">
+				<div class="mission-bg">
+					<img src="{% static 'img/mission-bg-2.svg' %}" alt="">
+				</div>
+				<div class="mission-info" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<div class="section-top">
+						<h2 class="section-title">Наша цель</h2>
+					</div>
+					<p>Цель UGS – обеспечить финансовую защищенность для игроков, которые играют на крупные суммы и рискуют потерять большую часть своего дохода.</p>
+					<p>Наш сервис позволит застраховать игроков в случае сложной финансовой ситуации или при попадании в неблагоприятные жизненные обстоятельства.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end mission -->
+	<!-- start history -->
+	<section class="history">
+		<div class="history-bg">
+			<img src="{% static 'img/history-bg.svg' %}" alt="">
+		</div>
+		<div class="wrapper">
+			<div class="history-img" data-aos="fade-right" data-aos-duration="500" data-aos-once="true">
+				<img src="{% static 'img/history-img.svg' %}" alt="">
+			</div>
+			<div class="history-info" data-aos="fade-left" data-aos-duration="500" data-aos-once="true">
+				<div class="section-top">
+					<h2 class="section-title">История</h2>
+					<span>История</span>
+				</div>
+				<div class="history-img history-img-mob">
+					<img src="{% static 'img/history-img.svg' %}" alt="">
+				</div>
+				<p>UGS был создан в 2019 году и с момента создания успел возместить ущерб от ставок огромному количеству игроков на территории СНГ. </p>
+				<p>Существуя 1 год, мы успели стать лучшим сервисом по возмещению убытков игроков на спортивных ставках.</p>
+				<p>Мы уже завоевали доверие игроков высоким процентом кэшбэка, быстрыми выплатами и прозрачностью расчетов по возврату средств.</p>
+			</div>
+		</div>
+	</section>
+	<!-- end history -->
+	<!-- start attention -->
+	<section class="attention">
+		<div class="attention-bg attention-bg__1">
+			<img src="{% static 'img/attention-bg.svg' %}" alt="">
+		</div>
+		<div class="attention-bg attention-bg__2">
+			<svg width="519" height="521" viewBox="0 0 519 521" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.2"><circle r="307" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="5" stroke-dasharray="1 2"/><circle r="330.4" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="0.2"/><circle r="350.15" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="0.7" stroke-dasharray="3 3"/><circle r="284.5" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="4"/><circle r="261.25" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="0.5" stroke-dasharray="1 2"/><circle r="220.75" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="1.5" stroke-dasharray="1 1"/><circle r="201" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white"/><circle r="162.5" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="6"/><circle r="134.5" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="2"/><circle r="73" transform="matrix(-0.978882 0.204427 0.312402 -0.94995 452.595 334.609)" stroke="white" stroke-width="3"/></g></svg>
+		</div>
+		<div class="attention-mob">
+			<img src="{% static 'img/attention-mob.svg' %}" alt="">
+		</div>
+		<div class="wrapper">
+			<div class="attention-img">
+				<img src="{% static 'img/attention-img.svg' %}" alt="">
+			</div>
+			<div class="attention-info">
+				<h2 class="attention-title">Получайте бесконечные кэшбеки</h2>
+				<p>Мы возвращаем тебе 50% от каждого проигрыша вне зависимости от количества и суммы твоих выигрышей</p>
+				<a href="#" class="main-btn">Регистрация</a>
+			</div>
+		</div>
+	</section>
+	<!-- end attention -->
+	<!-- start testimonials -->
+	<section class="testimonials">
+		<div class="wrapper">
+			<div class="testimonials-info" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+				<div class="section-top">
+					<h2 class="section-title">Отзывы</h2>
+					<span>Отзывы</span>
+				</div>
+				<p>На UGS игроки всегда в плюсе, даже когда они проигрывают. Наш простой и прозрачный сервис еще никого не оставлял недовольным.</p>
+				<p>Ниже представлены отзывы от самых ярых игроков, которые всегда играют на крупные суммы. </p>
+			</div>
+		</div>
+		<div class="testimonials-slider">
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<div class="testimonials-row">
+						<div class="testimonials-img">
+							<img src="img/testimonials-img.png" alt="">
+						</div>
+						<div class="testimonials-descr">
+							<span class="testimonials-name">Виктория Михайловна</span>
+							<span class="testimonials-prof">Фотограф</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="testimonials-range">
+			<input type="range" id="range" min="1" value="1" step="1" class="range"/>
+		</div>
+	</section>
+	<!-- end testimonials -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

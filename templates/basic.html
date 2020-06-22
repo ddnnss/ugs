@@ -1,0 +1,175 @@
+<!-- SKIB.ORG WAS HERE -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>{{ pageTitle }}</title>
+	<meta name="description" content="{{ pageDescription }}">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!--<meta property="og:image" content="path/to/image.jpg">
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+	<meta name="theme-color" content="#000">
+	<meta name="msapplication-navbutton-color" content="#000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    <style>
+        .color-red{
+            color: red;
+            font-size: 13px;
+        }
+        .not-visible{
+            display: none;
+        }
+        .form-error{
+            margin-bottom: 20px;
+        }
+        .faq-second{
+            opacity: 0 !important;
+            min-height: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+{% if profilePage %}
+    {% include 'header_profile.html' %}
+{% else %}
+{% include 'header.html' %}
+{% endif %}
+
+{% block content %}
+{% endblock %}
+{% if not profilePage %}
+{% include 'footer.html' %}
+{% endif %}
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="{% static 'js/scripts.min.js' %}"></script>
+
+
+        <script>
+        let email_login = document.getElementById('email_login'),
+            password_login = document.getElementById('password_login'),
+            login_form_error = document.getElementById('login_form_error'),
+            first_name_reg = document.getElementById('first_name_reg'),
+            last_name_reg = document.getElementById('last_name_reg'),
+            phone_reg = document.getElementById('phone_reg'),
+            email_reg = document.getElementById('email_reg'),
+            password1_reg = document.getElementById('password1_reg'),
+            password2_reg = document.getElementById('password2_reg'),
+            reg_form_error = document.getElementById('reg_form_error'),
+            error_text = document.getElementById('error_text')
+
+        function login(e){
+            e.preventDefault()
+            login_form_error.classList.add('not-visible')
+            let body = {
+                'email':email_login.value,
+                'password':password_login.value
+            }
+            fetch('{% url 'login_req' %}', {
+                method: 'post',
+                body: JSON.stringify(body),
+                headers: { "X-CSRFToken": '{{ csrf_token }}' },
+                credentials: 'same-origin'
+            }).then(res=>res.json())
+                .then(res => {
+                    console.log(res)
+                    if(res['status']==='success'){
+                        location.reload();
+                    }
+                    else{
+                        login_form_error.classList.remove('not-visible')
+                    }
+                })
+        }
+        function reg(e){
+            e.preventDefault()
+            reg_form_error.classList.add('not-visible')
+            //if (password1_reg.value !== password2_reg.value ){
+            //    error_text.innerText = 'Пароли не совпадают'
+            //    reg_form_error.classList.remove('not-visible')
+            //    return
+            //}
+            let body = {
+                'email':email_reg.value,
+                'first_name':first_name_reg.value,
+                'last_name':last_name_reg.value,
+                'phone':phone_reg.value,
+                'password1':password1_reg.value,
+                'password2':password2_reg.value
+            }
+            fetch('{% url 'register' %}', {
+                method: 'post',
+                body: JSON.stringify(body),
+                headers: { "X-CSRFToken": '{{ csrf_token }}' },
+                credentials: 'same-origin'
+            }).then(res=>res.json())
+                .then(res => {
+                    console.log(res)
+                    if(res['status']==='error'){
+                        error_text.innerText = ''
+                        reg_form_error.classList.remove('not-visible')
+                        if(res['errors']['email']){
+                             error_text.innerText = error_text.innerText + res['errors']['email']
+                        }
+                        if(res['errors']['password2']){
+                             error_text.innerText = error_text.innerText + res['errors']['password2']
+                        }
+
+                    }
+                    else{
+                        location.reload();
+
+                    }
+                })
+        }
+
+
+    </script>
+
+<script>
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#user_avatar').attr('src', e.target.result);
+                        $('#user_header_avatar').attr('src', e.target.result);
+                        $('#avatar_change').submit()
+
+                    }
+
+                    reader.readAsDataURL(input.files[0]); // convert to base64 string
+                }
+            }
+
+        $("#user_avatar_input").change(function() {
+            readURL(this);
+        });
+
+     let faq = document.getElementById('faq_second')
+     let faq_btn = document.getElementById('faq_btn')
+
+    function openFaq(e){
+         e.preventDefault()
+        faq.classList.remove('faq-second')
+        faq_btn.style.display='none'
+    }
+
+
+    </script>
+
+{% endblock %}
+
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start contacts -->
+	<section class="contacts">
+		<div class="contacts-bg">
+			<img src="{% static 'img/contacts-bg.svg' %}" alt="">
+		</div>
+		<div class="wrapper">
+			<div class="contacts-top">
+				<div class="contacts-info" data-aos="fade-right" data-aos-duration="500" data-aos-once="true">
+					<div class="section-top">
+						<h2 class="section-title">Контакты</h2>
+						<span>Контакты</span>
+					</div>
+					<p>При возникновении проблем с регистрацией чека или по любым другим вопросам пользования нашим сервисом, просим связаться с нами любым удобным для вас способом.</p>
+				</div>
+				<div class="contacts-social" style="background-image: url({% static 'img/contacts-bg-2.svg' %});" data-aos="fade-left" data-aos-duration="500" data-aos-once="true">
+					<span class="contacts-subtitle">Мы в социальных сетях:</span>
+					<ul>
+						<li><a href="#">
+							<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.65316 1.13865L8.54503 0.274445C8.92266 -0.0914816 9.53331 -0.0914816 9.90693 0.274445L17.7168 7.83822C18.0944 8.20415 18.0944 8.79586 17.7168 9.15789L9.90693 16.7256C9.52929 17.0915 8.91865 17.0915 8.54503 16.7256L7.65316 15.8613C7.27151 15.4915 7.27954 14.8881 7.66923 14.5261L12.5102 10.0571H0.964178C0.429863 10.0571 0 9.6406 0 9.12285V7.87715C0 7.3594 0.429863 6.94287 0.964178 6.94287H12.5102L7.66923 2.47389C7.27553 2.11186 7.26749 1.50847 7.65316 1.13865Z" fill="#F99422"/></svg>
+							Telegram
+						</a></li>
+						<li><a href="#">
+							<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.65316 1.13865L8.54503 0.274445C8.92266 -0.0914816 9.53331 -0.0914816 9.90693 0.274445L17.7168 7.83822C18.0944 8.20415 18.0944 8.79586 17.7168 9.15789L9.90693 16.7256C9.52929 17.0915 8.91865 17.0915 8.54503 16.7256L7.65316 15.8613C7.27151 15.4915 7.27954 14.8881 7.66923 14.5261L12.5102 10.0571H0.964178C0.429863 10.0571 0 9.6406 0 9.12285V7.87715C0 7.3594 0.429863 6.94287 0.964178 6.94287H12.5102L7.66923 2.47389C7.27553 2.11186 7.26749 1.50847 7.65316 1.13865Z" fill="#F99422"/></svg>
+							Whatsapp
+						</a></li>
+						<li><a href="#">
+							<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.65316 1.13865L8.54503 0.274445C8.92266 -0.0914816 9.53331 -0.0914816 9.90693 0.274445L17.7168 7.83822C18.0944 8.20415 18.0944 8.79586 17.7168 9.15789L9.90693 16.7256C9.52929 17.0915 8.91865 17.0915 8.54503 16.7256L7.65316 15.8613C7.27151 15.4915 7.27954 14.8881 7.66923 14.5261L12.5102 10.0571H0.964178C0.429863 10.0571 0 9.6406 0 9.12285V7.87715C0 7.3594 0.429863 6.94287 0.964178 6.94287H12.5102L7.66923 2.47389C7.27553 2.11186 7.26749 1.50847 7.65316 1.13865Z" fill="#F99422"/></svg>
+							Vkontakte
+						</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="contacts-bottom">
+				<div class="section-top" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+					<h2 class="section-title">Свяжитесь с нами</h2>
+					<span>Свяжитесь с нами</span>
+				</div>
+				<div class="contacts-row">
+					<div class="contacts-col contacts-form">
+						<form action="">
+							<div class="contacts-form__row">
+								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+									<label for="i-1">Ваше Имя<span>*</span></label>
+									<div class="input-block__wrap">
+										<input id="i-1" type="text" name="text" placeholder="Иван">
+									</div>
+								</div>
+								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+									<label for="i-2">Ваша Фамилия<span>*</span></label>
+									<div class="input-block__wrap">
+										<input id="i-2" type="text" name="text" placeholder="Иванов">
+									</div>
+								</div>
+								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+									<label for="i-3">Эмеил<span>*</span></label>
+									<div class="input-block__wrap">
+										<input id="i-3" type="text" name="text" placeholder="mail@gmail.com">
+									</div>
+								</div>
+								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+									<label for="i-4">Телефон</label>
+									<div class="input-block__wrap">
+										<input id="i-4" type="text" name="text" placeholder="+7 964-123-45-67">
+									</div>
+								</div>
+							</div>
+							<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+								<label for="i-5">Тема сообщения:</label>
+								<div class="input-block__wrap">
+									<select name="text" id="i-5">
+										<option value="">Я нашел баг</option>
+										<option value="">Я нашел баг</option>
+										<option value="">Я нашел баг</option>
+									</select>
+								</div>
+							</div>
+							<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+								<div class="input-block__wrap">
+									<textarea name="text" placeholder="Сообщение"></textarea>
+									<p>Поля (<span>*</span>) обязательны для заполнения</p>
+								</div>
+							</div>
+							<div class="contacts-btn" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+								<button class="main-btn">Отправить</button>
+							</div>
+						</form>
+					</div>
+					<div class="contacts-col contacts-last">
+						<div class="contacts-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+							<div class="contacts-ico">
+								<img src="{% static 'img/contacts-ico-1.svg' %}" alt="">
+							</div>
+							<span class="contacts-title">hello@email.com</span>
+							<p>Эмеил</p>
+						</div>
+						<div class="contacts-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+							<div class="contacts-ico">
+								<img src="{% static 'img/contacts-ico-2.svg' %}" alt="">
+							</div>
+							<span class="contacts-title">+7 993 992 33 16</span>
+							<p>Телефон</p>
+						</div>
+						<div class="contacts-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+							<div class="contacts-ico">
+								<img src="{% static 'img/contacts-ico-3.svg' %}" alt="">
+							</div>
+							<span class="contacts-title">Main Street 32b, NYC</span>
+							<p>Адресс</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end contacts -->
+	<!-- start faq -->
+	<section class="faq ">
+		<div class="wrapper">
+			<div class="section-top" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+				<h2 class="section-title">Частые вопросы</h2>
+				<span>Частые вопросы</span>
+			</div>
+			<div class="faq-wrap" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+                {% for q in allFaqFirst %}
+				<div class="faq-accordeon accordeon">
+					<div class="faq-top">
+						<h3 class="faq-title">{{ q.title }}</h3>
+						<div class="faq-arrow">
+							<svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325655L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#1B1B1B"/></svg>
+						</div>
+					</div>
+					<div class="accordeon-block">
+						<div class="faq-block">
+							<div class="faq-info">
+								<p>{{ q.text }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+
+        <div id="faq_second" class="faq-wrap faq-second" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+                {% for q in allFaqSecond %}
+				<div class="faq-accordeon accordeon">
+					<div class="faq-top">
+						<h3 class="faq-title">{{ q.title }}</h3>
+						<div class="faq-arrow">
+							<svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325655L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#1B1B1B"/></svg>
+						</div>
+					</div>
+					<div class="accordeon-block">
+						<div class="faq-block">
+							<div class="faq-info">
+								<p>{{ q.text }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div id="faq_btn" class="faq-btn" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+				<a href="#" onclick="openFaq(event)" class="second-btn">Все вопросы</a>
+			</div>
+		</div>
+	</section>
+	<!-- end faq -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Счет</h2>
+					<span>Счет</span>
+				</div>
+				<div class="score">
+					<h3 class="personalArea-title">Баланс:<span>12500 ₽</span></h3>
+					<p>Вы можете вывести средства с баланса в любое удобное для вас время. Убедитесь, что вы привязали платежное средство к аккаунту.</p>
+					<a href="#" class="main-btn">Вывести средства</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

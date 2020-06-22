@@ -1,0 +1,163 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Архив чеков</h2>
+					<span>Архив чеков</span>
+				</div>
+				<div class="operations operations-second">
+					<div class="period">
+						<form action="">
+							<div class="period-row">
+								<div class="period-col">
+									<p>Период времени</p>
+									<div class="input-block">
+										<select name="text">
+											<option value="Текущий месяц">Текущий месяц</option>
+											<option value="Текущий месяц">Текущий месяц</option>
+											<option value="Текущий месяц">Текущий месяц</option>
+											<option value="Текущий месяц">Текущий месяц</option>
+											<option value="Текущий месяц">Текущий месяц</option>
+										</select>
+									</div>
+								</div>
+								<div class="period-col">
+									<p>Сумма операции</p>
+									<div class="input-block">
+										<select name="text">
+											<option value="Все суммы">Все суммы</option>
+											<option value="Все суммы">Все суммы</option>
+											<option value="Все суммы">Все суммы</option>
+											<option value="Все суммы">Все суммы</option>
+											<option value="Все суммы">Все суммы</option>
+										</select>
+									</div>
+								</div>
+								<div class="period-col">
+									<p></p>
+									<button class="main-btn">Применить</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1">
+								<span>Время</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>Сумма операции</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>КЭШБЭК</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Валюта</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<span>Статус</span>
+							</div>
+						</div>
+						<div class="operations-row">
+							<div class="operations-col operations-col__1">
+								<span>06.05.2020</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>₽ 1000</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>2%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ 20</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<img src="img/check.svg" alt="">
+							</div>
+						</div>
+						<div class="operations-row">
+							<div class="operations-col operations-col__1">
+								<span>06.05.2020</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>₽ 5000</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>2%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ 100</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<img src="img/close.svg" alt="">
+							</div>
+						</div>
+						<div class="operations-row">
+							<div class="operations-col operations-col__1">
+								<span>06.05.2020</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>₽ 1000</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>2%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ 20</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<img src="img/check.svg" alt="">
+							</div>
+						</div>
+						<div class="operations-row">
+							<div class="operations-col operations-col__1">
+								<span>06.05.2020</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>₽ 5000</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>2%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ 100</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<img src="img/close.svg" alt="">
+							</div>
+						</div>
+						<div class="operations-row">
+							<div class="operations-col operations-col__1">
+								<span>06.05.2020</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>₽ 1000</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>2%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ 20</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<img src="img/check.svg" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

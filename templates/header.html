@@ -1,0 +1,129 @@
+{% load static %}
+<!-- start header -->
+<header class="header">
+    <div class="wrapper">
+        <div class="header-logo">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="">
+            </a>
+        </div>
+        <div class="header-row">
+            <ul class="header-list">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li><a href="{% url 'about' %}">О системе</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                {% if  request.user.is_authenticated %}
+                    <li><a href="{% url 'profile_index' %}">Личный кабинет</a></li>
+                {% endif %}
+            </ul>
+            {% if not request.user.is_authenticated %}
+                <div class="header-btns">
+                    <a href="#forms-registration" class="modal-btn second-btn">Регистрация</a>
+                    <a href="#forms-login" class="modal-btn main-btn">Вход</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="header-bar">
+            <span></span>
+        </div>
+    </div>
+    <div class="forms-bg"></div>
+    <div class="forms">
+        <div class="forms-wrap">
+            <div class="forms-back">
+                <svg width="31" height="27" viewBox="0 0 31 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.8196 24.5232L16.2836 25.8366C15.6332 26.3927 14.5815 26.3927 13.9381 25.8366L0.48778 14.3418C-0.162593 13.7857 -0.162593 12.8865 0.48778 12.3363L13.9381 0.835655C14.5884 0.279554 15.6401 0.279554 16.2836 0.835655L17.8196 2.149C18.4768 2.71102 18.463 3.628 17.7919 4.17818L9.45464 10.9697H29.3395C30.2597 10.9697 31 11.6027 31 12.3896V14.2827C31 15.0695 30.2597 15.7025 29.3395 15.7025H9.45464L17.7919 22.494C18.4699 23.0442 18.4838 23.9612 17.8196 24.5232Z" fill="#F8F8F8"/></svg>
+                Назад
+            </div>
+            <div class="forms-tab forms-login" id="forms-login">
+                <div class="section-top">
+                    <h2 class="section-title">Вход</h2>
+                    <span>Вход</span>
+                </div>
+                <form action="">
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="text" name="text" placeholder="Логин">
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="password" name="password" placeholder="Пароль">
+                        </div>
+                        <a href="#forms-recovery" class="input-link modal-btn">Я забыл пароль</a>
+                    </div>
+                    <div class="forms-btn">
+                        <button class="main-btn">Войти</button>
+                        <p>Нет аккаунта? <a href="#forms-registration" class="modal-btn">Регистрация</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="forms-tab forms-registration" id="forms-registration">
+                <div class="section-top">
+                    <h2 class="section-title">Регистрация</h2>
+                    <span>Регистрация</span>
+                </div>
+                <form onsubmit="reg(event)">
+                    <div id="reg_form_error" class="form-error not-visible">
+                        <p id="error_text" class="color-red">Проверьте введенные данные</p>
+                    </div>
+                    <div class="input-block__row">
+                        <div class="input-block">
+                            <div class="input-block__wrap">
+                                <input type="text" id="first_name_reg" required name="first_name_reg" placeholder="Имя">
+                            </div>
+                        </div>
+                        <div class="input-block">
+                            <div class="input-block__wrap">
+                                <input type="text" id="last_name_reg" required name="last_name_reg" placeholder="Фамилия">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="text" id="phone_reg" required name="phone_reg" placeholder="Телефон">
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="email" id="email_reg" required name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="password" id="password1_reg" required name="password" placeholder="Пароль">
+                        </div>
+                        <p>Пароль должен содержать ...</p>
+                    </div>
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="password" id="password2_reg" required name="password" placeholder="Повторите пароль еще раз">
+                        </div>
+                    </div>
+                    <div class="forms-btn">
+                        <button type="submit" class="main-btn">Продолжить</button>
+                        <div class="forms-text">
+                            <p>Регистрируясь, вы соглашаетесь с правилами <a href="#">пользовательского соглашения</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="forms-tab forms-recovery" id="forms-recovery">
+                <div class="section-top">
+                    <h2 class="section-title">Восстановление пароля</h2>
+                    <span>Восстановление пароля</span>
+                </div>
+                <form action="">
+                    <div class="input-block">
+                        <div class="input-block__wrap">
+                            <input type="email" name="email" placeholder="Эмеил">
+                        </div>
+                    </div>
+                    <div class="forms-btn">
+                        <button class="main-btn">Продолжить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->

@@ -1,0 +1,230 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Личный профиль</h2>
+					<span>Личный профиль</span>
+				</div>
+				<div class="profile">
+					<ul class="profile-list tab-list">
+						<li><a href="#tab-1" class="active">Личная информация</a></li>
+						<li><a href="#tab-2">Биллинг</a></li>
+						<li><a href="#tab-3">Безопасность</a></li>
+					</ul>
+					<div class="profile-wrap">
+						<div class="profile-accordeon">
+							<span class="profile-accordeon__subtitle">Безопасность</span>
+							<div class="profile-tab tab tab-active" id="tab-1">
+								<form action="">
+									<div class="profile-row">
+										<div class="profile-col">
+											<label for="i-1">Имя</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-1" type="text" name="text" placeholder="Иван">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-2">Фамилия</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-2" type="text" name="text" placeholder="Иванов">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-3">Дом</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-3" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-4">Пол</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<select name="text" id="i-4">
+														<option value="Мужской">Мужской</option>
+														<option value="Женский">Женский</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-5">Дата рождения</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-5" class="datepicker" type="text" name="text" value="23.12.1990">
+													<div class="input-ico">
+														<svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.27679 12.375H4.58036C4.30045 12.375 4.07143 12.143 4.07143 11.8594V10.1406C4.07143 9.85703 4.30045 9.625 4.58036 9.625H6.27679C6.5567 9.625 6.78571 9.85703 6.78571 10.1406V11.8594C6.78571 12.143 6.5567 12.375 6.27679 12.375ZM10.8571 11.8594V10.1406C10.8571 9.85703 10.6281 9.625 10.3482 9.625H8.65179C8.37187 9.625 8.14286 9.85703 8.14286 10.1406V11.8594C8.14286 12.143 8.37187 12.375 8.65179 12.375H10.3482C10.6281 12.375 10.8571 12.143 10.8571 11.8594ZM14.9286 11.8594V10.1406C14.9286 9.85703 14.6996 9.625 14.4196 9.625H12.7232C12.4433 9.625 12.2143 9.85703 12.2143 10.1406V11.8594C12.2143 12.143 12.4433 12.375 12.7232 12.375H14.4196C14.6996 12.375 14.9286 12.143 14.9286 11.8594ZM10.8571 15.9844V14.2656C10.8571 13.982 10.6281 13.75 10.3482 13.75H8.65179C8.37187 13.75 8.14286 13.982 8.14286 14.2656V15.9844C8.14286 16.268 8.37187 16.5 8.65179 16.5H10.3482C10.6281 16.5 10.8571 16.268 10.8571 15.9844ZM6.78571 15.9844V14.2656C6.78571 13.982 6.5567 13.75 6.27679 13.75H4.58036C4.30045 13.75 4.07143 13.982 4.07143 14.2656V15.9844C4.07143 16.268 4.30045 16.5 4.58036 16.5H6.27679C6.5567 16.5 6.78571 16.268 6.78571 15.9844ZM14.9286 15.9844V14.2656C14.9286 13.982 14.6996 13.75 14.4196 13.75H12.7232C12.4433 13.75 12.2143 13.982 12.2143 14.2656V15.9844C12.2143 16.268 12.4433 16.5 12.7232 16.5H14.4196C14.6996 16.5 14.9286 16.268 14.9286 15.9844ZM19 4.8125V19.9375C19 21.0762 18.0882 22 16.9643 22H2.03571C0.91183 22 0 21.0762 0 19.9375V4.8125C0 3.67383 0.91183 2.75 2.03571 2.75H4.07143V0.515625C4.07143 0.232031 4.30045 0 4.58036 0H6.27679C6.5567 0 6.78571 0.232031 6.78571 0.515625V2.75H12.2143V0.515625C12.2143 0.232031 12.4433 0 12.7232 0H14.4196C14.6996 0 14.9286 0.232031 14.9286 0.515625V2.75H16.9643C18.0882 2.75 19 3.67383 19 4.8125ZM16.9643 19.6797V6.875H2.03571V19.6797C2.03571 19.8215 2.15022 19.9375 2.29018 19.9375H16.7098C16.8498 19.9375 16.9643 19.8215 16.9643 19.6797Z" fill="#6B6B6B"/></svg>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-6">Телефон</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-6" type="text" name="text" placeholder="+7">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-7">Страна</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<select name="text" id="i-7">
+														<option value="Мужской">Россия</option>
+														<option value="Женский">Россия</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-8">Город</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<select name="text" id="i-8">
+														<option value="Мужской">Москва</option>
+														<option value="Женский">Москва</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-9">Почта</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-9" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-10">Адрес</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-10" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col profile-btn">
+											<button class="main-btn">Сохранить</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<span class="profile-accordeon__arrow"><svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325655L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#F8F8F8"/></svg></span>
+						</div>
+						<div class="profile-accordeon">
+							<span class="profile-accordeon__subtitle">Безопасность</span>
+							<div class="profile-tab tab" id="tab-2">
+								<form action="">
+									<div class="profile-row">
+										<div class="profile-col">
+											<label for="i-11">Страна</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<select name="text" id="i-11">
+														<option value="Мужской">Россия</option>
+														<option value="Женский">Россия</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-12">Город</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<select name="text" id="i-12">
+														<option value="Мужской">Москва</option>
+														<option value="Женский">Москва</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-13">Адрес</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-13" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-14">Дом</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-14" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col">
+											<label for="i-15">Почтовый индекс</label>
+											<div class="input-block">
+												<div class="input-block__wrap">
+													<input id="i-15" type="text" name="text">
+												</div>
+											</div>
+										</div>
+										<div class="profile-col profile-btn">
+											<button class="main-btn">Сохранить</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<span class="profile-accordeon__arrow"><svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325655L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#F8F8F8"/></svg></span>
+						</div>
+						<div class="profile-accordeon">
+							<span class="profile-accordeon__subtitle">Безопасность</span>
+							<div class="profile-tab tab" id="tab-3">
+								<div class="profile-all">
+									<div class="profile-info">
+										<h3 class="personalArea-title">Привязка телефона</h3>
+										<p>Укажите действующий номер мобильного телефона, чтобы дополнительно обезопасить аккаунт от несанкционированного доступа третьих лиц. Привязав номер мобильного телефона вы сможете восстановить пароль к аккаунту, даже если не имеете доступ к электронной почте.</p>
+									</div>
+									<form action="">
+										<label for="h-1">Телефон</label>
+										<div class="profile-form">
+											<div class="input-block">
+												<input id="h-1" type="text" name="text" placeholder="+7">
+											</div>
+											<button class="main-btn">Продолжить</button>
+										</div>
+									</form>
+									<div class="profile-info">
+										<h3 class="personalArea-title">Привязка почты</h3>
+										<p>Укажите действующий адрес электронной почты, чтобы дополнительно обезопасить аккаунт от несанкционированного доступа третьих лиц. Это также позволит в дальнейшем получать новости нашего сервиса и уведомления о статусе ставок.</p>
+									</div>
+									<form action="">
+										<label for="h-2">Привязать дополнительную почту</label>
+										<div class="profile-form">
+											<div class="input-block">
+												<input id="h-2" type="text" name="text" placeholder="mail@mail.com">
+											</div>
+											<button class="main-btn">Продолжить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<span class="profile-accordeon__arrow"><svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325655L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#F8F8F8"/></svg></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}
