@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User
+from .models import *
 
 
 @admin.register(User)
@@ -11,7 +11,7 @@ class UserAdmin(DjangoUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password',)}),
-        (_('Personal info'), {'fields': ( 'phone','first_name','last_name')}),
+        (_('Personal info'), {'fields': ( 'phone','first_name','last_name','balance')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
@@ -22,8 +22,13 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('email', 'password1', 'password2', 'phone'),
         }),
     )
-    list_display = ('email', 'first_name','last_name',  'phone')
+    list_display = ('id','email', 'first_name','last_name',  'phone')
 
-    ordering = ('email',)
-    search_fields = ('email', 'name', 'phone')
+    ordering = ('id',)
+    search_fields = ('email', 'id', 'phone','first_name','last_name',)
 
+
+admin.site.register(BalanceFreeze)
+admin.site.register(Bet)
+admin.site.register(Log)
+admin.site.register(Payment)

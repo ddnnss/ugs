@@ -17,11 +17,11 @@
 					<h1 class="main-title">кэшбэк сервис в ставках на спорт</h1>
 					<p>Делать крупные ставки уже не так рискованно. Мы возмещаем 50% от суммы твоего проигрыша</p>
 					<div class="main-form">
-						<form action="">
+						<form action="{% url 'new_bet' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
 							<span class="main-subtitle">Загрузить скриншот</span>
 							<div class="input-block input-download">
 								<div class="input-block__wrap">
-									<input type="file">
+									<input type="file" name="image">
 									<div class="input">10122.jpg</div>
 									<span class="input-ico">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10.5C21 16.3004 16.3004 21 10.5 21C4.6996 21 0 16.3004 0 10.5C0 4.6996 4.6996 0 10.5 0C16.3004 0 21 4.6996 21 10.5ZM14.9202 9.27641L11.8548 12.473V4.74194C11.8548 4.17883 11.4018 3.72581 10.8387 3.72581H10.1613C9.59819 3.72581 9.14516 4.17883 9.14516 4.74194V12.473L6.07984 9.27641C5.68609 8.86573 5.02984 8.85726 4.62762 9.25948L4.16613 9.7252C3.76815 10.1232 3.76815 10.7667 4.16613 11.1605L9.78024 16.7788C10.1782 17.1768 10.8218 17.1768 11.2155 16.7788L16.8339 11.1605C17.2319 10.7625 17.2319 10.119 16.8339 9.7252L16.3724 9.25948C15.9702 8.85726 15.3139 8.86573 14.9202 9.27641Z" fill="#6B6B6B"/></svg>
@@ -32,19 +32,30 @@
 							<span class="main-subtitle">Укажите сумму перечисления</span>
 							<div class="input-block">
 								<div class="input-block__wrap">
-									<input type="text" name="text">
+									<input type="number"  name="amount">
 								</div>
 							</div>
 							<button class="main-btn">Отправить</button>
+                        </form>
 						</div>
-					</form>
+					{% if request.user.is_authenticated %}
 					<a href="#" class="main-btn form-btn">Зарегистрировать ставку</a>
+                    {% else %}
+                       <a href="#forms-registration" class="modal-btn main-btn">Зарегистрировать ставку</a>
+                    {% endif %}
 				</div>
 				<div class="main-wrap" data-aos="fade-left" data-aos-duration="500" data-aos-once="true">
 					<div class="main-img">
 						<img src="{% static 'img/main-img.svg' %}" alt="">
 					</div>
-					<p>Получи 50 % Кэшбэка с проигрышей просто <a href="#">кликнув</a></p>
+                    {% if request.user.is_authenticated %}
+                        <p>Получи 50 % Кэшбэка с проигрышей просто <a href="#" class="form-btn">кликнув</a></p>
+
+                    {% else %}
+                         <p>Получи 50 % Кэшбэка с проигрышей просто <a href="#forms-registration" class="modal-btn">кликнув</a></p>
+
+                    {% endif %}
+
 				</div>
 			</div>
 		</div>
@@ -162,7 +173,11 @@
 			<div class="attention-info">
 				<h2 class="attention-title">Получайте бесконечные кэшбеки</h2>
 				<p>Мы возвращаем тебе 50% от каждого проигрыша вне зависимости от количества и суммы твоих выигрышей</p>
-				<a href="#" class="main-btn">Регистрация</a>
+                {% if not request.user.is_authenticated %}
+
+                       <a href="#forms-registration" class="modal-btn main-btn">Регистрация</a>
+                    {% endif %}
+
 			</div>
 		</div>
 	</section>

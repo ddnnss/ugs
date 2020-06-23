@@ -39,20 +39,23 @@
                     <h2 class="section-title">Вход</h2>
                     <span>Вход</span>
                 </div>
-                <form action="">
+                <form onsubmit="login(event)">
+                    <div id="login_form_error" class="form-error not-visible">
+                        <p class="color-red">Проверьте введенные данные</p>
+                    </div>
                     <div class="input-block">
                         <div class="input-block__wrap">
-                            <input type="text" name="text" placeholder="Логин">
+                            <input id="email_login" type="text" name="text" placeholder="Логин">
                         </div>
                     </div>
                     <div class="input-block">
                         <div class="input-block__wrap">
-                            <input type="password" name="password" placeholder="Пароль">
+                            <input id="password_login" type="password" name="password" placeholder="Пароль">
                         </div>
                         <a href="#forms-recovery" class="input-link modal-btn">Я забыл пароль</a>
                     </div>
                     <div class="forms-btn">
-                        <button class="main-btn">Войти</button>
+                        <button type="submit" class="main-btn">Войти</button>
                         <p>Нет аккаунта? <a href="#forms-registration" class="modal-btn">Регистрация</a></p>
                     </div>
                 </form>
@@ -92,7 +95,7 @@
                         <div class="input-block__wrap">
                             <input type="password" id="password1_reg" required name="password" placeholder="Пароль">
                         </div>
-                        <p>Пароль должен содержать ...</p>
+                        <p>Пароль должен содержать минимум 8 символов</p>
                     </div>
                     <div class="input-block">
                         <div class="input-block__wrap">

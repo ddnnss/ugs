@@ -1,6 +1,8 @@
+import decimal
+
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-
+from django.db.models.signals import post_save
 
 
 class UserManager(BaseUserManager):
@@ -23,7 +25,6 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
@@ -39,6 +40,8 @@ class User(AbstractUser):
     profile_ok = models.BooleanField(default=False)
     avatar = models.ImageField('Фото профиля', upload_to='avatar/', blank=True)
     balance = models.DecimalField('Баланс', decimal_places=2,max_digits=6,default=0)
+    yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
+    card_number = models.CharField('Номер карты', max_length=50, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -58,5 +61,106 @@ class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
     text = models.TextField(null=True,blank=True)
 
+    class Meta:
+        ordering = ('-id',)
 
+class Log(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    text = models.CharField(max_length=255,null=True,blank=True)
+    def __str__(self):
+        return f'Лог действий пользователя ID: {self.user.id}'
+
+    class Meta:
+        verbose_name = "Лог действий"
+        verbose_name_plural = "Логи действий"
+
+
+
+class Bet(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    amount = models.DecimalField('Ставка', decimal_places=2,max_digits=6,default=0)
+    image = models.ImageField('Фото', upload_to='bet/', blank=True)
+    coefficient = models.DecimalField('Коэффициент ', decimal_places=2,max_digits=6,default=0)
+    cashback = models.IntegerField('Возврат %', default=0)
+    bet_result = models.BooleanField('Результат', blank=True,null=True)
+    bet_result_amount = models.DecimalField('Результат сумма', decimal_places=2,max_digits=6,default=0)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f'Ставка пользователя ID: {self.user.id} на сумму {self.amount}'
+
+    class Meta:
+        verbose_name = "Ставка пользователя"
+        verbose_name_plural = "Ставки пользователей"
+
+class BalanceFreeze(models.Model):
+    bet = models.ForeignKey(Bet,on_delete=models.CASCADE,blank=False,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=6,default=0)
+
+    def __str__(self):
+        return f'Резервирование {self.amount} на балансе пользователя ID: {self.user.id}'
+
+    class Meta:
+        verbose_name = "Резервирование на балансе"
+        verbose_name_plural = "Резервирование на балансе"
+
+class Payment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=6,default=0)
+    status = models.BooleanField('Статус платежа',default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+
+def payment_post_save(sender, instance, created, **kwargs):
+    if created:
+        Log.objects.create(user=instance.user,
+                           text=f'Пользователь ID:{instance.user.id} инициировал платеж ID {instance.id} на сумму {instance.amount}')
+    else:
+        if instance.status:
+            instance.user.balance += instance.amount
+            instance.user.save()
+            Log.objects.create(user=instance.user,
+                               text=f'Пользователь ID:{instance.user.id} завершил платеж ID {instance.id} на сумму {instance.amount}')
+            Message.objects.create(user=instance.user,
+                                   text=f'Ваш счет пополнен на сумму {instance.amount}')
+
+def bet_post_save(sender, instance, created, **kwargs):
+    if created:
+        instance.user.balance -= instance.amount
+        instance.user.save()
+        BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
+        Log.objects.create(user=instance.user,
+                           text=f'Пользователь ID:{instance.user.id} зарегистрировал ставку на сумму {instance.amount}')
+    else:
+        if not instance.bet_result_amount:
+            if instance.bet_result == True:
+                print('win')
+                instance.user.balance += instance.amount * instance.coefficient
+                instance.user.save()
+                Log.objects.create(user=instance.user,
+                                   text=f'Пользователь ID:{instance.user.id} выиграл ставку на сумму {instance.amount} с коэффициентом {instance.coefficient}')
+                Message.objects.create(user=instance.user,text=f'Ставка на сумму {instance.amount} от {instance.created_at.strftime("%d-%m-%y %H:%M")} с'
+                                                               f' коэфициетном {instance.coefficient} сыграла положительно,'
+                                                               f' Ваш счет пополнен на {instance.amount * instance.coefficient:.2f} руб')
+                BalanceFreeze.objects.get(bet=instance).delete()
+                instance.bet_result_amount = instance.amount * instance.coefficient
+                instance.save()
+            elif instance.bet_result == False:
+                instance.user.balance += instance.amount * decimal.Decimal((instance.cashback / 100))
+                instance.user.save()
+                Log.objects.create(user=instance.user,
+                                   text=f'Пользователь ID:{instance.user.id} провыиграл ставку на сумму {instance.amount} с кешбеком {instance.cashback} %')
+                Message.objects.create(user=instance.user,
+                                       text=f'Ставка на сумму {instance.amount} от {instance.created_at.strftime("%d-%m-%y %H:%M")} с'
+                                            f' коэфициетном {instance.coefficient} сыграла отрицательно,'
+                                            f' Ваш счет пополнен на {instance.amount * decimal.Decimal((instance.cashback / 100)):.2f} руб,'
+                                            f' кешбек {instance.cashback:.2f} %')
+                BalanceFreeze.objects.get(bet=instance).delete()
+                instance.bet_result_amount = instance.amount * decimal.Decimal((instance.cashback / 100))
+                instance.save()
+            else:
+                print('unkown')
+
+post_save.connect(payment_post_save, sender=Payment)
+post_save.connect(bet_post_save, sender=Bet)
 

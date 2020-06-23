@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User
+from .models import *
 from django.forms import ModelForm
 
 class SignUpForm(UserCreationForm):
@@ -20,6 +20,11 @@ class ChangeAvatar(ModelForm):
         fields = ('avatar',)
         exclude = ()
 
+class NewBet(ModelForm):
+    class Meta:
+        model = Bet
+        fields = ('amount','image')
+        exclude = ()
 
 class UpdateForm(UserChangeForm):
     class Meta:

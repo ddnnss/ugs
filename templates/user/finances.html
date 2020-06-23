@@ -19,7 +19,23 @@
 					<div class="income-info">
 						<p>Тут вы можете пополнить баланс</p>
 						<div class="income-btns">
-							<a href="#" class="main-btn">Пополнить баланс</a>
+
+                             <form id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
+                                    <div class="input-block">
+												<div class="input-block__wrap">
+													<input style="height: 42px" id="amount_1" name="sum" value="" data-type="number" type="number"  placeholder="Сумма пополнения">
+												</div>
+											</div>
+                                <input type="hidden" name="receiver" value="4100110883820369">
+                                <input type="hidden" name="quickpay-form" value="shop">
+                                <input type="hidden" name="targets"
+                                       value="Пополнение баланса пользователя {{ request.user.first_name }} {{ request.user.last_name }}">
+                                <input type="hidden" name="paymentType" value="AC">
+                                <input id="label_1" type="hidden" name="label" value="">
+                                <input type="hidden" name="successURL" value="localhost:8000/pay_complete">
+                                <button type="submit" class="main-btn">оплатить</button>
+                            </form>
+
 						</div>
 					</div>
 				</div>
@@ -60,107 +76,45 @@
 					</div>
 					<div class="operations-table">
 						<div class="operations-row operations-top">
-							<div class="operations-col operations-col__1">
+							<div  class="operations-col operations-col__1">
 								<span>Время</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>Сумма операции</span>
+								<span>Сумма пополнения</span>
 							</div>
-							<div class="operations-col operations-col__3">
-								<span>КЭШБЭК</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>Валюта</span>
-							</div>
+{#							<div class="operations-col operations-col__3">#}
+{#								<span>КЭШБЭК</span>#}
+{#							</div>#}
+{#							<div class="operations-col operations-col__4">#}
+{#								<span>Валюта</span>#}
+{#							</div>#}
 							<div class="operations-col operations-col__5">
 								<span>Статус</span>
 							</div>
 						</div>
-						<div class="operations-row">
+                        {% for pay in allPayments %}
+					    	<div class="operations-row">
 							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
+								<span>{{ pay.created_at |date:'d.m.Y, H:i'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
+								<span>₽ {{ pay.amount }}</span>
 							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
-							</div>
+{#							<div class="operations-col operations-col__3">#}
+{#								<span>2%</span>#}
+{#							</div>#}
+{#							<div class="operations-col operations-col__4">#}
+{#								<span>₽ 20</span>#}
+{#							</div>#}
 							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
+								 {% if pay.status %}
+								    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% else %}
+                                 	<img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
 							</div>
 						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 5000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 100</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/close.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 5000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 100</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/close.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
-							</div>
-						</div>
+                        {% endfor %}
 					</div>
 				</div>
 			</div>
@@ -171,4 +125,31 @@
 
 {% block js %}
 {{ block.super }}
+
+    <script>
+    function pay_request(e,form) {
+        e.preventDefault()
+
+        console.log('pay')
+        let body = {
+                'amount':$('#amount_1').val(),
+
+            }
+            fetch('{% url 'new_payment' %}', {
+                method: 'post',
+                body: JSON.stringify(body),
+                headers: { "X-CSRFToken": '{{ csrf_token }}' },
+                credentials: 'same-origin'
+            }).then(res=>res.json())
+                .then(res => {
+                    console.log(res)
+                    if(res['status']==='ok'){
+                       $('#label_1').val(res['p_id'])
+                        // form.submit()
+                    }
+
+                })
+
+    }
+    </script>
 {% endblock %}

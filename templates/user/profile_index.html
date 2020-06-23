@@ -58,91 +58,29 @@
 								<span>Статус</span>
 							</div>
 						</div>
-						<div class="operations-row">
+                        {% for bet in lastBets %}
+				    		<div class="operations-row">
 							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
+								<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
+                                <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
 							</div>
 							<div class="operations-col operations-col__3">
-								<span>2%</span>
+								<span>{{ bet.cashback }}%</span>
 							</div>
 							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
+								<span>₽ {{ bet.bet_result_amount }}</span>
 							</div>
 							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
+                                {% if bet.bet_result == True %}
+								    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% elif bet.bet_result == False %}
+                                 	<img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
 							</div>
 						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 5000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 100</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/close.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 5000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 100</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/close.svg" alt="">
-							</div>
-						</div>
-						<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>06.05.2020</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>₽ 1000</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>2%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ 20</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<img src="img/check.svg" alt="">
-							</div>
-						</div>
+					    {% endfor %}
 					</div>
 				</div>
 			</div>
@@ -153,4 +91,5 @@
 
 {% block js %}
 {{ block.super }}
+
 {% endblock %}

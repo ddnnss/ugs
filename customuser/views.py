@@ -4,6 +4,8 @@ from django.contrib import messages
 
 from django.contrib.auth import login, logout,authenticate
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import *
 from customuser.models import *
 
@@ -50,10 +52,22 @@ def change_avatar(request):
         form.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def new_bet(request):
+    form = NewBet(request.POST, request.FILES)
+    if request.user.balance >= float(request.POST.get('amount')):
+        print('balance is ok')
+        if form.is_valid():
+            new_bet = form.save(commit=False)
+            new_bet.user = request.user
+            new_bet.save()
+        else:
+            print('balance is bad')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def profile_index(request):
     profilePage = True
     profile_index = 'active'
+    lastBets = Bet.objects.all().order_by('-created_at')
     return render(request, 'user/profile_index.html', locals())
 
 def profile_edit(request):
@@ -64,6 +78,7 @@ def profile_edit(request):
 def profile_finance(request):
     profilePage = True
     profile_finance = 'active'
+    allPayments = Payment.objects.filter(user=request.user)
     return render(request, 'user/finances.html', locals())
 
 def profile_balance(request):
@@ -74,4 +89,30 @@ def profile_balance(request):
 def profile_archive(request):
     profilePage = True
     profile_archive = 'active'
+    allBets = Bet.objects.all().order_by('-created_at')
     return render(request, 'user/arhive.html', locals())
+
+def new_payment(request):
+    request_unicode = request.body.decode('utf-8')
+    request_body = json.loads(request_unicode)
+    new_pay = Payment.objects.create(user=request.user,amount=int(request_body['amount']))
+    new_pay.save()
+    return JsonResponse({'status': 'ok', 'p_id': new_pay.id}, safe=False)
+
+
+@csrf_exempt
+def pay_complete(request):
+
+    req = request.POST
+    notification_type = req.get('notification_type')
+    amount = req.get('amount')
+    codepro  = req.get('codepro')
+    withdraw_amount = req.get('withdraw_amount')
+    unaccepted = req.get('unaccepted')
+    label = json.loads(req.get('label'))
+    datetime  = req.get('datetime')
+    sender = req.get('sender')
+    sha1_hash = req.get('sha1_hash')
+    operation_id = req.get('operation_id')
+
+    print(req)
