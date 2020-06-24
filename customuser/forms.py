@@ -29,7 +29,7 @@ class NewBet(ModelForm):
 class UpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name',  'phone')
+        fields = ('email', 'first_name', 'last_name',  'phone', 'birthday','sex')
 
         error_messages = {
              'email': {

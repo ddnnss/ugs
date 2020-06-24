@@ -20,7 +20,7 @@
 						<p>Тут вы можете пополнить баланс</p>
 						<div class="income-btns">
 
-                             <form id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
+                             <form style="display: flex" id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
                                     <div class="input-block">
 												<div class="input-block__wrap">
 													<input style="height: 42px" id="amount_1" name="sum" value="" data-type="number" type="number"  placeholder="Сумма пополнения">
@@ -41,29 +41,29 @@
 				</div>
 				<div class="operations operations-second">
 					<div class="period">
-						<form action="">
+						<form action="" >
 							<div class="period-row">
 								<div class="period-col">
 									<p>Период времени</p>
 									<div class="input-block">
-										<select name="text">
-											<option value="Текущий месяц">Текущий месяц</option>
-											<option value="Текущий месяц">Текущий месяц</option>
-											<option value="Текущий месяц">Текущий месяц</option>
-											<option value="Текущий месяц">Текущий месяц</option>
-											<option value="Текущий месяц">Текущий месяц</option>
+										<select name="time">
+                                        	<option {% if time_filter == 'all' %}selected{% endif %} value="all">За весь период</option>
+											<option {% if time_filter == 'c_m' %}selected{% endif %} value="c_m">Текущий месяц</option>
+											<option {% if time_filter == 'l_m' %}selected{% endif %} value="l_m">Прошлый месяц</option>
 										</select>
 									</div>
 								</div>
 								<div class="period-col">
 									<p>Сумма операции</p>
 									<div class="input-block">
-										<select name="text">
-											<option value="Все суммы">Все суммы</option>
-											<option value="Все суммы">Все суммы</option>
-											<option value="Все суммы">Все суммы</option>
-											<option value="Все суммы">Все суммы</option>
-											<option value="Все суммы">Все суммы</option>
+                                        <select name="summ">
+											<option {% if summ_filter == 'all' %}selected{% endif %} value="all">Все операции</option>
+											<option {% if summ_filter == 100 %}selected{% endif %} value="100">от 100 руб</option>
+											<option {% if summ_filter == 300 %}selected{% endif %} value="300">от 300 руб</option>
+											<option {% if summ_filter == 500 %}selected{% endif %} value="500">от 500 руб</option>
+											<option {% if summ_filter == 1000 %}selected{% endif %} value="1000">от 1000 руб</option>
+											<option {% if summ_filter == 5000 %}selected{% endif %} value="5000">от 5000 руб</option>
+											<option {% if summ_filter == 10000 %}selected{% endif %} value="100000">от 100000 руб</option>
 										</select>
 									</div>
 								</div>

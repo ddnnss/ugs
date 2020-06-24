@@ -1,7 +1,7 @@
 import json
 
 from django.contrib import messages
-
+from datetime import datetime
 from django.contrib.auth import login, logout,authenticate
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -71,14 +71,47 @@ def profile_index(request):
     return render(request, 'user/profile_index.html', locals())
 
 def profile_edit(request):
+    if request.POST:
+        print(request.POST)
+        form = UpdateForm(request.POST, instance=request.user)
+        print(form.errors)
+        if form.is_valid():
+            user = form.save()
+
     profilePage = True
     profile_edit = 'active'
+    form = UpdateForm()
     return render(request, 'user/edit_profile.html', locals())
 
 def profile_finance(request):
     profilePage = True
     profile_finance = 'active'
-    allPayments = Payment.objects.filter(user=request.user)
+    current_month = datetime.now().month
+    allPayments_temp = Payment.objects.filter(user=request.user)
+    time_filter = None
+    filter_month = None
+    summ_filter = None
+
+    if request.GET.get('time') and request.GET.get('time') != 'all':
+        time_filter = request.GET.get('time')
+        if time_filter == 'c_m':
+            filter_month = current_month
+        elif time_filter == 'l_m':
+            filter_month = current_month - 1
+            if filter_month == 0:
+                filter_month = 12
+
+    if request.GET.get('summ') and request.GET.get('summ') != 'all':
+        summ_filter = int(request.GET.get('summ'))
+    if time_filter and summ_filter:
+        allPayments = allPayments_temp.filter(created_at__month=filter_month,amount__gte=summ_filter)
+    elif time_filter:
+        allPayments = allPayments_temp.filter(created_at__month=filter_month)
+    elif summ_filter:
+        allPayments = allPayments_temp.filter(amount__gte=summ_filter)
+    else:
+        allPayments = allPayments_temp
+
     return render(request, 'user/finances.html', locals())
 
 def profile_balance(request):
@@ -89,7 +122,33 @@ def profile_balance(request):
 def profile_archive(request):
     profilePage = True
     profile_archive = 'active'
-    allBets = Bet.objects.all().order_by('-created_at')
+    allBets_temp = Bet.objects.filter(user=request.user).order_by('-created_at')
+    current_month = datetime.now().month
+    time_filter = None
+    filter_month = None
+    summ_filter = None
+
+    if request.GET.get('time') and request.GET.get('time') != 'all':
+        time_filter = request.GET.get('time')
+        if time_filter == 'c_m':
+            filter_month = current_month
+        elif time_filter == 'l_m':
+            filter_month = current_month - 1
+            if filter_month == 0:
+                filter_month = 12
+
+    if request.GET.get('summ') and request.GET.get('summ') != 'all':
+        summ_filter = int(request.GET.get('summ'))
+    if time_filter and summ_filter:
+        allBets = allBets_temp.filter(created_at__month=filter_month, amount__gte=summ_filter)
+    elif time_filter:
+        allBets = allBets_temp.filter(created_at__month=filter_month)
+    elif summ_filter:
+        allBets = allBets_temp.filter(amount__gte=summ_filter)
+    else:
+        allBets = allBets_temp
+
+
     return render(request, 'user/arhive.html', locals())
 
 def new_payment(request):
@@ -116,3 +175,12 @@ def pay_complete(request):
     operation_id = req.get('operation_id')
 
     print(req)
+
+def add_payment(request):
+    if request.POST.get('card'):
+        request.user.card_number = request.POST.get('card')
+        request.user.save()
+    if request.POST.get('ya'):
+        request.user.yandex_wallet = request.POST.get('ya')
+        request.user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

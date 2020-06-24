@@ -20,25 +20,23 @@
 									<p>Период времени</p>
 									<div class="input-block">
 										<select name="time">
-											<option value="c_m">Текущий месяц</option>
-											<option value="l_m">Прошлый месяц</option>
-											<option value="all">За весь период</option>
-
+                                        	<option {% if time_filter == 'all' %}selected{% endif %} value="all">За весь период</option>
+											<option {% if time_filter == 'c_m' %}selected{% endif %} value="c_m">Текущий месяц</option>
+											<option {% if time_filter == 'l_m' %}selected{% endif %} value="l_m">Прошлый месяц</option>
 										</select>
 									</div>
 								</div>
 								<div class="period-col">
 									<p>Сумма операции</p>
 									<div class="input-block">
-										<select name="summ">
-											<option value="all">Все операции</option>
-											<option value="100">от 100 руб</option>
-											<option value="300">от 300 руб</option>
-											<option value="500">от 500 руб</option>
-											<option value="1000">от 1000 руб</option>
-											<option value="5000">от 5000 руб</option>
-											<option value="100000">от 100000 руб</option>
-
+										 <select name="summ">
+											<option {% if summ_filter == 'all' %}selected{% endif %} value="all">Все операции</option>
+											<option {% if summ_filter == 100 %}selected{% endif %} value="100">от 100 руб</option>
+											<option {% if summ_filter == 300 %}selected{% endif %} value="300">от 300 руб</option>
+											<option {% if summ_filter == 500 %}selected{% endif %} value="500">от 500 руб</option>
+											<option {% if summ_filter == 1000 %}selected{% endif %} value="1000">от 1000 руб</option>
+											<option {% if summ_filter == 5000 %}selected{% endif %} value="5000">от 5000 руб</option>
+											<option {% if summ_filter == 10000 %}selected{% endif %} value="100000">от 100000 руб</option>
 										</select>
 									</div>
 								</div>

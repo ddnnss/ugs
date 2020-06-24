@@ -68,53 +68,61 @@
             </ul>
 							</div>
 							<div class="header-menu__bottom">
-								<a href="#replenish" class="main-btn">Пополнить баланс</a>
+								<a href="#replenish" class="main-btn">Платежные системы</a>
 							</div>
 						</div>
 						<div class="drop-replenish" id="replenish">
 							<div class="private">
 								<div class="private-over">
-									<div class="private-top">
-										<div class="private-wrap">
-											<span class="private-title">Ваша привязанная карта</span>
-											<span class="private-num">1424 **** **** 1934</span>
-											<span class="private-date">04/22</span>
-											<span class="private-name">VLADIMIR FYODOROVICH <img src="{% static 'img/visa-2.svg' %}" alt=""></span>
-										</div>
-										<div class="private-btns">
-											<a href="#" class="main-btn">Пополнить счет</a>
-											<a href="#" class="second-btn">Отвязать карту</a>
-										</div>
-									</div>
+{#									<div class="private-top">#}
+{#										<div class="private-wrap">#}
+{#											<span class="private-title">Ваша привязанная карта</span>#}
+{#											<span class="private-num">1424 **** **** 1934</span>#}
+{#											<span class="private-date">04/22</span>#}
+{#											<span class="private-name">VLADIMIR FYODOROVICH <img src="{% static 'img/visa-2.svg' %}" alt=""></span>#}
+{#										</div>#}
+{#										<div class="private-btns">#}
+{#											<a href="#" class="main-btn">Пополнить счет</a>#}
+{#											<a href="#" class="second-btn">Отвязать карту</a>#}
+{#										</div>#}
+{#									</div>#}
 									<div class="private-block">
 										<p>Привязать карту</p>
-										<form action="">
+										<form action="{% url 'add_payment' %}" method="post">{% csrf_token %}
 											<div class="private-form">
 												<div class="input-block">
 													<div class="input-block__wrap">
-														<input type="text" name="text" placeholder="0000 0000 0000 0000">
+                                                        {% if request.user.card_number%}
+														<input type="number" name="card" placeholder="{{ request.user.card_number }}">
+                                                        {% else %}
+                                                         <input type="number" name="card" placeholder="Введите номер карты">
+                                                        {% endif %}
 														<div class="input-ico">
 															<img src="{% static 'img/visa.svg' %}" alt="">
 														</div>
 													</div>
 												</div>
-												<button class="main-btn">Привязать</button>
+												<button type="submit" class="main-btn">Привязать</button>
 											</div>
 										</form>
 									</div>
 									<div class="private-block">
 										<p>Привязать Яндекс кошелек</p>
-										<form action="">
+										<form action="{% url 'add_payment' %}" method="post">{% csrf_token %}
 											<div class="private-form">
 												<div class="input-block">
 													<div class="input-block__wrap">
-														<input type="text" name="text" placeholder="000000000000000">
+														{% if request.user.yandex_wallet%}
+														<input type="number" name="ya" placeholder="{{ request.user.yandex_wallet }}">
+                                                        {% else %}
+                                                         <input type="number" name="ya" placeholder="Введите номер кошелька">
+                                                        {% endif %}
 														<div class="input-ico">
 															<img src="{% static 'img/yandex.svg' %}" alt="">
 														</div>
 													</div>
 												</div>
-												<button class="main-btn">Привязать</button>
+												<button type="submit" class="main-btn">Привязать</button>
 											</div>
 										</form>
 									</div>
