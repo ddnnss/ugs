@@ -91,6 +91,10 @@ def profile_finance(request):
     time_filter = None
     filter_month = None
     summ_filter = None
+    p_c = False
+
+    if request.GET.get('pay_complete'):
+        p_c =True
 
     if request.GET.get('time') and request.GET.get('time') != 'all':
         time_filter = request.GET.get('time')
@@ -163,6 +167,12 @@ def new_payment(request):
 def pay_complete(request):
 
     req = request.POST
+    try:
+        payment = Payment.objects.get(id=int(req.get('label')))
+        payment.status = True
+        payment.save()
+    except:
+        pass
     # notification_type = req.get('notification_type')
     # amount = req.get('amount')
     # codepro  = req.get('codepro')

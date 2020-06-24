@@ -12,6 +12,11 @@
 					<h2 class="section-title">Финансы</h2>
 					<span>Финансы</span>
 				</div>
+                {% if p_c %}
+                    <div class="income">
+					    <p style="padding-bottom: 0; color: #f99420;font-weight: 700;letter-spacing: 0.6px;">Ваш платеж будет зачислен в ближайшее время</p>
+				    </div>
+                {% endif %}
 				<div class="income">
 					<div class="income-img">
 						<div class="income-ico" id="statistics5"></div>
@@ -32,7 +37,7 @@
                                        value="Пополнение баланса пользователя {{ request.user.first_name }} {{ request.user.last_name }}">
                                 <input type="hidden" name="paymentType" value="AC">
                                 <input id="label_1" type="hidden" name="label" value="">
-                                <input type="hidden" name="successURL" value="localhost:8000/pay_complete">
+                                <input type="hidden" name="successURL" value="http://ugscash.ru//user/profile/finance?pay_complete=!">
                                 <button type="submit" class="main-btn">оплатить</button>
                             </form>
 
@@ -145,7 +150,7 @@
                     console.log(res)
                     if(res['status']==='ok'){
                        $('#label_1').val(res['p_id'])
-                        // form.submit()
+                        form.submit()
                     }
 
                 })
