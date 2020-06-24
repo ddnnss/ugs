@@ -174,7 +174,9 @@ def pay_complete(request):
     # sha1_hash = req.get('sha1_hash')
     # operation_id = req.get('operation_id')
 
+
     print(req)
+    return JsonResponse({'status': 'ok'}, safe=False)
 
 def add_payment(request):
     if request.POST.get('card'):
