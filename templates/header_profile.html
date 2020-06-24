@@ -3,7 +3,7 @@
 	<header class="header header-second">
 		<div class="wrapper">
 			<div class="header-logo">
-				<a href="#">
+				<a href="/">
 					<img src="{% static 'img/logo.svg' %}" alt="">
 				</a>
 			</div>
@@ -13,6 +13,10 @@
 					  <li><a href="{% url 'index' %}">Главная</a></li>
                         <li><a href="{% url 'about' %}">О системе</a></li>
                         <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                        {% if request.user.is_superuser %}
+                             <li><a href="{% url 'cp_users' %}">Админка</a></li>
+
+                        {% endif %}
 					</ul>
 				</div>
 				<div class="header-wrap">

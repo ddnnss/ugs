@@ -1,0 +1,186 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- start personalArea -->
+    <section class="personalArea">
+        <div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+        <div class="wrapper">
+            {% include 'user/sidebar.html' %}
+            <div class="personalArea-content">
+                <div class="section-top">
+                    <h2 class="section-title">Пользователь ID : {{ user.id }} | {{ user.first_name }} {{ user.last_name }}</h2>
+                </div>
+                <div class="score">
+                    <form action="" method="post">{% csrf_token %}
+                        <h3 class="personalArea-title">Дата регистрации:<span>{{user.date_joined |date:'d.m.Y, H:i'}}</span></h3>
+                        <h3 class="personalArea-title">Телефон:<span>{{user.phone}}</span></h3>
+                        <h3 class="personalArea-title">Почта:<span>{{user.email}}</span></h3>
+                        <h3 class="personalArea-title">День рождения:<span>{{user.birthday}}</span></h3>
+                        <h3 class="personalArea-title">Заблокировано средств:<span>{{userFreezeSumm}}</span></h3>
+
+                        <h3 class="personalArea-title">Баланс: <input class="admin-input" name="balance" step="0.01" type="number" value="{{ user.balance }}"></h3>
+                        <div class="profile-col profile-btn">
+                            <button type="submit" class="main-btn">Сохранить</button>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="section-top">
+                    <h2 class="section-title">Ставки пользователя</h2>
+                </div>
+                <div class="operations-table">
+                    <div class="operations-row operations-top">
+                        <div class="operations-col operations-col__1 time-col">
+                            <span>ID | Время</span>
+                        </div>
+                        <div class="operations-col operations-col__2">
+                            <span>Ставка</span>
+                        </div>
+                        <div class="operations-col operations-col__3">
+                            <span>Кешбек</span>
+                        </div>
+                        <div class="operations-col operations-col__4">
+                            <span>Коэффициент</span>
+                        </div>
+                        <div class="operations-col operations-col__5">
+                            <span>Статус</span>
+                        </div>
+                    </div>
+                    {% for bet in userBets %}
+                        <div class="operations-row admin-row" onclick="window.location.href = '/cp/bet/{{ bet.id }}'">
+                            <div class="operations-col operations-col__1 time-col">
+                                <span>{{ bet.id }} | {{ bet.created_at |date:'d.m.Y, H:i'}}</span>
+                            </div>
+                            <div class="operations-col operations-col__2">
+                                <span>₽ {{ bet.amount }}</span>
+                            </div>
+                            <div class="operations-col operations-col__3">
+                                <span>{{ bet.cashback }}%</span>
+                            </div>
+                            <div class="operations-col operations-col__4">
+                                <span>{{ bet.coefficient }}</span>
+                            </div>
+                            <div class="operations-col operations-col__5">
+                                {% if bet.bet_result == True %}
+                                    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% elif bet.bet_result == False %}
+                                    <img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="section-top">
+                    <h2 class="section-title">Платежи</h2>
+                </div>
+                <div class="operations-table">
+                    <div class="operations-row operations-top">
+                        <div class="operations-col operations-col__1 time-col">
+                            <span>Время</span>
+                        </div>
+                        {#							<div class="operations-col operations-col__2">#}
+                        {#								<span>Пользователь</span>#}
+                        {#							</div>#}
+                        <div class="operations-col operations-col__3">
+                            <span>Сумма</span>
+                        </div>
+                        <div class="operations-col operations-col__4">
+                            <span>Статус платежа</span>
+                        </div>
+                        {#							<div class="operations-col operations-col__5">#}
+                        {#								<span>Статус</span>#}
+                    </div>
+
+                {% for pay in userPayments %}
+                    <div class="operations-row ">
+                        <div class="operations-col operations-col__1 time-col">
+                            <span>{{ pay.created_at |date:'d.m.Y, H:i'}}</span>
+                        </div>
+                        {#							<div class="operations-col operations-col__2">#}
+                        {#							   <span><a style="text-decoration: underline" href="{% url 'cp_user' pay.user.id %}">{{ pay.user.first_name }} {{ pay.user.last_name }}</a> </span>#}
+                        {#							</div>#}
+                        <div class="operations-col operations-col__3">
+                            <span>₽ {{ pay.amount }}</span>
+                        </div>
+                        <div class="operations-col operations-col__4">
+                            {% if pay.status == True %}
+                                <img src="{% static 'img/check.svg' %}" alt="">
+                            {% elif pay.status == False %}
+                                <img src="{% static 'img/close.svg' %}" alt="">
+                            {% endif %}
+                        </div>
+                        {#							<div class="operations-col operations-col__5">#}
+                        {#                                {% if bet.bet_result == True %}#}
+                        {#								    <img src="{% static 'img/check.svg' %}" alt="">#}
+                        {#                                {% elif bet.bet_result == False %}#}
+                        {#                                 	<img src="{% static 'img/close.svg' %}" alt="">#}
+                        {#                                {% endif %}#}
+                        {#							</div>#}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="section-top">
+                <h2 class="section-title">Блокировки средств</h2>
+            </div>
+            <div class="operations-table">
+                <div class="operations-row operations-top">
+                    <div class="operations-col operations-col__1 time-col">
+                        <span>Дата</span>
+                    </div>
+                    <div class="operations-col operations-col__2">
+                        <span>Ставка/Вывод</span>
+                    </div>
+                    <div class="operations-col operations-col__3">
+                        <span>Сумма</span>
+                    </div>
+                    {#							<div class="operations-col operations-col__4">#}
+                    {#								<span>Валюта</span>#}
+                    {#							</div>#}
+                    {#							<div class="operations-col operations-col__5">#}
+                    {#								<span>Статус</span>#}
+                    {#							</div>#}
+                </div>
+                {% for i in userFreeze %}
+                    <div class="operations-row">
+                        <div class="operations-col operations-col__1 time-col">
+                             {% if i.bet %}
+                            <span>{{ i.bet.created_at |date:'d.m.Y, H:i'  }}</span>
+                            {% elif i.withdraw %}
+                                  <span>{{ i.withdraw.created_at |date:'d.m.Y, H:i'  }}</span>
+                             {% endif %}
+                        </div>
+                        <div class="operations-col operations-col__2">
+                            {% if i.bet %}
+                            <a href="{% url 'cp_bet' i.bet.id %}"  class="bet-image"><span>Детали ставки</span></a>
+                            {% elif i.withdraw %}
+                            <a href="{% url 'cp_withdraw' i.withdraw.id %}"  class="bet-image"><span>Детали вывода</span></a>
+                            {% endif %}
+                        </div>
+                        <div class="operations-col operations-col__3">
+                            <span>₽ {{ i.amount }}</span>
+                        </div>
+                        {#							<div class="operations-col operations-col__4">#}
+                        {#								<span>₽ {{ bet.bet_result_amount }}</span>#}
+                        {#							</div>#}
+                        {#							<div class="operations-col operations-col__5">#}
+                        {#                                {% if bet.bet_result == True %}#}
+                        {#								    <img src="{% static 'img/check.svg' %}" alt="">#}
+                        {#                                {% elif bet.bet_result == False %}#}
+                        {#                                 	<img src="{% static 'img/close.svg' %}" alt="">#}
+                        {#                                {% endif %}#}
+                        {#							</div>#}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}

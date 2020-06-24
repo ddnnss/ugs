@@ -3,33 +3,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<meta charset="utf-8">
-	<title>{{ pageTitle }}</title>
-	<meta name="description" content="{{ pageDescription }}">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!--<meta property="og:image" content="path/to/image.jpg">
-	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
-	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="{% static 'css/main.min.css' %}">
-	<meta name="theme-color" content="#000">
-	<meta name="msapplication-navbutton-color" content="#000">
-	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    <meta charset="utf-8">
+    <title>{{ pageTitle }}</title>
+    <meta name="description" content="{{ pageDescription }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--<meta property="og:image" content="path/to/image.jpg">
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <meta name="theme-color" content="#000">
+    <meta name="msapplication-navbutton-color" content="#000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000">
     <style>
         /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
         .color-red{
             color: red;
             font-size: 13px;
@@ -55,28 +55,62 @@ input[type=number] {
             opacity: .8;
             pointer-events: none;
         }
-
+        .admin-row:hover{
+            cursor: pointer;
+            background: #c4c4c4;
+        }
+        .time-col{
+            width: 235px;
+            min-width: 235px;
+        }
+        .admin-input{
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            height: 40px;
+            border: none;
+            background-color: #f8f8f8;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            padding: 0 23px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1b1b1b;
+        }
+        .admin-select{
+            display: inline-block;
+            width: 200px;
+            height: 40px;
+            border: none;
+            background-color: #f8f8f8;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            padding: 0 23px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1b1b1b;
+                }
     </style>
 </head>
 <body>
-{% if profilePage %}
+{% if request.user.is_authenticated %}
     {% include 'header_profile.html' %}
 {% else %}
-{% include 'header.html' %}
+    {% include 'header.html' %}
 {% endif %}
 
 {% block content %}
 {% endblock %}
 {% if not profilePage %}
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 {% endif %}
 {% block js %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="{% static 'js/scripts.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/scripts.min.js' %}"></script>
 
 
-        <script>
+    <script>
         let email_login = document.getElementById('email_login'),
             password_login = document.getElementById('password_login'),
             login_form_error = document.getElementById('login_form_error'),
@@ -140,10 +174,10 @@ input[type=number] {
                         error_text.innerText = ''
                         reg_form_error.classList.remove('not-visible')
                         if(res['errors']['email']){
-                             error_text.innerText = error_text.innerText + res['errors']['email']
+                            error_text.innerText = error_text.innerText + res['errors']['email']
                         }
                         if(res['errors']['password2']){
-                             error_text.innerText = error_text.innerText + res['errors']['password2']
+                            error_text.innerText = error_text.innerText + res['errors']['password2']
                         }
 
                     }
@@ -157,35 +191,35 @@ input[type=number] {
 
     </script>
 
-<script>
+    <script>
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-                    reader.onload = function(e) {
-                        $('#user_avatar').attr('src', e.target.result);
-                        $('#user_header_avatar').attr('src', e.target.result);
-                        $('#avatar_change').submit()
+                reader.onload = function(e) {
+                    $('#user_avatar').attr('src', e.target.result);
+                    $('#user_header_avatar').attr('src', e.target.result);
+                    $('#avatar_change').submit()
 
-                    }
-
-                    reader.readAsDataURL(input.files[0]); // convert to base64 string
                 }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
+        }
 
         $("#user_avatar_input").change(function() {
             readURL(this);
         });
 
-     let faq = document.getElementById('faq_second')
-     let faq_btn = document.getElementById('faq_btn')
+        let faq = document.getElementById('faq_second')
+        let faq_btn = document.getElementById('faq_btn')
 
-    function openFaq(e){
-         e.preventDefault()
-        faq.classList.remove('faq-second')
-        faq_btn.style.display='none'
-    }
+        function openFaq(e){
+            e.preventDefault()
+            faq.classList.remove('faq-second')
+            faq_btn.style.display='none'
+        }
 
 
     </script>

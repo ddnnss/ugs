@@ -63,98 +63,107 @@ def new_bet(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def profile_index(request):
-    profilePage = True
-    profile_index = 'active'
-    lastBets = Bet.objects.all().order_by('-created_at')
-    return render(request, 'user/profile_index.html', locals())
+    if request.user.is_authenticated:
+        profilePage = True
+        profile_index = 'active'
+        lastBets = Bet.objects.filter(user=request.user).order_by('-created_at')
+        return render(request, 'user/profile_index.html', locals())
 
 def profile_edit(request):
-    if request.POST:
-        form = UpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            user = form.save()
+    if request.user.is_authenticated:
+        if request.POST:
+            form = UpdateForm(request.POST, instance=request.user)
+            if form.is_valid():
+                user = form.save()
 
-    profilePage = True
-    profile_edit = 'active'
-    form = UpdateForm()
-    return render(request, 'user/edit_profile.html', locals())
+        profilePage = True
+        profile_edit = 'active'
+        form = UpdateForm()
+        return render(request, 'user/edit_profile.html', locals())
 
 def profile_finance(request):
-    profilePage = True
-    profile_finance = 'active'
-    current_month = datetime.now().month
-    allPayments_temp = Payment.objects.filter(user=request.user)
-    time_filter = None
-    filter_month = None
-    summ_filter = None
-    p_c = False
+    if request.user.is_authenticated:
+        profilePage = True
+        profile_finance = 'active'
+        current_month = datetime.now().month
+        allPayments_temp = Payment.objects.filter(user=request.user)
+        time_filter = None
+        filter_month = None
+        summ_filter = None
+        p_c = False
 
-    if request.GET.get('pay_complete'):
-        p_c =True
+        if request.GET.get('pay_complete'):
+            p_c =True
 
-    if request.GET.get('time') and request.GET.get('time') != 'all':
-        time_filter = request.GET.get('time')
-        if time_filter == 'c_m':
-            filter_month = current_month
-        elif time_filter == 'l_m':
-            filter_month = current_month - 1
-            if filter_month == 0:
-                filter_month = 12
+        if request.GET.get('time') and request.GET.get('time') != 'all':
+            time_filter = request.GET.get('time')
+            if time_filter == 'c_m':
+                filter_month = current_month
+            elif time_filter == 'l_m':
+                filter_month = current_month - 1
+                if filter_month == 0:
+                    filter_month = 12
 
-    if request.GET.get('summ') and request.GET.get('summ') != 'all':
-        summ_filter = int(request.GET.get('summ'))
-    if time_filter and summ_filter:
-        allPayments = allPayments_temp.filter(created_at__month=filter_month,amount__gte=summ_filter)
-    elif time_filter:
-        allPayments = allPayments_temp.filter(created_at__month=filter_month)
-    elif summ_filter:
-        allPayments = allPayments_temp.filter(amount__gte=summ_filter)
-    else:
-        allPayments = allPayments_temp
+        if request.GET.get('summ') and request.GET.get('summ') != 'all':
+            summ_filter = int(request.GET.get('summ'))
+        if time_filter and summ_filter:
+            allPayments = allPayments_temp.filter(created_at__month=filter_month,amount__gte=summ_filter)
+        elif time_filter:
+            allPayments = allPayments_temp.filter(created_at__month=filter_month)
+        elif summ_filter:
+            allPayments = allPayments_temp.filter(amount__gte=summ_filter)
+        else:
+            allPayments = allPayments_temp
 
-    return render(request, 'user/finances.html', locals())
+        return render(request, 'user/finances.html', locals())
 
 def profile_balance(request):
-    profilePage = True
-    profile_balance = 'active'
-    return render(request, 'user/balance.html', locals())
+    if request.user.is_authenticated:
+        if request.POST:
+            Withdraw.objects.create(user=request.user, amount=float(request.POST.get('amount')))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        profilePage = True
+        profile_balance = 'active'
+        return render(request, 'user/balance.html', locals())
 
 def profile_archive(request):
-    profilePage = True
-    profile_archive = 'active'
-    allBets_temp = Bet.objects.filter(user=request.user).order_by('-created_at')
-    current_month = datetime.now().month
-    time_filter = None
-    filter_month = None
-    summ_filter = None
+    if request.user.is_authenticated:
+        profilePage = True
+        profile_archive = 'active'
+        allBets_temp = Bet.objects.filter(user=request.user).order_by('-created_at')
+        current_month = datetime.now().month
+        time_filter = None
+        filter_month = None
+        summ_filter = None
 
-    if request.GET.get('time') and request.GET.get('time') != 'all':
-        time_filter = request.GET.get('time')
-        if time_filter == 'c_m':
-            filter_month = current_month
-        elif time_filter == 'l_m':
-            filter_month = current_month - 1
-            if filter_month == 0:
-                filter_month = 12
+        if request.GET.get('time') and request.GET.get('time') != 'all':
+            time_filter = request.GET.get('time')
+            if time_filter == 'c_m':
+                filter_month = current_month
+            elif time_filter == 'l_m':
+                filter_month = current_month - 1
+                if filter_month == 0:
+                    filter_month = 12
 
-    if request.GET.get('summ') and request.GET.get('summ') != 'all':
-        summ_filter = int(request.GET.get('summ'))
-    if time_filter and summ_filter:
-        allBets = allBets_temp.filter(created_at__month=filter_month, amount__gte=summ_filter)
-    elif time_filter:
-        allBets = allBets_temp.filter(created_at__month=filter_month)
-    elif summ_filter:
-        allBets = allBets_temp.filter(amount__gte=summ_filter)
-    else:
-        allBets = allBets_temp
+        if request.GET.get('summ') and request.GET.get('summ') != 'all':
+            summ_filter = int(request.GET.get('summ'))
+        if time_filter and summ_filter:
+            allBets = allBets_temp.filter(created_at__month=filter_month, amount__gte=summ_filter)
+        elif time_filter:
+            allBets = allBets_temp.filter(created_at__month=filter_month)
+        elif summ_filter:
+            allBets = allBets_temp.filter(amount__gte=summ_filter)
+        else:
+            allBets = allBets_temp
 
 
-    return render(request, 'user/arhive.html', locals())
+        return render(request, 'user/arhive.html', locals())
 
 def new_payment(request):
     request_unicode = request.body.decode('utf-8')
     request_body = json.loads(request_unicode)
-    new_pay = Payment.objects.create(user=request.user,amount=int(request_body['amount']))
+
+    new_pay = Payment.objects.create(user=request.user,amount=float(request_body['amount']))
     new_pay.save()
     return JsonResponse({'status': 'ok', 'p_id': new_pay.id}, safe=False)
 

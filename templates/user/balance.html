@@ -15,7 +15,15 @@
 				<div class="score">
 					<h3 class="personalArea-title">Баланс:<span>{{ request.user.balance }} ₽</span></h3>
 					<p>Вы можете вывести средства с баланса в любое удобное для вас время. Убедитесь, что вы привязали платежное средство к аккаунту.</p>
-					<a href="#" class="main-btn">Вывести средства</a>
+                    <form style="display: flex" action="" method="post">{% csrf_token %}
+                        <div class="input-block" style="margin-right: 10px">
+												<div class="input-block__wrap">
+													<input id="amount" name="amount" value="" required type="number" step="0.01"  placeholder="Сумма для вывода">
+												</div>
+											</div>
+                        <button  type="submit" class="main-btn">Вывести средства</button>
+                    </form>
+
 				</div>
 			</div>
 		</div>

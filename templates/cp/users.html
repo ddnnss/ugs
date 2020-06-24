@@ -1,0 +1,61 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Пользователи</h2>
+					<span>Пользователи</span>
+				</div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1">
+								<span>ID</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>ФИО</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>Дата регистрации</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Баланс</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<span>Телефон</span>
+							</div>
+						</div>
+						   {% for user in allUsers %}
+				    		<div class="operations-row admin-row" onclick="window.location.href = '/cp/user/{{ user.id }}'">
+							<div class="operations-col operations-col__1">
+								<span>{{ user.id }}</span>
+							</div>
+							<div class="operations-col operations-col__2">
+                                {{ user.first_name }} {{ user.last_name }}
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>{{ user.date_joined |date:'d.m.Y, H:i'}}</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>₽ {{ user.balance }}</span>
+							</div>
+							<div class="operations-col operations-col__5">
+                               {{ user.phone }}
+							</div>
+						</div>
+					    {% endfor %}
+					</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

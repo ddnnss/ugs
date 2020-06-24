@@ -1,0 +1,44 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- start personalArea -->
+    <section class="personalArea">
+        <div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+        <div class="wrapper">
+            {% include 'user/sidebar.html' %}
+            <div class="personalArea-content">
+                <div class="section-top">
+                    <h2 class="section-title">Запрос на вывод ID : {{ withdrawInfo.id }} </h2>
+                </div>
+                <div class="score">
+
+                        <h3 class="personalArea-title">Дата запроса:<span>{{withdrawInfo.created_at |date:'d.m.Y, H:i'}}</span></h3>
+                        <h3 class="personalArea-title">Сумма запроса:<span>{{withdrawInfo.amount}}</span></h3>
+                        <h3 class="personalArea-title">Карта пользователя:<span>{{withdrawInfo.user.card_number}}</span></h3>
+                        <h3 class="personalArea-title">Яндекс кошелек пользователя:<span>{{withdrawInfo.user.yandex_wallet}}</span></h3>
+                {% if  withdrawInfo.status %}
+                    <hr>
+                        <h3 class="personalArea-title">Дата исполнения запроса:<span>{{withdrawInfo.updated_at |date:'d.m.Y, H:i'}}</span></h3>
+                {% endif %}
+
+                        {% if not withdrawInfo.status %}
+                        <div class="income-btns">
+                            <a href="{% url 'withdraw_ok' withdrawInfo.id %}"  class="main-btn">Запрос исполнен</a>
+                            <a href="{% url 'withdraw_cancel' withdrawInfo.id %}" class="second-btn ">Отменить запрос</a>
+                        </div>
+                    {% endif %}
+
+                    </form>
+
+                </div>
+
+        </div>
+        </div>
+    </section>
+    <!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}

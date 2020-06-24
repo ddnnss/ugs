@@ -1,0 +1,51 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- start personalArea -->
+    <section class="personalArea">
+        <div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+        <div class="wrapper">
+            {% include 'user/sidebar.html' %}
+            <div class="personalArea-content">
+                <div class="section-top">
+                    <h2 class="section-title">Ставка ID : {{ bet.id }}</h2>
+                </div>
+                <div class="score">
+                    <form action="" method="post">{% csrf_token %}
+                        <h3 class="personalArea-title">Пользователь:<span>ID: {{ bet.user.id }} | <a href="{% url 'cp_user' bet.user.id %}">{{ bet.user.first_name }}{{ bet.user.last_name }}</a> </span></h3>
+                        <h3 class="personalArea-title">Сумма ставки:<span>{{ bet.amount}} ₽</span></h3>
+                        <h3 class="personalArea-title">Дата:<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span></h3>
+                        <h3 class="personalArea-title">Скриншот: <a target="_blank" href="{{ bet.image.url}}"><span>открыть</span></a></h3>
+                        <h3 class="personalArea-title">Кешбек: <input class="admin-input" name="cb" type="number" value="{{ bet.cashback }}"> %</h3>
+                        <h3 class="personalArea-title">Коэффициент: <input class="admin-input" name="cc" step="0.01" type="number" value="{{ bet.coefficient }}"></h3>
+                        <h3 class="personalArea-title">Результат:
+                            <select class="admin-select" name="result" id="i-4">
+
+                                {% if result != 'None' %}
+                                    <option {% if result  == '1' %} selected{% endif %} value="1">Выигрыш</option>
+                                    <option {% if result  == '0' %} selected{% endif %} value="0">Проигрыш</option>
+                                {% else %}
+                                    <option selected value="none">Нет результата</option>
+                                    <option  value="1">Выигрыш</option>
+                                    <option  value="0">Проигрыш</option>
+                                {% endif %}
+                            </select>
+                        </h3>
+                        {% if  result == 'None'  %}
+                            <div class="profile-col profile-btn">
+                                <button type="submit" class="main-btn">Сохранить</button>
+                            </div>
+                        {% endif %}
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}

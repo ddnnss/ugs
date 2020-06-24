@@ -26,6 +26,7 @@ class NewBet(ModelForm):
         fields = ('amount','image')
         exclude = ()
 
+
 class UpdateForm(UserChangeForm):
     class Meta:
         model = User

@@ -11,6 +11,7 @@ admin.site.index_title = "CharityStore администрирование"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cp/', include('cp.urls')),
     path('user/', include('customuser.urls')),
     # path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include('pages.urls')),

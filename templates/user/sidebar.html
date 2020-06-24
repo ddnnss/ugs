@@ -1,4 +1,27 @@
 {% load static %}
+{% if request.user.is_superuser %}
+<div class="personalArea-sidebar">
+    <div class="sidebar">
+
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="{% url 'cp_users' %}" class="{{ profile_index }}">Пользователи
+                </a></li>
+                <li><a href="{% url 'cp_bets' %}" class="{{ profile_edit }}">Ставки
+                </a></li>
+                <li><a href="{% url 'cp_withdraws' %}" class="{{ profile_finance }}">Запросы на вывод
+                </a></li>
+                <li><a href="{% url 'cp_payments' %}" class="{{ profile_balance }}">Платежи
+                </a></li>
+
+                   <li><a href="{% url 'logout_page' %}">Выход
+                </a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+{% else %}
 <div class="personalArea-sidebar">
     <div class="sidebar">
         <div class="sidebar-main">
@@ -66,3 +89,4 @@
         </div>
     </div>
 </div>
+{% endif %}

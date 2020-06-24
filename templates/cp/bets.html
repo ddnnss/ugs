@@ -1,0 +1,65 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Ставки</h2>
+					<span>Ставки</span>
+				</div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1 time-col">
+								<span>ID | Время</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>Ставка</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>Кешбек</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Коэффициент</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<span>Статус</span>
+							</div>
+						</div>
+						   {% for bet in allBets %}
+				    		<div class="operations-row admin-row" onclick="window.location.href = '/cp/bet/{{ bet.id }}'">
+							<div class="operations-col operations-col__1 time-col">
+								<span>{{ bet.id }} | {{ bet.created_at |date:'d.m.Y, H:i'}}</span>
+							</div>
+							<div class="operations-col operations-col__2">
+							   <span>₽ {{ bet.amount }}</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>{{ bet.cashback }}%</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>{{ bet.coefficient }}</span>
+							</div>
+							<div class="operations-col operations-col__5">
+                                {% if bet.bet_result == True %}
+								    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% elif bet.bet_result == False %}
+                                 	<img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
+							</div>
+						</div>
+					    {% endfor %}
+					</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

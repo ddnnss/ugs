@@ -59,6 +59,7 @@
 							</div>
 						</div>
                         {% for bet in lastBets %}
+                            {% if forloop.counter < 6 %}
 				    		<div class="operations-row">
 							<div class="operations-col operations-col__1">
 								<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span>
@@ -80,6 +81,7 @@
                                 {% endif %}
 							</div>
 						</div>
+                            {% endif %}
 					    {% endfor %}
 					</div>
 				</div>

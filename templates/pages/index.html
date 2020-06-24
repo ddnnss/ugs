@@ -15,7 +15,7 @@
 			<div class="main-wrapper">
 				<div class="main-info" data-aos="fade-right" data-aos-duration="500" data-aos-once="true">
 					<h1 class="main-title">кэшбэк сервис в ставках на спорт</h1>
-					<p>Делать крупные ставки уже не так рискованно. Мы возмещаем 50% от суммы твоего проигрыша</p>
+					<p>Делать крупные ставки уже не так рискованно. Мы возмещаем до 50% от суммы твоего проигрыша.</p>
 					<div class="main-form">
 						<form action="{% url 'new_bet' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
 							<span class="main-subtitle">Загрузить скриншот</span>
@@ -49,10 +49,10 @@
 						<img src="{% static 'img/main-img.svg' %}" alt="">
 					</div>
                     {% if request.user.is_authenticated %}
-                        <p>Получи 50 % Кэшбэка с проигрышей просто <a href="#" class="form-btn">кликнув</a></p>
+                        <p>Получи до 50 % кэшбэка с проигрышей просто <a href="#" class="form-btn">кликнув</a></p>
 
                     {% else %}
-                         <p>Получи 50 % Кэшбэка с проигрышей просто <a href="#forms-registration" class="modal-btn">кликнув</a></p>
+                         <p>Получи до 50 % кэшбэка с проигрышей просто <a href="#forms-registration" class="modal-btn">кликнув</a></p>
 
                     {% endif %}
 
@@ -130,7 +130,7 @@
 							<img src="{% static 'img/advantages-ico-1.svg' %}" alt="">
 						</div>
 						<h3 class="advantages-title">Высокий процент кэшбэка</h3>
-						<p>UGS дает самый высокий процент кэшбэка по проигранным ставкам в СНГ. Вы получаете обратно половину суммы ставки, если ставка проиграет.</p>
+						<p>UGS дает высокий процент кэшбека по проигранным ставкам на спорт. Вы получаете обратно до половины ставки в случае проигрыша.</p>
 					</div>
 				</div><!-- col(1) -->
 				<div class="advantages-col" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
@@ -172,7 +172,7 @@
 			</div>
 			<div class="attention-info">
 				<h2 class="attention-title">Получайте бесконечные кэшбеки</h2>
-				<p>Мы возвращаем тебе 50% от каждого проигрыша вне зависимости от количества и суммы твоих выигрышей</p>
+				<p>Мы возвращаем тебе до 50% от каждого проигрыша вне зависимости от количества и суммы твоих выигрышей</p>
                 {% if not request.user.is_authenticated %}
 
                        <a href="#forms-registration" class="modal-btn main-btn">Регистрация</a>

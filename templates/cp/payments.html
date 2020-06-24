@@ -1,0 +1,69 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Платежм</h2>
+					<span>Платежи</span>
+				</div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1 time-col">
+								<span>Время</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>Пользователь</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>Сумма</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Статус платежа</span>
+							</div>
+{#							<div class="operations-col operations-col__5">#}
+{#								<span>Статус</span>#}
+							</div>
+						</div>
+						   {% for pay in allPayments %}
+				    		<div class="operations-row ">
+							<div class="operations-col operations-col__1 time-col">
+								<span>{{ pay.created_at |date:'d.m.Y, H:i'}}</span>
+							</div>
+							<div class="operations-col operations-col__2">
+							   <span><a style="text-decoration: underline" href="{% url 'cp_user' pay.user.id %}">{{ pay.user.first_name }} {{ pay.user.last_name }}</a> </span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>₽ {{ pay.amount }}</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								{% if pay.status == True %}
+								    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% elif pay.status == False %}
+                                 	<img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
+							</div>
+{#							<div class="operations-col operations-col__5">#}
+{#                                {% if bet.bet_result == True %}#}
+{#								    <img src="{% static 'img/check.svg' %}" alt="">#}
+{#                                {% elif bet.bet_result == False %}#}
+{#                                 	<img src="{% static 'img/close.svg' %}" alt="">#}
+{#                                {% endif %}#}
+{#							</div>#}
+						</div>
+					    {% endfor %}
+					</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

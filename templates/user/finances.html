@@ -25,10 +25,10 @@
 						<p>Тут вы можете пополнить баланс</p>
 						<div class="income-btns">
 
-                             <form style="display: flex" id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
-                                    <div class="input-block">
+                             <form style="display: flex; flex-wrap: wrap; align-items: center" id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
+                                    <div style="flex-grow: 1" class="input-block">
 												<div class="input-block__wrap">
-													<input style="height: 42px" id="amount_1" name="sum" value="" data-type="number" type="number"  placeholder="Сумма пополнения">
+													<input style="height: 42px;" id="amount_1" required name="sum" value=""  data-type="number" type="number"  placeholder="Сумма пополнения">
 												</div>
 											</div>
                                 <input type="hidden" name="receiver" value="4100110883820369">

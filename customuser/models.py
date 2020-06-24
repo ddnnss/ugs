@@ -38,7 +38,7 @@ class User(AbstractUser):
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
     profile_ok = models.BooleanField(default=False)
     avatar = models.ImageField('Фото профиля', upload_to='avatar/', blank=True)
-    balance = models.DecimalField('Баланс', decimal_places=2,max_digits=6,default=0)
+    balance = models.DecimalField('Баланс', decimal_places=2,max_digits=10,default=0)
     yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
     card_number = models.CharField('Номер карты', max_length=50, blank=True, null=True)
     sex = models.BooleanField('Пол', blank=True, null=True)
@@ -79,12 +79,12 @@ class Log(models.Model):
 
 class Bet(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
-    amount = models.DecimalField('Ставка', decimal_places=2,max_digits=6,default=0)
+    amount = models.DecimalField('Ставка', decimal_places=2,max_digits=10,default=0)
     image = models.ImageField('Фото', upload_to='bet/', blank=True)
-    coefficient = models.DecimalField('Коэффициент ', decimal_places=2,max_digits=6,default=0)
+    coefficient = models.DecimalField('Коэффициент ', decimal_places=2,max_digits=10,default=0)
     cashback = models.IntegerField('Возврат %', default=0)
     bet_result = models.BooleanField('Результат', blank=True,null=True)
-    bet_result_amount = models.DecimalField('Результат сумма', decimal_places=2,max_digits=6,default=0)
+    bet_result_amount = models.DecimalField('Результат сумма', decimal_places=2,max_digits=10,default=0)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
 
     def __str__(self):
@@ -94,10 +94,29 @@ class Bet(models.Model):
         verbose_name = "Ставка пользователя"
         verbose_name_plural = "Ставки пользователей"
 
-class BalanceFreeze(models.Model):
-    bet = models.ForeignKey(Bet,on_delete=models.CASCADE,blank=False,null=True)
+
+
+class Payment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
-    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=6,default=0)
+    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=10,default=0)
+    status = models.BooleanField('Статус платежа',default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+
+    class Meta:
+        ordering = ('-id',)
+
+class Withdraw(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
+    amount = models.DecimalField('Сумма', decimal_places=2, max_digits=10, default=0)
+    status = models.BooleanField('Статус платежа', default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+    updated_at = models.DateTimeField('Дата изменеия', auto_now=True, null=True)
+
+class BalanceFreeze(models.Model):
+    bet = models.ForeignKey(Bet,on_delete=models.CASCADE,blank=True,null=True)
+    withdraw = models.ForeignKey(Withdraw,on_delete=models.CASCADE,blank=True,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=10,default=0)
 
     def __str__(self):
         return f'Резервирование {self.amount} на балансе пользователя ID: {self.user.id}'
@@ -106,15 +125,23 @@ class BalanceFreeze(models.Model):
         verbose_name = "Резервирование на балансе"
         verbose_name_plural = "Резервирование на балансе"
 
-class Payment(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
-    amount = models.DecimalField('Сумма', decimal_places=2,max_digits=6,default=0)
-    status = models.BooleanField('Статус платежа',default=False)
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+def withdraw_post_save(sender, instance, created, **kwargs):
+    if created:
+        instance.user.balance -= decimal.Decimal(instance.amount)
+        instance.user.save()
+        BalanceFreeze.objects.create(withdraw=instance, user=instance.user, amount=instance.amount)
+        Log.objects.create(user=instance.user,
+                           text=f'Пользователь ID:{instance.user.id} запросил вывод на сумму {instance.amount} руб')
+        Message.objects.create(user=instance.user,
+                               text=f'Запрос на вывод {instance.amount} руб успешно отправлен, сумма вывода заблокирована на счете')
 
-    class Meta:
-        ordering = ('-id',)
-
+    else:
+        if instance.status:
+            Log.objects.create(user=instance.user,
+                               text=f'Пользователь ID:{instance.user.id} получил вывод на сумму {instance.amount} руб')
+            Message.objects.create(user=instance.user,
+                                   text=f'Запрос на вывод {instance.amount} руб успешно выполнен')
+            BalanceFreeze.objects.get(withdraw=instance).delete()
 
 def payment_post_save(sender, instance, created, **kwargs):
     if created:
@@ -140,32 +167,34 @@ def bet_post_save(sender, instance, created, **kwargs):
         if not instance.bet_result_amount:
             if instance.bet_result == True:
                 print('win')
-                instance.user.balance += instance.amount * instance.coefficient
+                instance.user.balance += instance.amount * decimal.Decimal(instance.coefficient)
                 instance.user.save()
                 Log.objects.create(user=instance.user,
                                    text=f'Пользователь ID:{instance.user.id} выиграл ставку на сумму {instance.amount} с коэффициентом {instance.coefficient}')
                 Message.objects.create(user=instance.user,text=f'Ставка на сумму {instance.amount} от {instance.created_at.strftime("%d-%m-%y %H:%M")} с'
                                                                f' коэфициетном {instance.coefficient} сыграла положительно,'
-                                                               f' Ваш счет пополнен на {instance.amount * instance.coefficient:.2f} руб')
+                                                               f' Ваш счет пополнен на {instance.amount * decimal.Decimal(instance.coefficient):.2f} руб')
                 BalanceFreeze.objects.get(bet=instance).delete()
-                instance.bet_result_amount = instance.amount * instance.coefficient
+                instance.bet_result_amount = instance.amount * decimal.Decimal(instance.coefficient)
                 instance.save()
             elif instance.bet_result == False:
-                instance.user.balance += instance.amount * decimal.Decimal((instance.cashback / 100))
+                instance.user.balance += instance.amount * decimal.Decimal(int(instance.cashback) / 100)
                 instance.user.save()
                 Log.objects.create(user=instance.user,
                                    text=f'Пользователь ID:{instance.user.id} провыиграл ставку на сумму {instance.amount} с кешбеком {instance.cashback} %')
+                instance.bet_result_amount = instance.amount * decimal.Decimal(int(instance.cashback) / 100)
                 Message.objects.create(user=instance.user,
                                        text=f'Ставка на сумму {instance.amount} от {instance.created_at.strftime("%d-%m-%y %H:%M")} с'
                                             f' коэфициетном {instance.coefficient} сыграла отрицательно,'
-                                            f' Ваш счет пополнен на {instance.amount * decimal.Decimal((instance.cashback / 100)):.2f} руб,'
-                                            f' кешбек {instance.cashback:.2f} %')
+                                            f' Ваш счет пополнен на {instance.bet_result_amount:.2f} руб,'
+                                            f' кешбек {int(instance.cashback):.2f} %')
                 BalanceFreeze.objects.get(bet=instance).delete()
-                instance.bet_result_amount = instance.amount * decimal.Decimal((instance.cashback / 100))
+
                 instance.save()
             else:
                 print('unkown')
 
+post_save.connect(withdraw_post_save, sender=Withdraw)
 post_save.connect(payment_post_save, sender=Payment)
 post_save.connect(bet_post_save, sender=Bet)
 
