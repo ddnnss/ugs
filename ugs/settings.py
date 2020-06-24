@@ -18,6 +18,8 @@ AUTH_USER_MODEL = 'customuser.User'
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
 
 # Application definition
 
