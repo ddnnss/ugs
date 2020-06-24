@@ -163,16 +163,16 @@ def new_payment(request):
 def pay_complete(request):
 
     req = request.POST
-    notification_type = req.get('notification_type')
-    amount = req.get('amount')
-    codepro  = req.get('codepro')
-    withdraw_amount = req.get('withdraw_amount')
-    unaccepted = req.get('unaccepted')
-    label = json.loads(req.get('label'))
-    datetime  = req.get('datetime')
-    sender = req.get('sender')
-    sha1_hash = req.get('sha1_hash')
-    operation_id = req.get('operation_id')
+    # notification_type = req.get('notification_type')
+    # amount = req.get('amount')
+    # codepro  = req.get('codepro')
+    # withdraw_amount = req.get('withdraw_amount')
+    # unaccepted = req.get('unaccepted')
+    # label = json.loads(req.get('label'))
+    # datetime  = req.get('datetime')
+    # sender = req.get('sender')
+    # sha1_hash = req.get('sha1_hash')
+    # operation_id = req.get('operation_id')
 
     print(req)
 
