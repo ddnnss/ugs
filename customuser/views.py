@@ -15,7 +15,6 @@ from django.http import JsonResponse, HttpResponseRedirect
 def login_req(request):
     request_unicode = request.body.decode('utf-8')
     request_body = json.loads(request_unicode)
-    print(request_body)
     user = authenticate(username=request_body['email'], password=request_body['password'])
     if user is not None:
         login(request, user)
@@ -24,7 +23,6 @@ def login_req(request):
         return JsonResponse({'status':'error'}, safe=False)
 
 def register(request):
-    print(request.POST)
     request_unicode = request.body.decode('utf-8')
     request_body = json.loads(request_unicode)
     data = request.POST.copy()
@@ -72,9 +70,7 @@ def profile_index(request):
 
 def profile_edit(request):
     if request.POST:
-        print(request.POST)
         form = UpdateForm(request.POST, instance=request.user)
-        print(form.errors)
         if form.is_valid():
             user = form.save()
 
@@ -183,9 +179,6 @@ def pay_complete(request):
     # sender = req.get('sender')
     # sha1_hash = req.get('sha1_hash')
     # operation_id = req.get('operation_id')
-
-
-    print(req)
     return JsonResponse({'status': 'ok'}, safe=False)
 
 def add_payment(request):
