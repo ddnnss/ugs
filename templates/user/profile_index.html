@@ -22,7 +22,7 @@
 						<p>Узнай подробнее, как зарабатывать на <b>UGS</b></p>
 						<div class="income-btns">
 							<a href="{% url 'index' %}#howWorks" class="main-btn">Как заработать</a>
-							<a href="{% url 'index' %}#howWorks" class="second-btn">Как потратить</a>
+							<a href="{% url 'profile_balance' %}" class="second-btn">Как потратить</a>
 						</div>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
                             {% if forloop.counter < 6 %}
 				    		<div class="operations-row">
 							<div class="operations-col operations-col__1">
-								<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span>
+								<span>{{ bet.created_at |date:'d.m.Y'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
                                 <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>

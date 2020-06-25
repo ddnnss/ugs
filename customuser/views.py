@@ -1,11 +1,13 @@
 import json
-
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.contrib import messages
 from datetime import datetime
 from django.contrib.auth import login, logout,authenticate
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from random import choices
+import string
 from .forms import *
 from customuser.models import *
 
@@ -26,14 +28,16 @@ def register(request):
     request_unicode = request.body.decode('utf-8')
     request_body = json.loads(request_unicode)
     data = request.POST.copy()
-
     form = SignUpForm(request_body)
-    print(form.errors)
     if form.is_valid():
         new_user = form.save(data)
         new_user.is_social_reg = False
         new_user.save()
         login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
+        msg_html = render_to_string('email/new_user.html')
+        send_mail(f'Регистрация на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+                  [new_user.email],
+                  fail_silently=False, html_message=msg_html)
         return JsonResponse({'status': 'success'}, safe=False)
     else:
 
@@ -62,10 +66,29 @@ def new_bet(request):
             print('balance is bad')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def password_recovery(request):
+    if request.POST:
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            new_password = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
+            user.set_password(new_password)
+            user.save()
+            msg_html = render_to_string('email/new_password.html',{'new_password':new_password})
+            send_mail(f'Новый пароль на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+                      [email],
+                      fail_silently=False, html_message=msg_html)
+            messages.success(request, 'Спасибо, Ваш новый пароль выслан на почту')
+        except:
+            messages.success(request, 'Проверьте введенные данные')
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def profile_index(request):
     if request.user.is_authenticated:
         profilePage = True
         profile_index = 'active'
+        pageTitle = 'Личный кабинет | UGS'
+        pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         lastBets = Bet.objects.filter(user=request.user).order_by('-created_at')
         return render(request, 'user/profile_index.html', locals())
 
@@ -74,8 +97,11 @@ def profile_edit(request):
         if request.POST:
             form = UpdateForm(request.POST, instance=request.user)
             if form.is_valid():
-                user = form.save()
-
+                user = form.save(commit=False)
+                user.sex = bool(int(request.POST.get('sex')))
+                user.save()
+        pageTitle = 'Личный кабинет | UGS'
+        pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         profilePage = True
         profile_edit = 'active'
         form = UpdateForm()
@@ -114,7 +140,8 @@ def profile_finance(request):
             allPayments = allPayments_temp.filter(amount__gte=summ_filter)
         else:
             allPayments = allPayments_temp
-
+        pageTitle = 'Личный кабинет | UGS'
+        pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/finances.html', locals())
 
 def profile_balance(request):
@@ -125,6 +152,7 @@ def profile_balance(request):
                 Withdraw.objects.create(user=request.user,
                                         card_id=int(request.POST.get('cid')),
                                         amount=float(request.POST.get('amount')))
+                messages.success(request, f'Спасибо, Ваш запрос на вывод {request.POST.get("amount")} руб. принят')
             if request.POST.get('add_card'):
                 """запрос на добавление плтежной системы"""
                 if request.POST.get('add_card') == '0':
@@ -142,6 +170,8 @@ def profile_balance(request):
         profilePage = True
         profile_balance = 'active'
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
+        pageTitle = 'Личный кабинет | UGS'
+        pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/balance.html', locals())
 
 def profile_archive(request):
@@ -173,7 +203,8 @@ def profile_archive(request):
             allBets = allBets_temp.filter(amount__gte=summ_filter)
         else:
             allBets = allBets_temp
-
+        pageTitle = 'Личный кабинет | UGS'
+        pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
 
         return render(request, 'user/arhive.html', locals())
 

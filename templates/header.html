@@ -119,14 +119,14 @@
                     <h2 class="section-title">Восстановление пароля</h2>
                     <span>Восстановление пароля</span>
                 </div>
-                <form action="">
+                <form action="{% url 'password_recovery' %}" method="post">{% csrf_token %}
                     <div class="input-block">
                         <div class="input-block__wrap">
-                            <input type="email" name="email" placeholder="Эмеил">
+                            <input type="email" name="email" required placeholder="Ваш E-Mail">
                         </div>
                     </div>
                     <div class="forms-btn">
-                        <button class="main-btn">Продолжить</button>
+                        <button type="submit" class="main-btn">Продолжить</button>
                     </div>
                 </form>
             </div>

@@ -68,7 +68,7 @@
 						   {% for bet in allBets %}
 				    		<div class="operations-row">
 							<div class="operations-col operations-col__1">
-								<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span>
+								<span>{{ bet.created_at |date:'d.m.Y'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
 							    <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>

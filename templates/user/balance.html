@@ -2,138 +2,188 @@
 {% load static %}
 
 {% block content %}
-<!-- start personalArea -->
-	<section class="personalArea">
-		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
-		<div class="wrapper">
-		{% include 'user/sidebar.html' %}
-				<div class="personalArea-content">
-				<div class="section-top">
-					<h2 class="section-title">Счет</h2>
-					<span>Счет</span>
-				</div>
+    <!-- start personalArea -->
+    <section class="personalArea">
+        <div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+        <div class="wrapper">
+            {% include 'user/sidebar.html' %}
+            <div class="personalArea-content">
+                <div class="section-top">
+                    <h2 class="section-title">Счет</h2>
+                    <span>Счет</span>
+                </div>
 
 
-                    <div class="score">
-					<h3 class="personalArea-title">Баланс:<span>{{ request.user.balance }} ₽</span></h3>
-					<p>Вы можете вывести средства с баланса в любое удобное для вас время. Убедитесь, что вы привязали платежное средство к аккаунту.</p>
-					<a href="#" class="main-btn private-btn">Вывести средства</a>
-					<div class="private">
+                <div class="score">
+                    <h3 class="personalArea-title">Баланс:<span>{{ request.user.balance }} ₽</span></h3>
+                    <p>Вы можете вывести средства с баланса в любое удобное для вас время. Убедитесь, что вы привязали платежное средство к аккаунту.</p>
+                    <a href="#" class="main-btn private-btn">Вывести средства</a>
+                    <div class="private">
                         <form id="withdraw_form" action=""  method="post">{% csrf_token %}
-						<div class="private-block private-block__small">
-							<p>Сумма вывода</p>
-							<div class="private-form">
-								<div class="input-block">
-									<div class="input-block__wrap">
-										<input id="amount" name="amount" value="" required type="number" step="0.01"  placeholder="Сумма для вывода">
-										<div class="input-ico">
-											<svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2Z" fill="#6B6B6B"/></svg>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="private-block">
-							<p>Ваша карта</p>
+                            <div class="private-block private-block__small">
+                                <p>Сумма вывода</p>
+                                <div class="private-form">
+                                    <div class="input-block">
+                                        <div class="input-block__wrap">
+                                            <input id="amount" name="amount" value="" onkeyup="checkBalance(this)" required type="number" step="0.01"  placeholder="Сумма для вывода">
+                                            <div class="input-ico">
+                                                <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2Z" fill="#6B6B6B"/></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="private-block">
+                            {% if cards %}
+                                <p>Ваша карта</p>
                                 {% for card in cards %}
 
-								<div style="margin-bottom: 15px" class="private-form">
-									<div class="input-block">
-										<div class="input-block__wrap">
-                                            {% if card.card_number %}
-											<input type="text"  value="{{ card.card_number }}" disabled >
-											<div class="input-ico">
-												<img src="{% static 'img/visa.svg' %}" alt="">
-											</div>
-                                            {% else %}
-                                            <input type="text"  value="{{ card.yandex_wallet }}" disabled >
-											<div class="input-ico">
-												<img src="{% static 'img/yandex.svg' %}" alt="">
-											</div>
-                                            {% endif %}
-										</div>
-									</div>
+                                    <div style="margin-bottom: 15px" class="private-form">
+                                        <div class="input-block">
+                                            <div class="input-block__wrap">
+                                                {% if card.card_number %}
+                                                    <input type="text"  value="{{ card.card_number }}" disabled >
+                                                    <div class="input-ico">
+                                                        <img src="{% static 'img/visa.svg' %}" alt="">
+                                                    </div>
+                                                {% else %}
+                                                    <input type="text"  value="{{ card.yandex_wallet }}" disabled >
+                                                    <div class="input-ico">
+                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
 
-									<button type="submit" onclick="setCID({{card.id}})" class="main-btn">Вывести</button>
-								</div>
+                                        <button type="submit" onclick="setCID({{card.id}})" class="main-btn withdraw-btn">Вывести</button>
+                                    </div>
                                 {% endfor %}
-						</div>
-                         <input type="hidden" id="cid" name="cid" value="">
-                       </form>
-					</div>
-				</div>
-				<div class="score">
-					<div class="score-wrap">
-						<div class="private-block">
-							<p>Привязать карту</p>
-							<form action="" method="post">{% csrf_token %}
-								<div class="private-form">
-									<div class="input-block">
-										<div class="input-block__wrap">
-											<input type="number" name="card" required placeholder="0000 0000 0000 0000">
-											<div class="input-ico">
-{#												<img src="img/visa.svg" alt="">#}
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="score-wrap__all">
-									<div class="score-wrap__row">
-										<div class="score-wrap__col score-wrap__col-1">
-											<div class="input-block">
-												<div class="input-block__wrap">
-													<span class="score-wrap__text">VALID THRU</span>
-													<input type="text" name="valid" required placeholder="00/00">
-												</div>
-											</div>
-										</div>
-										<div class="score-wrap__col score-wrap__col-2">
-											<div class="input-block">
-												<div class="input-block__wrap">
-													<input type="number" name="cvc" required maxlength="3" placeholder="CVC">
-												</div>
-											</div>
-										</div>
+                            {% else %}
+                                <p>У Вас нет привязанных карт или кошельков</p>
+                            {% endif %}
+                            </div>
+                            <input type="hidden" id="cid" name="cid" value="">
+                        </form>
+                    </div>
+                </div>
+                <div class="score">
+                    <div class="score-wrap">
+                        <div class="private-block">
+                            <p>Привязать карту</p>
+                            <form action="" method="post">{% csrf_token %}
+                                <div class="private-form">
+                                    <div class="input-block">
+                                        <div class="input-block__wrap">
+                                            <input type="text" id="card_mask" name="card" required placeholder="0000 0000 0000 0000">
+                                            <div class="input-ico">
+                                                {#												<img src="img/visa.svg" alt="">#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="score-wrap__all">
+                                    <div class="score-wrap__row">
+                                        <div class="score-wrap__col score-wrap__col-1">
+                                            <div class="input-block">
+                                                <div class="input-block__wrap">
+                                                    <span class="score-wrap__text">VALID THRU</span>
+                                                    <input type="text" id="valid_mask" name="valid" required placeholder="00/00">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="score-wrap__col score-wrap__col-2">
+                                            <div class="input-block">
+                                                <div class="input-block__wrap">
+                                                    <input type="text" id="cvc_mask" name="cvc" required maxlength="3" placeholder="CVC">
+                                                </div>
+                                            </div>
+                                        </div>
                                         <input type="hidden" name="add_card" value="0">
-										<div class="score-wrap__col score-wrap__col-3">
-											<button type="submit" class="main-btn">Привязать</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="private-block">
-							<p>Ваш Яндекс кошелек</p>
-							<form action="" method="post">{% csrf_token %}
-								<div class="private-form">
-									<div class="input-block">
-										<div class="input-block__wrap">
-											<input type="number" name="ya" required placeholder="124512487945124">
-											<div class="input-ico">
-												<img src="{% static 'img/yandex.svg' %}" alt="">
-											</div>
-										</div>
-									</div>
+                                        <div class="score-wrap__col score-wrap__col-3">
+                                            <button type="submit" class="main-btn">Привязать</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="private-block">
+                            <p>Ваш Яндекс кошелек</p>
+                            <form action="" method="post">{% csrf_token %}
+                                <div class="private-form">
+                                    <div class="input-block">
+                                        <div class="input-block__wrap">
+                                            <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
+                                            <div class="input-ico">
+                                                <img src="{% static 'img/yandex.svg' %}" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <input type="hidden" name="add_card" value="1">
-									<button type="submit" class="main-btn">Привязать</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
+                                    <button type="submit" class="main-btn">Привязать</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-			</div>
-		</div>
-	</section>
-	<!-- end personalArea -->
+            </div>
+        </div>
+    </section>
+    <!-- end personalArea -->
 {% endblock %}
 
 {% block js %}
-{{ block.super }}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js" type="text/javascript"></script>
     <script>
-    function setCID(el) {
-        console.log(el)
-        $('#cid').val(el)
+        $.fn.setCursorPosition = function(pos) {
+            if ($(this).get(0).setSelectionRange) {
+                $(this).get(0).setSelectionRange(pos, pos);
+            } else if ($(this).get(0).createTextRange) {
+                var range = $(this).get(0).createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', pos);
+                range.moveStart('character', pos);
+                range.select();
+            }
+        };
+
+
+        $("#card_mask").click(function(){
+            $(this).setCursorPosition(0);
+        }).mask("9999 9999 9999 9999");
+
+        $("#valid_mask").click(function(){
+            $(this).setCursorPosition(0);
+        }).mask("99/99");
+
+        $("#cvc_mask").click(function(){
+            $(this).setCursorPosition(0);
+        }).mask("999");
+
+        $("#ya_mask").click(function(){
+            $(this).setCursorPosition(0);
+        }).mask("9999999999999999");
+
+        function setCID(el) {
+            console.log(el)
+            $('#cid').val(el)
+
+        }
+
+        let u_b = {{ request.user.balance }},
+        btns = document.getElementsByClassName('withdraw-btn')
+
+    function checkBalance(el) {
+        if (el.value > 0 && u_b>=el.value){
+           for(i of btns){
+                i.classList.remove('btn-disabled')
+            }
+        }else {
+            for(i of btns){
+                i.classList.add('btn-disabled')
+            }
+        }
 
     }
     </script>

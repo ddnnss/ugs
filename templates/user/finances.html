@@ -87,7 +87,7 @@
 								<span>Время</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>Сумма пополнения</span>
+								<span>Сумма</span>
 							</div>
 {#							<div class="operations-col operations-col__3">#}
 {#								<span>КЭШБЭК</span>#}
@@ -102,7 +102,7 @@
                         {% for pay in allPayments %}
 					    	<div class="operations-row">
 							<div class="operations-col operations-col__1">
-								<span>{{ pay.created_at |date:'d.m.Y, H:i'}}</span>
+								<span>{{ pay.created_at |date:'d.m.Y'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
 								<span>₽ {{ pay.amount }}</span>

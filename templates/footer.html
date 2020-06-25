@@ -8,7 +8,7 @@
 					<li><a href="{% url 'about' %}">О системе</a></li>
 					<li><a href="{% url 'contacts' %}">Контакты</a></li>
                     {% if  request.user.is_authenticated %}
-                    <li><a href="{% url 'contacts' %}">Личный кабинет</a></li>
+                    <li><a href="{% url 'profile_index' %}">Личный кабинет</a></li>
                 {% endif %}
 				</ul>
 				<ul class="footer-social">

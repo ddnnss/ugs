@@ -2,7 +2,8 @@ import decimal
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models.signals import post_save
-
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -38,8 +39,8 @@ class User(AbstractUser):
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
     profile_ok = models.BooleanField(default=False)
     avatar = models.ImageField('Фото профиля', upload_to='avatar/', blank=True)
-    balance = models.DecimalField('Баланс', decimal_places=2,max_digits=10,default=0)
-    sex = models.BooleanField('Пол', blank=True, null=True)
+    balance = models.DecimalField('Баланс', decimal_places=2,max_digits=10,default=1)
+    sex = models.BooleanField('Пол', blank=True, null=True, default=True)
     birthday = models.DateField('ДР', blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -79,6 +80,12 @@ class Message(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+def message_post_save(sender, instance, created, **kwargs):
+    msg_html = render_to_string('email/notify.html',{'text':instance.text})
+    send_mail(f'Оповещение на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+              [instance.user.email],
+              fail_silently=False, html_message=msg_html)
 
 class Log(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
@@ -215,4 +222,5 @@ def bet_post_save(sender, instance, created, **kwargs):
 post_save.connect(withdraw_post_save, sender=Withdraw)
 post_save.connect(payment_post_save, sender=Payment)
 post_save.connect(bet_post_save, sender=Bet)
+post_save.connect(message_post_save, sender=Message)
 
