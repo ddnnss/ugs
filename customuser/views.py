@@ -51,7 +51,6 @@ def change_avatar(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def new_bet(request):
-    print(request.POST)
     form = NewBet(request.POST, request.FILES)
     if request.user.balance >= float(request.POST.get('amount')):
         print('balance is ok')
@@ -189,7 +188,6 @@ def new_payment(request):
 
 @csrf_exempt
 def pay_complete(request):
-
     req = request.POST
     try:
         payment = Payment.objects.get(id=int(req.get('label')))
@@ -197,23 +195,10 @@ def pay_complete(request):
         payment.save()
     except:
         pass
-    # notification_type = req.get('notification_type')
-    # amount = req.get('amount')
-    # codepro  = req.get('codepro')
-    # withdraw_amount = req.get('withdraw_amount')
-    # unaccepted = req.get('unaccepted')
-    # label = json.loads(req.get('label'))
-    # datetime  = req.get('datetime')
-    # sender = req.get('sender')
-    # sha1_hash = req.get('sha1_hash')
-    # operation_id = req.get('operation_id')
     return JsonResponse({'status': 'ok'}, safe=False)
 
-def add_payment(request):
-    if request.POST.get('card'):
-        request.user.card_number = request.POST.get('card')
-        request.user.save()
-    if request.POST.get('ya'):
-        request.user.yandex_wallet = request.POST.get('ya')
-        request.user.save()
+def new_message(request):
+    form = NewMessageForm(request.POST)
+    if form.is_valid():
+        form.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

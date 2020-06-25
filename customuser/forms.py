@@ -26,6 +26,11 @@ class NewBet(ModelForm):
         fields = ('amount','image','team','is_no_winner')
         exclude = ()
 
+class NewMessageForm(ModelForm):
+    class Meta:
+        model = MessageForm
+        fields = ('first_name','last_name','email','phone','subject','text')
+        exclude = ()
 
 class UpdateForm(UserChangeForm):
     class Meta:

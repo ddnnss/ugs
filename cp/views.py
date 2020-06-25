@@ -52,6 +52,20 @@ def withdraw(request,id):
     withdrawInfo = Withdraw.objects.get(id=id)
     return render(request, 'cp/withdraw.html', locals())
 
+def messages(request):
+    allMessages = MessageForm.objects.all().order_by('is_open')
+    return render(request, 'cp/messages.html', locals())
+
+def message(request,id):
+    messageInfo = MessageForm.objects.get(id=id)
+    messageInfo.is_open = True
+    messageInfo.save()
+    return render(request, 'cp/message.html', locals())
+
+def del_message(request,id):
+    MessageForm.objects.get(id=id).delete()
+    return HttpResponseRedirect('/cp/messages')
+
 def withdraw_ok(request,id):
     withdrawInfo = Withdraw.objects.get(id=id)
     withdrawInfo.status = True

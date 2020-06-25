@@ -41,51 +41,52 @@
 				</div>
 				<div class="contacts-row">
 					<div class="contacts-col contacts-form">
-						<form action="">
+						<form action="{% url 'new_message' %}" method="post">{% csrf_token %}
 							<div class="contacts-form__row">
 								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
 									<label for="i-1">Ваше Имя<span>*</span></label>
 									<div class="input-block__wrap">
-										<input id="i-1" type="text" name="text" placeholder="Иван">
+										<input id="i-1" type="text" name="{{ form.first_name.name }}" required placeholder="Иван">
 									</div>
 								</div>
 								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-									<label for="i-2">Ваша Фамилия<span>*</span></label>
+									<label for="i-2">Ваша Фамилия</label>
 									<div class="input-block__wrap">
-										<input id="i-2" type="text" name="text" placeholder="Иванов">
+										<input id="i-2" type="text" name="{{ form.last_name.name }}" placeholder="Иванов">
 									</div>
 								</div>
 								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-									<label for="i-3">Эмеил<span>*</span></label>
+									<label for="i-3">E-Mail<span>*</span></label>
 									<div class="input-block__wrap">
-										<input id="i-3" type="text" name="text" placeholder="mail@gmail.com">
+										<input id="i-3" type="text" name="{{ form.email.name }}" placeholder="mail@gmail.com">
 									</div>
 								</div>
 								<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-									<label for="i-4">Телефон</label>
+									<label for="i-4">Телефон<span>*</span></label>
 									<div class="input-block__wrap">
-										<input id="i-4" type="text" name="text" placeholder="+7 964-123-45-67">
+										<input id="i-4" type="text" name="{{ form.phone.name }}" placeholder="+7 964-123-45-67">
 									</div>
 								</div>
 							</div>
 							<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
 								<label for="i-5">Тема сообщения:</label>
 								<div class="input-block__wrap">
-									<select name="text" id="i-5">
-										<option value="">Я нашел баг</option>
-										<option value="">Я нашел баг</option>
-										<option value="">Я нашел баг</option>
+									<select name="{{ form.subject.name }}" id="i-5">
+										<option value="Я нашел баг">Я нашел баг</option>
+										<option value="Я не могу зарегистрироваться">Я не могу зарегистрироваться</option>
+										<option value="Проблема со ставкой">Проблема со ставкой</option>
+										<option value="Проблема с выводом">Проблема с выводом</option>
 									</select>
 								</div>
 							</div>
 							<div class="input-block" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
 								<div class="input-block__wrap">
-									<textarea name="text" placeholder="Сообщение"></textarea>
+									<textarea name="{{ form.text.name }}" placeholder="Сообщение"></textarea>
 									<p>Поля (<span>*</span>) обязательны для заполнения</p>
 								</div>
 							</div>
 							<div class="contacts-btn" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-								<button class="main-btn">Отправить</button>
+								<button type="submit" class="main-btn">Отправить</button>
 							</div>
 						</form>
 					</div>

@@ -9,8 +9,8 @@
 		{% include 'user/sidebar.html' %}
 				<div class="personalArea-content">
 				<div class="section-top">
-					<h2 class="section-title">Платежи</h2>
-					<span>Платежи</span>
+					<h2 class="section-title">Сообщения</h2>
+					<span>Сообщения</span>
 				</div>
 					<div class="operations-table">
 						<div class="operations-row operations-top">
@@ -18,43 +18,39 @@
 								<span>Время</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>Пользователь</span>
+								<span>Тема</span>
 							</div>
 							<div class="operations-col operations-col__3">
-								<span>Сумма</span>
+								<span>Промотрено?</span>
 							</div>
 							<div class="operations-col operations-col__4">
-								<span>Статус платежа</span>
+								<span></span>
 							</div>
-{#							<div class="operations-col operations-col__5">#}
-{#								<span>Статус</span>#}
+							<div class="operations-col operations-col__5">
+								<span></span>
 							</div>
 						</div>
-						   {% for pay in allPayments %}
+						   {% for msg in allMessages %}
 				    		<div class="operations-row ">
 							<div class="operations-col operations-col__1 time-col">
-								<span>{{ pay.created_at |date:'d.m.Y, H:i'}}</span>
+								<span>{{ msg.created_at |date:'d.m.Y, H:i'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
-							   <span><a style="text-decoration: underline" href="{% url 'cp_user' pay.user.id %}">{{ pay.user.first_name }} {{ pay.user.last_name }}</a> </span>
+							   <span>{{ msg.subject }} </span>
 							</div>
 							<div class="operations-col operations-col__3">
-								<span>₽ {{ pay.amount }}</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								{% if pay.status == True %}
+								{% if msg.is_open %}
 								    <img src="{% static 'img/check.svg' %}" alt="">
-                                {% elif pay.status == False %}
+                                {% else %}
                                  	<img src="{% static 'img/close.svg' %}" alt="">
                                 {% endif %}
 							</div>
-{#							<div class="operations-col operations-col__5">#}
-{#                                {% if bet.bet_result == True %}#}
-{#								    <img src="{% static 'img/check.svg' %}" alt="">#}
-{#                                {% elif bet.bet_result == False %}#}
-{#                                 	<img src="{% static 'img/close.svg' %}" alt="">#}
-{#                                {% endif %}#}
-{#							</div>#}
+							<div class="operations-col operations-col__4">
+								<span><a href="{% url 'cp_message' msg.id%}">Открыть</a></span>
+							</div>
+							<div class="operations-col operations-col__5">
+                               <span><a href="{% url 'del_message' msg.id%}">Удалить</a></span>
+							</div>
 						</div>
 					    {% endfor %}
 					</div>

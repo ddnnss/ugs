@@ -56,6 +56,16 @@ class User(AbstractUser):
         allMessages = Message.objects.filter(user=self)
         return allMessages
 
+class MessageForm(models.Model):
+    first_name = models.CharField('Имя', max_length=50, blank=True, null=True)
+    last_name = models.CharField('Фамилия', max_length=50, blank=True, null=True)
+    phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
+    email = models.CharField('EMail', max_length=50, blank=True, null=True)
+    subject = models.CharField('Тема', max_length=50, blank=True, null=True)
+    text = models.TextField('Сообщение',  blank=True, null=True)
+    is_open = models.BooleanField(default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+
 class UserCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
     yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
