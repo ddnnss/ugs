@@ -17,6 +17,7 @@
 					<h1 class="main-title">кэшбэк сервис в ставках на спорт</h1>
 					<p>Делать крупные ставки уже не так рискованно. Мы возмещаем до 50% от суммы твоего проигрыша.</p>
 					<div class="main-form">
+
 						<form action="{% url 'new_bet' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
 							<span class="main-subtitle">Загрузить скриншот</span>
 							<div class="input-block input-download">
@@ -29,11 +30,24 @@
 								</div>
 								<p>Изображение не должно превышать размер в 2мб</p>
 							</div>
+                            <span class="main-subtitle">За какую команду?</span>
+							<div class="input-block">
+								<div class="input-block__wrap input-block__wrap-row">
+									<input id="team_input" type="text" name="team">
+
+                                    <label  for="no_winner" class="main-btn no_winner_label">
+                                        <input id="no_winner" style="display: none" type="checkbox" onchange="checkW(this)" name="is_no_winner">
+                                        Ничья
+                                    </label>
+								</div>
+							</div>
 							<span class="main-subtitle">Укажите сумму перечисления</span>
 							<div class="input-block">
-								<div class="input-block__wrap">
-									<input type="number" onkeyup="checkB(this)" required name="amount">
-								</div>
+								<div class="input-block__wrap input-block__wrap-symbol">
+									<input style="text-align: center" type="number" onkeyup="checkB(this)" required name="amount">
+									<svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2V2Z" fill="#6B6B6B"/></svg>
+
+                                </div>
 							</div>
 							<button id="bet_btn" class="main-btn btn-disabled">Отправить</button>
                         </form>
@@ -252,6 +266,13 @@
             $('#bet_btn').addClass('btn-disabled')
         }
 
+    }
+    function checkW(el){
+        if (el.checked){
+            document.getElementById('team_input').setAttribute('disabled','disabled')
+        }else{
+             document.getElementById('team_input').removeAttribute('disabled')
+        }
     }
     </script>
 {% endblock %}

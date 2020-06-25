@@ -8,7 +8,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'phone', 'password1', 'password2', )
+        fields = ('email', 'first_name', 'last_name',  'password1', 'password2', )
         error_messages = {
             'email': {
                 'unique': "Указанный адрес уже кем-то используется",
@@ -23,14 +23,14 @@ class ChangeAvatar(ModelForm):
 class NewBet(ModelForm):
     class Meta:
         model = Bet
-        fields = ('amount','image')
+        fields = ('amount','image','team','is_no_winner')
         exclude = ()
 
 
 class UpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name',  'phone', 'birthday','sex')
+        fields = ('email', 'first_name', 'last_name',  'birthday','sex')
 
         error_messages = {
              'email': {

@@ -15,8 +15,13 @@
 
                         <h3 class="personalArea-title">Дата запроса:<span>{{withdrawInfo.created_at |date:'d.m.Y, H:i'}}</span></h3>
                         <h3 class="personalArea-title">Сумма запроса:<span>{{withdrawInfo.amount}}</span></h3>
-                        <h3 class="personalArea-title">Карта пользователя:<span>{{withdrawInfo.user.card_number}}</span></h3>
-                        <h3 class="personalArea-title">Яндекс кошелек пользователя:<span>{{withdrawInfo.user.yandex_wallet}}</span></h3>
+                    {% if withdrawInfo.card.card_number %}
+                         <h3 class="personalArea-title">Вывод карту:<span>{{withdrawInfo.card.card_number}}</span></h3>
+                {% else %}
+                         <h3 class="personalArea-title">Вывод на кошелек:<span>{{withdrawInfo.card.yandex_wallet}}</span></h3>
+                {% endif %}
+
+
                 {% if  withdrawInfo.status %}
                     <hr>
                         <h3 class="personalArea-title">Дата исполнения запроса:<span>{{withdrawInfo.updated_at |date:'d.m.Y, H:i'}}</span></h3>

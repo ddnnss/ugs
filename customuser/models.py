@@ -39,8 +39,6 @@ class User(AbstractUser):
     profile_ok = models.BooleanField(default=False)
     avatar = models.ImageField('Фото профиля', upload_to='avatar/', blank=True)
     balance = models.DecimalField('Баланс', decimal_places=2,max_digits=10,default=0)
-    yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
-    card_number = models.CharField('Номер карты', max_length=50, blank=True, null=True)
     sex = models.BooleanField('Пол', blank=True, null=True)
     birthday = models.DateField('ДР', blank=True, null=True)
     USERNAME_FIELD = 'email'
@@ -57,6 +55,13 @@ class User(AbstractUser):
     def get_messages(self):
         allMessages = Message.objects.filter(user=self)
         return allMessages
+
+class UserCard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
+    yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
+    card_number = models.CharField('Номер карты', max_length=50, blank=True, null=True)
+    card_vcv = models.CharField('CVC', max_length=50, blank=True, null=True)
+    card_valid = models.CharField('VALID', max_length=50, blank=True, null=True)
 
 class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
@@ -85,6 +90,8 @@ class Bet(models.Model):
     cashback = models.IntegerField('Возврат %', default=0)
     bet_result = models.BooleanField('Результат', blank=True,null=True)
     bet_result_amount = models.DecimalField('Результат сумма', decimal_places=2,max_digits=10,default=0)
+    team = models.CharField(max_length=255,null=True,blank=True)
+    is_no_winner = models.BooleanField(default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
 
     def __str__(self):
@@ -107,6 +114,7 @@ class Payment(models.Model):
 
 class Withdraw(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
+    card = models.ForeignKey(UserCard, on_delete=models.CASCADE, blank=False, null=True)
     amount = models.DecimalField('Сумма', decimal_places=2, max_digits=10, default=0)
     status = models.BooleanField('Статус платежа', default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)

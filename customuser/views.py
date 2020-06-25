@@ -51,6 +51,7 @@ def change_avatar(request):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def new_bet(request):
+    print(request.POST)
     form = NewBet(request.POST, request.FILES)
     if request.user.balance >= float(request.POST.get('amount')):
         print('balance is ok')
@@ -120,10 +121,28 @@ def profile_finance(request):
 def profile_balance(request):
     if request.user.is_authenticated:
         if request.POST:
-            Withdraw.objects.create(user=request.user, amount=float(request.POST.get('amount')))
+            if request.POST.get('amount'):
+                """запрос на вывод"""
+                Withdraw.objects.create(user=request.user,
+                                        card_id=int(request.POST.get('cid')),
+                                        amount=float(request.POST.get('amount')))
+            if request.POST.get('add_card'):
+                """запрос на добавление плтежной системы"""
+                if request.POST.get('add_card') == '0':
+                    """запрос на добавление карты"""
+                    UserCard.objects.create(user=request.user,
+                                            card_number=request.POST.get('card'),
+                                            card_valid=request.POST.get('valid'),
+                                            card_vcv=request.POST.get('cvc'))
+                if request.POST.get('add_card') == '1':
+                    """запрос на добавление кошелька"""
+                    UserCard.objects.create(user=request.user,
+                                           yandex_wallet=request.POST.get('ya'))
+
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         profilePage = True
         profile_balance = 'active'
+        cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
         return render(request, 'user/balance.html', locals())
 
 def profile_archive(request):
