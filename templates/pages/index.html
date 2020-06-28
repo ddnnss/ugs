@@ -22,11 +22,12 @@
 							<span class="main-subtitle">Загрузить скриншот</span>
 							<div class="input-block input-download">
 								<div class="input-block__wrap">
-									<input type="file" name="image" required>
-									<div class="input">10122.jpg</div>
+									<input id="img_input" type="file" name="image" required>
+									<div id="img_name" class="input"></div>
 									<span class="input-ico">
-										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10.5C21 16.3004 16.3004 21 10.5 21C4.6996 21 0 16.3004 0 10.5C0 4.6996 4.6996 0 10.5 0C16.3004 0 21 4.6996 21 10.5ZM14.9202 9.27641L11.8548 12.473V4.74194C11.8548 4.17883 11.4018 3.72581 10.8387 3.72581H10.1613C9.59819 3.72581 9.14516 4.17883 9.14516 4.74194V12.473L6.07984 9.27641C5.68609 8.86573 5.02984 8.85726 4.62762 9.25948L4.16613 9.7252C3.76815 10.1232 3.76815 10.7667 4.16613 11.1605L9.78024 16.7788C10.1782 17.1768 10.8218 17.1768 11.2155 16.7788L16.8339 11.1605C17.2319 10.7625 17.2319 10.119 16.8339 9.7252L16.3724 9.25948C15.9702 8.85726 15.3139 8.86573 14.9202 9.27641Z" fill="#6B6B6B"/></svg>
-									</span>
+										<svg id="img_arrow" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10.5C21 16.3004 16.3004 21 10.5 21C4.6996 21 0 16.3004 0 10.5C0 4.6996 4.6996 0 10.5 0C16.3004 0 21 4.6996 21 10.5ZM14.9202 9.27641L11.8548 12.473V4.74194C11.8548 4.17883 11.4018 3.72581 10.8387 3.72581H10.1613C9.59819 3.72581 9.14516 4.17883 9.14516 4.74194V12.473L6.07984 9.27641C5.68609 8.86573 5.02984 8.85726 4.62762 9.25948L4.16613 9.7252C3.76815 10.1232 3.76815 10.7667 4.16613 11.1605L9.78024 16.7788C10.1782 17.1768 10.8218 17.1768 11.2155 16.7788L16.8339 11.1605C17.2319 10.7625 17.2319 10.119 16.8339 9.7252L16.3724 9.25948C15.9702 8.85726 15.3139 8.86573 14.9202 9.27641Z" fill="#6B6B6B"/></svg>
+									    <img id="img_close" class="not-visible" onclick="fileReset()" src="{% static 'img/close.svg' %}" alt="">
+                                    </span>
 								</div>
 								<p>Изображение не должно превышать размер в 2мб</p>
 							</div>
@@ -273,6 +274,21 @@
         }else{
              document.getElementById('team_input').removeAttribute('disabled')
         }
+    }
+
+
+        $("#img_input").change(function() {
+            $('#img_name').html((this.value.split("\\").pop()))
+            document.getElementById('img_arrow').classList.add('not-visible')
+            document.getElementById('img_close').classList.remove('not-visible')
+
+        });
+
+    function fileReset() {
+         $('#img_name').html('')
+             document.getElementById('img_arrow').classList.remove('not-visible')
+            document.getElementById('img_close').classList.add('not-visible')
+            document.getElementById('img_input').value=''
     }
     </script>
 {% endblock %}
