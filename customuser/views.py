@@ -219,6 +219,7 @@ def new_payment(request):
 
 @csrf_exempt
 def pay_complete(request):
+
     req = request.POST
     try:
         payment = Payment.objects.get(id=int(req.get('label')))
@@ -233,3 +234,12 @@ def new_message(request):
     if form.is_valid():
         form.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@csrf_exempt
+def view_notify(request):
+    temp = Message.objects.filter(user=request.user)
+    if temp:
+        for i in temp:
+            i.is_viewed = True
+            i.save()
+    return JsonResponse({'status': 'ok'}, safe=False)

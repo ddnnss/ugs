@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from customuser.models import *
+from pages.models import *
 
 def users(request):
     allUsers = User.objects.filter(is_superuser=False)
@@ -88,3 +89,11 @@ def withdraw_cancel(request,id):
 def payments(request):
     allPayments = Payment.objects.all()
     return render(request, 'cp/payments.html', locals())
+
+def feedbacks(request):
+    allFeedbacks = Feedback.objects.all()
+    return render(request, 'cp/feedbacks.html', locals())
+
+def feedback(request,id):
+    feedbackInfo = Feedback.objects.get(id=id)   
+    return render(request, 'cp/feedback.html', locals())

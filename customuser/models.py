@@ -77,15 +77,17 @@ class UserCard(models.Model):
 class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
     text = models.TextField(null=True,blank=True)
+    is_viewed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-id',)
 
 def message_post_save(sender, instance, created, **kwargs):
-    msg_html = render_to_string('email/notify.html',{'text':instance.text})
-    send_mail(f'Оповещение на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
-              [instance.user.email],
-              fail_silently=False, html_message=msg_html)
+    if not instance.is_viewed:
+        msg_html = render_to_string('email/notify.html',{'text':instance.text})
+        send_mail(f'Оповещение на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+                  [instance.user.email],
+                  fail_silently=False, html_message=msg_html)
 
 class Log(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
