@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from customuser.models import *
 from pages.models import *
+from pages.forms import FeedbackForm
 
 def users(request):
     allUsers = User.objects.filter(is_superuser=False)
@@ -94,6 +95,15 @@ def feedbacks(request):
     allFeedbacks = Feedback.objects.all()
     return render(request, 'cp/feedbacks.html', locals())
 
-def feedback(request,id):
-    feedbackInfo = Feedback.objects.get(id=id)   
-    return render(request, 'cp/feedback.html', locals())
+def feedbacks_add(request):
+    if request.POST:
+        form = FeedbackForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/cp/feedbacks')
+    form = FeedbackForm()
+    return render(request, 'cp/feedbacks_add.html', locals())
+
+def feedback_del(request,id):
+    Feedback.objects.get(id=id).delete()
+    return HttpResponseRedirect('/cp/feedbacks')

@@ -1,0 +1,67 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Отзывы</h2>
+					<span>Отзывы</span>
+				</div>
+                <div style="margin-bottom: 20px">
+                    <a href="{% url 'cp_feedbacks_add' %}" class="main-btn">Добавить отзыв</a>
+                </div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1 ">
+								<span>Фото</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>Имя</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>Профессия</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Текст</span>
+							</div>
+							<div class="operations-col operations-col__5">
+								<span></span>
+							</div>
+						</div>
+						   {% for feedback in allFeedbacks %}
+				    		<div class="operations-row ">
+							<div class="operations-col operations-col__1 ">
+								 {% if feedback.avatar %}
+                                <span> <img style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;" src="{{ feedback.avatar.url }}" alt=""> </span>
+                                {% endif %}
+							</div>
+							<div class="operations-col operations-col__2">
+							   <span>{{ feedback.name }} </span>
+							</div>
+							<div class="operations-col operations-col__3">
+                               {{ feedback.profession }}
+
+							</div>
+							<div class="operations-col operations-col__4">
+								{{ feedback.text }}
+							</div>
+							<div class="operations-col operations-col__5">
+                                <span><a style="text-decoration: underline" href="{% url 'cp_feedback_del' feedback.id %}">Удалить</a></span>
+							</div>
+						</div>
+					    {% endfor %}
+					</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

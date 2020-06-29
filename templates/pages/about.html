@@ -149,104 +149,24 @@
 			</div>
 		</div>
 		<div class="testimonials-slider">
-			<div class="testimonials-slide">
+            {% for feedback in allFeedbacks %}
+			    <div class="testimonials-slide">
 				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
+					<p>{{ feedback.text }}</p>
 					<div class="testimonials-row">
+                        {% if feedback.avatar %}
 						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
+							<img src="{{ feedback.avatar.url }}" alt="">
 						</div>
+                        {% endif %}
 						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
+							<span class="testimonials-name">{{ feedback.name }}</span>
+							<span class="testimonials-prof">{{ feedback.profession }}</span>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="testimonials-slide">
-				<div class="testimonials-wrap">
-					<p>«Идейные соображения высшего порядка, а также укрепление и развитие структуры позволяет выполнять важные задания»</p>
-					<div class="testimonials-row">
-						<div class="testimonials-img">
-							<img src="img/testimonials-img.png" alt="">
-						</div>
-						<div class="testimonials-descr">
-							<span class="testimonials-name">Виктория Михайловна</span>
-							<span class="testimonials-prof">Фотограф</span>
-						</div>
-					</div>
-				</div>
-			</div>
+            {% endfor %}
 		</div>
 		<div class="testimonials-range">
 			<input type="range" id="range" min="1" value="1" step="1" class="range"/>
