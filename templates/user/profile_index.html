@@ -2,98 +2,108 @@
 {% load static %}
 
 {% block content %}
-<!-- start personalArea -->
-	<section class="personalArea">
-		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
-		<div class="wrapper">
-		{% include 'user/sidebar.html' %}
-			<div class="personalArea-content">
-				<div class="section-top">
-					<h2 class="section-title">Личный кабинет</h2>
-					<span>Личный кабинет</span>
-				</div>
-				<div class="income">
-					<div class="income-img">
-						<div class="income-ico" id="statistics5"></div>
-						<div style="display: none" class="statistics-hidden" id="statistics5-5">{{ request.user.balance }}</div>
-						<div style="display: none" class="statistics-hidden" id="procent-5">1</div>
-					</div>
-					<div class="income-info">
-						<p>Узнай подробнее, как зарабатывать на <b>UGS</b></p>
-						<div class="income-btns">
-							<a href="{% url 'index' %}#howWorks" class="main-btn">Как заработать</a>
-							<a href="{% url 'profile_balance' %}" class="second-btn">Как потратить</a>
+    <!-- start personalArea -->
+    <section class="personalArea">
+        <div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+        <div class="wrapper">
+            {% include 'user/sidebar.html' %}
+            <div class="personalArea-content">
+                <div class="section-top">
+                    <h2 class="section-title">Личный кабинет</h2>
+                    <span>Личный кабинет</span>
+                </div>
+             <div class="income">
+					<div class="income-wrap">
+						<div class="income-img">
+							<div class="income-ico" id="statistics5"></div>
+							<div class="statistics-hidden" id="statistics5-5">{{ request.user.balance }}</div>
+							<div class="statistics-hidden" id="procent-5">1</div>
+						</div>
+						<div class="income-info">
+							<p>Узнай подробнее, как зарабатывать на <b>UGS</b></p>
+							<div class="income-btns">
+								<a href="#" class="main-btn bid-btn">Зарегистрировать ставку</a>
+								<a href="{% url 'profile_balance' %}" class="second-btn">Как потратить</a>
+							</div>
 						</div>
 					</div>
+					<div class="modal-content register-bid">
+						<div class="income-modal__top"></div>
+						{% include 'pages/bet_form_inner.html' %}
+					</div>
 				</div>
-				<div class="rate">
-					<h3 class="personalArea-title">Пробить ставку</h3>
-					<p>Чтобы получать больше бонусов, пробивайте чеки ставок</p>
-					<form action="">
-						<div class="rate-form">
-							<div class="input-block">
-								<div class="input-block__wrap">
-									<input type="text" name="text" placeholder="Номер чека">
-								</div>
-							</div>
-							<button class="main-btn">Продолжить</button>
-						</div>
-					</form>
-				</div>
-				<div class="operations">
-					<h3 class="personalArea-title">Последние операции</h3>
-					<div class="operations-table">
-						<div class="operations-row operations-top">
-							<div class="operations-col operations-col__1">
-								<span>Время</span>
-							</div>
-							<div class="operations-col operations-col__2">
-								<span>Сумма операции</span>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>КЭШБЭК</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>Валюта</span>
-							</div>
-							<div class="operations-col operations-col__5">
-								<span>Статус</span>
-							</div>
-						</div>
+                <div class="rate">
+                    <h3 class="personalArea-title">Пробить ставку</h3>
+                    <p>Чтобы получать больше бонусов, пробивайте чеки ставок</p>
+                    <form action="">
+                        <div class="rate-form">
+                            <div class="input-block">
+                                <div class="input-block__wrap">
+                                    <input type="text" name="text" placeholder="Номер чека">
+                                </div>
+                            </div>
+                            <button class="main-btn">Продолжить</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="operations">
+                    <h3 class="personalArea-title">Последние операции</h3>
+                    <div class="operations-table">
+                        <div class="operations-row operations-top">
+                            <div class="operations-col operations-col__1">
+                                <span>Время</span>
+                            </div>
+                            <div class="operations-col operations-col__2">
+                                <span>Скрин/Ссылка</span>
+                            </div>
+                            <div class="operations-col operations-col__3">
+                                <span>КЭШБЭК</span>
+                            </div>
+                            <div class="operations-col operations-col__4">
+                                <span>Валюта</span>
+                            </div>
+                            <div class="operations-col operations-col__5">
+                                <span>Статус</span>
+                            </div>
+                        </div>
                         {% for bet in lastBets %}
                             {% if forloop.counter < 6 %}
-				    		<div class="operations-row">
-							<div class="operations-col operations-col__1">
-								<span>{{ bet.created_at |date:'d.m.Y'}}</span>
-							</div>
-							<div class="operations-col operations-col__2">
-                                <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
-							</div>
-							<div class="operations-col operations-col__3">
-								<span>{{ bet.cashback }}%</span>
-							</div>
-							<div class="operations-col operations-col__4">
-								<span>₽ {{ bet.bet_result_amount }}</span>
-							</div>
-							<div class="operations-col operations-col__5">
-                                {% if bet.bet_result == True %}
-								    <img src="{% static 'img/check.svg' %}" alt="">
-                                {% elif bet.bet_result == False %}
-                                 	<img src="{% static 'img/close.svg' %}" alt="">
-                                {% endif %}
-							</div>
-						</div>
+                                <div class="operations-row">
+                                    <div class="operations-col operations-col__1">
+                                        <span>{{ bet.created_at |date:'d.m.Y'}}</span>
+                                    </div>
+                                    <div class="operations-col operations-col__2">
+                                        {% if bet.image%}
+                                            <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
+                                        {% else %}
+                                            <span>{{ bet.url }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="operations-col operations-col__3">
+                                        <span>{{ bet.cashback }}%</span>
+                                    </div>
+                                    <div class="operations-col operations-col__4">
+                                        <span>₽ {{ bet.bet_result_amount }}</span>
+                                    </div>
+                                    <div class="operations-col operations-col__5">
+                                        {% if bet.bet_result == True %}
+                                            <img src="{% static 'img/check.svg' %}" alt="">
+                                        {% elif bet.bet_result == False %}
+                                            <img src="{% static 'img/close.svg' %}" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
                             {% endif %}
-					    {% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end personalArea -->
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end personalArea -->
 {% endblock %}
 
 {% block js %}
-{{ block.super }}
+    {{ block.super }}
 
 {% endblock %}

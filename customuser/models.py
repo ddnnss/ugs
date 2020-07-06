@@ -105,17 +105,25 @@ class Bet(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
     amount = models.DecimalField('Ставка', decimal_places=2,max_digits=10,default=0)
     image = models.ImageField('Фото', upload_to='bet/', blank=True)
+    url = models.CharField(max_length=255, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
     coefficient = models.DecimalField('Коэффициент ', decimal_places=2,max_digits=10,default=0)
     cashback = models.IntegerField('Возврат %', default=0)
     bet_result = models.BooleanField('Результат', blank=True,null=True)
     bet_result_amount = models.DecimalField('Результат сумма', decimal_places=2,max_digits=10,default=0)
     team = models.CharField(max_length=255,null=True,blank=True)
     is_no_winner = models.BooleanField(default=False)
+    is_complete = models.BooleanField(default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
 
     def __str__(self):
         return f'Ставка пользователя ID: {self.user.id} на сумму {self.amount}'
 
+    def get_team(self):
+        if self.is_no_winner:
+            return 'Ничья'
+        else:
+            return self.team
     class Meta:
         verbose_name = "Ставка пользователя"
         verbose_name_plural = "Ставки пользователей"
@@ -185,12 +193,17 @@ def payment_post_save(sender, instance, created, **kwargs):
 
 def bet_post_save(sender, instance, created, **kwargs):
     if created:
-        instance.user.balance -= instance.amount
-        instance.user.save()
-        BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
+        # instance.user.balance -= instance.amount
+        # instance.user.save()
+        # BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
         Log.objects.create(user=instance.user,
                            text=f'Пользователь ID:{instance.user.id} зарегистрировал ставку на сумму {instance.amount}')
     else:
+        if instance.is_complete:
+            BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
+            instance.user.balance -= instance.amount
+            instance.user.save()
+            print('money done')
         if not instance.bet_result_amount:
             if instance.bet_result == True:
                 print('win')

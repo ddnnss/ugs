@@ -23,7 +23,7 @@ class ChangeAvatar(ModelForm):
 class NewBet(ModelForm):
     class Meta:
         model = Bet
-        fields = ('amount','image','team','is_no_winner')
+        fields = ('amount','image','team','is_no_winner','url','comment')
         exclude = ()
 
 class NewMessageForm(ModelForm):

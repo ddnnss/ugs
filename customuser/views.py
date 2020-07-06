@@ -54,6 +54,7 @@ def change_avatar(request):
         form.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 def new_bet(request):
     form = NewBet(request.POST, request.FILES)
     if request.user.balance >= float(request.POST.get('amount')):
@@ -62,8 +63,30 @@ def new_bet(request):
             new_bet = form.save(commit=False)
             new_bet.user = request.user
             new_bet.save()
+            if new_bet.image:
+                response = {'id':new_bet.id,'img':new_bet.image.url.split('/')[3],'team':new_bet.get_team(),'amount':new_bet.amount}
+            else:
+                response = {'id':new_bet.id,'img': new_bet.url, 'team': new_bet.get_team(), 'amount': new_bet.amount}
+            return JsonResponse(response, safe=False)
         else:
             print('balance is bad')
+            return JsonResponse({'status': 'error'}, safe=False)
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def complete_bets(request):
+    print(request.POST)
+    bets = request.POST.get('bets').split(',')
+    print(bets)
+    for b in bets:
+        try:
+            bet = Bet.objects.get(id=int(b))
+            bet.is_complete = True
+            bet.save()
+            messages.success(request, 'Все ставки успешно зарегистрированы')
+        except:
+            messages.success(request, 'Возникла ошибка при регистрации ставок')
+            pass
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def password_recovery(request):

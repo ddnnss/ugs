@@ -8,6 +8,7 @@
     <meta name="description" content="{{ pageDescription }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{% static 'img/logo.svg' %}" type="image/x-icon">
     <!--<meta property="og:image" content="path/to/image.jpg">
     <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
@@ -134,12 +135,83 @@
 
     <script>
         {% if messages %}
-                    {% for message in messages %}
-                             var content ='{{ message }}';
-                            $.notifi(content);
-                    {% endfor %}
+            {% for message in messages %}
+                var content ='{{ message }}';
+                $.notifi(content);
+            {% endfor %}
         {% endif %}
+        let u_b = {{ request.user.balance }}
 
+
+            function checkB(el) {
+                if (el.value > 0 && u_b>=el.value){
+                    $('#bet_btn').removeClass('btn-disabled')
+                }else {
+                    $('#bet_btn').addClass('btn-disabled')
+                }
+
+            }
+        function checkW(el){
+            if (el.checked){
+                document.getElementById('team_input').setAttribute('disabled','disabled')
+            }else{
+                document.getElementById('team_input').removeAttribute('disabled')
+            }
+        }
+
+
+        $("#img_input").change(function() {
+            $('#img_name').html((this.value.split("\\").pop()))
+            document.getElementById('img_arrow').classList.add('not-visible')
+            document.getElementById('img_close').classList.remove('not-visible')
+
+        });
+
+        function fileReset() {
+            $('#img_name').html('')
+            document.getElementById('img_arrow').classList.remove('not-visible')
+            document.getElementById('img_close').classList.add('not-visible')
+            document.getElementById('img_input').value=''
+        }
+
+
+
+        let result_table = document.getElementById('result_table'),
+            bets = []
+
+        $('#bet_form').submit(function(e){
+            e.preventDefault();
+            $form = $(this)
+            var formData = new FormData(this);
+            $.ajax({
+                url: '{% url "new_bet" %}',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+
+                    console.log(response)
+                    result_table.innerHTML = result_table.innerHTML + `<div class="modal-table__row">
+						<div class="modal-table__col modal-table__col-1">${response.img}</div>
+						<div class="modal-table__col modal-table__col-2">${response.team}</div>
+						<div class="modal-table__col modal-table__col-3">
+							${response.amount}
+							<svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2V2Z" fill="#6B6B6B"/></svg>
+						</div>
+					</div>`
+                    bets.push(response.id)
+                    console.log(bets)
+                    document.getElementById('bet_form').reset()
+                    document.getElementById('img_name').innerHTML = ''
+                    document.getElementById('img_arrow').classList.remove('not-visible')
+                    document.getElementById('img_close').classList.add('not-visible')
+                    document.getElementById('bets').value=bets
+
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
 
         let email_login = document.getElementById('email_login'),
             password_login = document.getElementById('password_login'),

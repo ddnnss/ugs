@@ -53,7 +53,7 @@
 								<span>Время</span>
 							</div>
 							<div class="operations-col operations-col__2">
-								<span>Сумма операции</span>
+								<span>Скрин/Ссылка</span>
 							</div>
 							<div class="operations-col operations-col__3">
 								<span>КЭШБЭК</span>
@@ -71,7 +71,11 @@
 								<span>{{ bet.created_at |date:'d.m.Y'}}</span>
 							</div>
 							<div class="operations-col operations-col__2">
-							    <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
+							    {% if bet.image%}
+                                            <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
+                                        {% else %}
+                                            <span>{{ bet.url }}</span>
+                                        {% endif %}
 							</div>
 							<div class="operations-col operations-col__3">
 								<span>{{ bet.cashback }}%</span>

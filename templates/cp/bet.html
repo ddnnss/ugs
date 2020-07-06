@@ -15,17 +15,23 @@
                     <form action="" method="post">{% csrf_token %}
                         <h3 class="personalArea-title">Пользователь:<span>ID: {{ bet.user.id }} | <a href="{% url 'cp_user' bet.user.id %}">{{ bet.user.first_name }}{{ bet.user.last_name }}</a> </span></h3>
                         <h3 class="personalArea-title">Сумма ставки:<span>{{ bet.amount}} ₽</span></h3>
-                    {% if not bet.is_no_winner  %}
-                        <h3 class="personalArea-title">Ставка на команду:<span>{{ bet.team}}</span></h3>
-                    {% else %}
-                         <h3 class="personalArea-title">Ставка на:<span>НИЧЬЯ</span></h3>
-                    {% endif %}
+                        {% if not bet.is_no_winner  %}
+                            <h3 class="personalArea-title">Ставка на команду:<span>{{ bet.team}}</span></h3>
+                        {% else %}
+                            <h3 class="personalArea-title">Ставка на:<span>НИЧЬЯ</span></h3>
+                        {% endif %}
 
 
                         <h3 class="personalArea-title">Дата:<span>{{ bet.created_at |date:'d.m.Y, H:i'}}</span></h3>
-                        <h3 class="personalArea-title">Скриншот: <a target="_blank" href="{{ bet.image.url}}"><span>открыть</span></a></h3>
+                        {% if bet.image %}
+                            <h3 class="personalArea-title">Скриншот: <a target="_blank" href="{{ bet.image.url}}"><span>открыть</span></a></h3>
+                        {% endif %}
+                        {% if bet.url %}
+                            <h3 class="personalArea-title">Ссылка: <a target="_blank" href="{{ bet.url}}"><span>открыть</span></a></h3>
+                        {% endif %}
                         <h3 class="personalArea-title">Кешбек: <input class="admin-input" name="cb" type="number" value="{{ bet.cashback }}"> %</h3>
                         <h3 class="personalArea-title">Коэффициент: <input class="admin-input" name="cc" step="0.01" type="number" value="{{ bet.coefficient }}"></h3>
+                        <h3 class="personalArea-title">Комментарий:</h3><p>{{ bet.comment}}</p>
                         <h3 class="personalArea-title">Результат:
                             <select class="admin-select" name="result" id="i-4">
 

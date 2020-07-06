@@ -2,15 +2,17 @@
 <!-- start header -->
 <header class="header">
     <div class="wrapper">
-        <div class="header-logo">
-            <a href="{% url 'index' %}">
-                <img src="{% static 'img/logo.svg' %}" alt="">
-            </a>
-        </div>
+       <div class="header-logo">
+				<a href="#">
+					<img src="{% static 'img/logo.svg' %}" alt="кэшбэк со ставок на спорт">
+				</a>
+				<span class="logo-title">Cashback от букмекерских контор</span>
+			</div>
         <div class="header-row">
             <ul class="header-list">
                 <li><a href="{% url 'index' %}">Главная</a></li>
                 <li><a href="{% url 'about' %}">О системе</a></li>
+                <li><a href="{% url 'feedbacks' %}">Отзывы</a></li>
                 <li><a href="{% url 'contacts' %}">Контакты</a></li>
                 {% if  request.user.is_authenticated %}
                     {% if request.user.is_superuser %}
@@ -40,7 +42,7 @@
             </div>
             <div class="forms-tab forms-login" id="forms-login">
                 <div class="section-top">
-                    <h2 class="section-title">Вход</h2>
+                    <p class="section-title">Вход</p>
                     <span>Вход</span>
                 </div>
                 <form onsubmit="login(event)">
@@ -66,7 +68,7 @@
             </div>
             <div class="forms-tab forms-registration" id="forms-registration">
                 <div class="section-top">
-                    <h2 class="section-title">Регистрация</h2>
+                    <p class="section-title">Регистрация</p>
                     <span>Регистрация</span>
                 </div>
                 <form onsubmit="reg(event)">
@@ -116,7 +118,7 @@
             </div>
             <div class="forms-tab forms-recovery" id="forms-recovery">
                 <div class="section-top">
-                    <h2 class="section-title">Восстановление пароля</h2>
+                    <p class="section-title">Восстановление пароля</p>
                     <span>Восстановление пароля</span>
                 </div>
                 <form action="{% url 'password_recovery' %}" method="post">{% csrf_token %}

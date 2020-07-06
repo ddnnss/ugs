@@ -24,7 +24,7 @@ def user(request,id):
     return render(request, 'cp/user.html', locals())
 
 def bets(request):
-    allBets = Bet.objects.all().order_by('-id')
+    allBets = Bet.objects.filter(is_complete=True).order_by('-id')
     return render(request, 'cp/bets.html', locals())
 
 def bet(request,id):

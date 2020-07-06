@@ -1,0 +1,48 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start about -->
+<!-- start testimonials -->
+	<section class="testimonials testimonials-second">
+		<div class="wrapper">
+			<div class="testimonials-info" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+				<div class="section-top">
+					<h2 class="section-title">Отзывы</h2>
+					<span>Отзывы</span>
+				</div>
+				<p>На UGS игроки всегда в плюсе, даже когда они проигрывают. Наш простой и прозрачный сервис еще никого не оставлял недовольным.</p>
+				<p>Ниже представлены отзывы от самых ярых игроков, которые всегда играют на крупные суммы. </p>
+			</div>
+		</div>
+		<div class="testimonials-slider">
+            {% for feedback in allFeedbacks %}
+			    <div class="testimonials-slide">
+				<div class="testimonials-wrap">
+					<p>{{ feedback.text }}</p>
+					<div class="testimonials-row">
+                        {% if feedback.avatar %}
+						<div class="testimonials-img">
+							<img src="{{ feedback.avatar.url }}" alt="">
+						</div>
+                        {% endif %}
+						<div class="testimonials-descr">
+							<span class="testimonials-name">{{ feedback.name }}</span>
+							<span class="testimonials-prof">{{ feedback.profession }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+            {% endfor %}
+		</div>
+		<div class="testimonials-range">
+			<input type="range" id="range" min="1" value="1" step="1" class="range"/>
+		</div>
+	</section>
+	<!-- end testimonials -->
+
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}
