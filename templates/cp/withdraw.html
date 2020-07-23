@@ -17,8 +17,12 @@
                         <h3 class="personalArea-title">Сумма запроса:<span>{{withdrawInfo.amount}}</span></h3>
                     {% if withdrawInfo.card.card_number %}
                          <h3 class="personalArea-title">Вывод карту:<span>{{withdrawInfo.card.card_number}}</span></h3>
-                {% else %}
-                         <h3 class="personalArea-title">Вывод на кошелек:<span>{{withdrawInfo.card.yandex_wallet}}</span></h3>
+                {% elif withdrawInfo.card.yandex_wallet %}
+                         <h3 class="personalArea-title">Вывод на Яндекс кошелек:<span>{{withdrawInfo.card.yandex_wallet}}</span></h3>
+                        {% elif withdrawInfo.card.qiwi_wallet %}
+                         <h3 class="personalArea-title">Вывод на QIWI кошелек:<span>{{withdrawInfo.card.qiwi_wallet}}</span></h3>
+                        {% elif withdrawInfo.card.webmoney_wallet %}
+                         <h3 class="personalArea-title">Вывод на WebMoney кошелек:<span>{{withdrawInfo.card.webmoney_wallet}}</span></h3>
                 {% endif %}
 
 

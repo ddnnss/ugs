@@ -131,7 +131,10 @@
 			<div class="attention-info">
 				<h2 class="attention-title">Получайте бесконечные кэшбеки</h2>
 				<p>Мы возвращаем тебе до 50% от каждого проигрыша вне зависимости от количества и суммы твоих выигрышей</p>
-				<a href="#" class="main-btn">Регистрация</a>
+				    {% if not request.user.is_authenticated %}
+
+                       <a href="#forms-registration" class="modal-btn main-btn">Регистрация</a>
+                    {% endif %}
 			</div>
 		</div>
 	</section>

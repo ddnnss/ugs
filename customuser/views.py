@@ -1,8 +1,9 @@
 import json
+import logging
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib import messages
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.contrib.auth import login, logout,authenticate
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -10,9 +11,19 @@ from random import choices
 import string
 from .forms import *
 from customuser.models import *
+import settings
+import uuid
+import requests
+from django.utils.http import urlquote
 
 from django.http import JsonResponse, HttpResponseRedirect
 
+logger = logging.getLogger('django', )
+
+def print_log(text):
+    logger.info('--------------------------------------------')
+    logger.info(f'{datetime.now()} | {text}')
+    logger.info('---------------------------------------------')
 
 def login_req(request):
     request_unicode = request.body.decode('utf-8')
@@ -170,6 +181,7 @@ def profile_finance(request):
 def profile_balance(request):
     if request.user.is_authenticated:
         if request.POST:
+            print(request.POST)
             if request.POST.get('amount'):
                 """запрос на вывод"""
                 Withdraw.objects.create(user=request.user,
@@ -185,14 +197,26 @@ def profile_balance(request):
                                             card_valid=request.POST.get('valid'),
                                             card_vcv=request.POST.get('cvc'))
                 if request.POST.get('add_card') == '1':
-                    """запрос на добавление кошелька"""
+                    """запрос на добавление ya кошелька"""
                     UserCard.objects.create(user=request.user,
                                            yandex_wallet=request.POST.get('ya'))
+                if request.POST.get('add_card') == '2':
+                    """запрос на добавление qiwi кошелька"""
+                    UserCard.objects.create(user=request.user,
+                                            qiwi_wallet=request.POST.get('qw'))
+                if request.POST.get('add_card') == '3':
+                    """запрос на добавление webmoney кошелька"""
+                    UserCard.objects.create(user=request.user,
+                                            webmoney_wallet=request.POST.get('wm'))
+            if request.POST.get('remove_card'):
+                UserCard.objects.get(user=request.user,id=request.POST.get('remove_card')).delete()
+
 
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         profilePage = True
         profile_balance = 'active'
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
+        ya_wallet = settings.YA_WALLET
         pageTitle = 'Личный кабинет | UGS'
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/balance.html', locals())
@@ -232,12 +256,58 @@ def profile_archive(request):
         return render(request, 'user/arhive.html', locals())
 
 def new_payment(request):
+    print((datetime.now()+timedelta(hours=3)).strftime('%Y-%m-%dT%H:%M:%S+03:00'))
     request_unicode = request.body.decode('utf-8')
     request_body = json.loads(request_unicode)
-
-    new_pay = Payment.objects.create(user=request.user,amount=float(request_body['amount']))
+    print(request_body)
+    p_id = uuid.uuid4()
+    if request_body['card_id'] != 0:
+        card = UserCard.objects.get(id=request_body['card_id'])
+    else:
+        card = None
+    new_pay = Payment.objects.create(user=request.user,
+                                     card=card,
+                                     payment_id=p_id,
+                                     amount=float(request_body['amount'])
+                                     )
     new_pay.save()
-    return JsonResponse({'status': 'ok', 'p_id': new_pay.id}, safe=False)
+    if request_body['pay_type'] == 'yandex':
+        return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
+    if request_body['pay_type'] == 'qiwi':
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": f'Bearer {settings.QIWI_SECRET}'
+        }
+        data ={
+            "amount": {
+                "currency": "RUB",
+                "value": f'{"{:.2f}".format(round(float(request_body["amount"]), 2))}'
+            },
+            "comment": f'Пополнение счета {request.user.first_name} {request.user.last_name}. Номер : {new_pay.id}',
+            "expirationDateTime": f"{(datetime.now()+timedelta(hours=3)).strftime('%Y-%m-%dT%H:%M:%S+03:00')}",
+            "customer": {
+
+                    'phone': UserCard.objects.get(id=request_body['card_id']).qiwi_wallet,
+                    'email': request.user.email,
+                    'account': request.user.id,
+
+
+            },
+
+            "customFields": {},
+            }
+        respond = requests.put(f'https://api.qiwi.com/partner/bill/v1/bills/{new_pay.id}', headers=headers,data=json.dumps(data))
+        print(respond.json())
+        pay_url = respond.json()['payUrl']
+        return_url = urlquote(u'{}'.format(settings.QIWI_SUCCES_URL))
+        full_url= f'{pay_url}&paySource=qw&allowedPaySources=qw&successUrl={return_url}'
+        return JsonResponse({'pay_url':full_url,'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
+
+
+
+
+
 
 
 @csrf_exempt
@@ -250,6 +320,20 @@ def pay_complete(request):
         payment.save()
     except:
         pass
+    return JsonResponse({'status': 'ok'}, safe=False)\
+
+@csrf_exempt
+def pay_qiwi_complete(request):
+    print_log(request.GET)
+    print_log(request.POST)
+
+    # req = request.POST
+    # try:
+    #     payment = Payment.objects.get(id=int(req.get('label')))
+    #     payment.status = True
+    #     payment.save()
+    # except:
+    #     pass
     return JsonResponse({'status': 'ok'}, safe=False)
 
 def new_message(request):

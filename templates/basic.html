@@ -325,6 +325,43 @@
 
 
     </script>
+      <script>
+        function pay_request(e,form,pay_type,card_id) {
+            e.preventDefault()
+
+            console.log('pay',pay_type,card_id,$('#amount_1').val())
+            let body = {
+                'amount':$('#amount_1').val(),
+                'pay_type':pay_type,
+                'card_id':card_id
+
+            }
+            fetch('{% url 'new_payment' %}', {
+                method: 'post',
+                body: JSON.stringify(body),
+                headers: { "X-CSRFToken": '{{ csrf_token }}' },
+                credentials: 'same-origin'
+            }).then(res=>res.json())
+                .then(res => {
+                    console.log(res)
+                    if(res['status']==='ok'){
+                        if(res['pay_type'] === 'yandex'){
+                            console.log('ya-pay')
+                               $('#label_1').val(res['p_id'])
+                           // document.getElementById(form).submit()
+                        }
+                        if(res['pay_type'] === 'qiwi'){
+                            console.log('ya-"qiwi"')
+                              window.location.href=res['pay_url']
+                           // document.getElementById(form).submit()
+                        }
+
+                    }
+
+                })
+
+        }
+    </script>
 
 {% endblock %}
 

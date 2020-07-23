@@ -12,6 +12,7 @@ urlpatterns = [
    path('new_payment/', views.new_payment, name='new_payment'),
    path('new_message/', views.new_message, name='new_message'),
    path('pay_complete/', views.pay_complete, name='pay_complete'),
+   path('pay_qiwi_complete/', views.pay_qiwi_complete, name='pay_qiwi_complete'),
    path('login_req/', views.login_req, name='login_req'),
    path('view_notify/', views.view_notify, name='view_notify'),
    path('profile/', views.profile_index, name='profile_index'),

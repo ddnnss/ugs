@@ -134,6 +134,40 @@
                                         </div>
                                     </form>
                                 </div>
+                                <div class="private-block">
+                                    <p>Ваш Яндекс кошелек</p>
+                                    <form action="" method="post">{% csrf_token %}
+                                        <div class="private-form">
+                                            <div class="input-block">
+                                                <div class="input-block__wrap">
+                                                    <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
+                                                    <div class="input-ico">
+                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="add_card" value="2">
+                                            <button type="submit" class="main-btn">Привязать</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="private-block">
+                                    <p>Ваш Яндекс кошелек</p>
+                                    <form action="" method="post">{% csrf_token %}
+                                        <div class="private-form">
+                                            <div class="input-block">
+                                                <div class="input-block__wrap">
+                                                    <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
+                                                    <div class="input-ico">
+                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="add_card" value="3">
+                                            <button type="submit" class="main-btn">Привязать</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,30 +259,5 @@
 {% block js %}
     {{ block.super }}
 
-    <script>
-        function pay_request(e,form) {
-            e.preventDefault()
 
-            console.log('pay')
-            let body = {
-                'amount':$('#amount_1').val(),
-
-            }
-            fetch('{% url 'new_payment' %}', {
-                method: 'post',
-                body: JSON.stringify(body),
-                headers: { "X-CSRFToken": '{{ csrf_token }}' },
-                credentials: 'same-origin'
-            }).then(res=>res.json())
-                .then(res => {
-                    console.log(res)
-                    if(res['status']==='ok'){
-                        $('#label_1').val(res['p_id'])
-                        form.submit()
-                    }
-
-                })
-
-        }
-    </script>
 {% endblock %}

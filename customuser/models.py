@@ -70,6 +70,8 @@ class MessageForm(models.Model):
 class UserCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
     yandex_wallet = models.CharField('Кошелек ЯД', max_length=50, blank=True, null=True)
+    qiwi_wallet = models.CharField('Кошелек Qiwi', max_length=50, blank=True, null=True)
+    webmoney_wallet = models.CharField('Кошелек Webmonye', max_length=50, blank=True, null=True)
     card_number = models.CharField('Номер карты', max_length=50, blank=True, null=True)
     card_vcv = models.CharField('CVC', max_length=50, blank=True, null=True)
     card_valid = models.CharField('VALID', max_length=50, blank=True, null=True)
@@ -131,7 +133,10 @@ class Bet(models.Model):
 
 
 class Payment(models.Model):
+    payment_id=models.CharField(max_length=255,null=True,blank=True)
+    payment_url=models.TextField(null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
+    card = models.ForeignKey(UserCard,on_delete=models.CASCADE,blank=True,null=True)
     amount = models.DecimalField('Сумма', decimal_places=2,max_digits=10,default=0)
     status = models.BooleanField('Статус платежа',default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
