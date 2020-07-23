@@ -217,6 +217,7 @@ def profile_balance(request):
         profile_balance = 'active'
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
         ya_wallet = settings.YA_WALLET
+        success_url = settings.SUCCES_URL
         pageTitle = 'Личный кабинет | UGS'
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/balance.html', locals())
@@ -300,7 +301,7 @@ def new_payment(request):
         respond = requests.put(f'https://api.qiwi.com/partner/bill/v1/bills/{new_pay.id}', headers=headers,data=json.dumps(data))
         print(respond.json())
         pay_url = respond.json()['payUrl']
-        return_url = urlquote(u'{}'.format(settings.QIWI_SUCCES_URL))
+        return_url = urlquote(u'{}'.format(settings.SUCCES_URL))
         full_url= f'{pay_url}&paySource=qw&allowedPaySources=qw&successUrl={return_url}'
         return JsonResponse({'pay_url':full_url,'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
 
