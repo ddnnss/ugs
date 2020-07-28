@@ -23,6 +23,11 @@ EMAIL_USE_TLS = True
 SOCIAL_AUTH_VK_OAUTH2_KEY = settings.VK_CLIENT_ID
 SOCIAL_AUTH_VK_OAUTH2_SECRET = settings.VK_CLIENT_SECRET
 
+"""mail ru setings"""
+SOCIAL_AUTH_MAILRU_OAUTH2_KEY = settings.MAIL_ID
+SOCIAL_AUTH_MAILRU_OAUTH2_SECRET = settings.MAIL_SECRET
+
+
 LOGIN_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
@@ -52,6 +57,7 @@ LOGGING = {
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.mailru.MailruOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
