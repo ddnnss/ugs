@@ -27,6 +27,8 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = settings.VK_CLIENT_SECRET
 SOCIAL_AUTH_MAILRU_OAUTH2_KEY = settings.MAIL_ID
 SOCIAL_AUTH_MAILRU_OAUTH2_SECRET = settings.MAIL_SECRET
 
+SOCIAL_AUTH_FACEBOOK_KEY = settings.FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = settings.FACEBOOK_SECRET
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -58,6 +60,7 @@ LOGGING = {
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'social_core.backends.mailru.MailruOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
