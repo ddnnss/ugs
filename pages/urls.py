@@ -8,5 +8,6 @@ urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path('feedbacks/', views.feedbacks, name='feedbacks'),
     path('robots.txt', views.robots, name='robots'),
+    path('receiver.html', views.receiver, name='receiver'),
 
 ]

@@ -27,8 +27,8 @@
 								<span>Статус платежа</span>
 							</div>
 {#							<div class="operations-col operations-col__5">#}
-{#								<span>Статус</span>#}
-							</div>
+{#								<span>Платежная система</span>#}
+{#							</div>#}
 						</div>
 						   {% for pay in allPayments %}
 				    		<div class="operations-row ">
@@ -49,7 +49,7 @@
                                 {% endif %}
 							</div>
 {#							<div class="operations-col operations-col__5">#}
-{#                                {% if bet.bet_result == True %}#}
+{#                                {% if pay.bet_result == True %}#}
 {#								    <img src="{% static 'img/check.svg' %}" alt="">#}
 {#                                {% elif bet.bet_result == False %}#}
 {#                                 	<img src="{% static 'img/close.svg' %}" alt="">#}

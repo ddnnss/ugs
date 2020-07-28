@@ -20,6 +20,14 @@ EMAIL_HOST_PASSWORD = settings.SMTP_PASSWORD
 EMAIL_PORT = settings.SMTP_PORT
 EMAIL_USE_TLS = True
 
+SOCIAL_AUTH_VK_OAUTH2_KEY = settings.VK_CLIENT_ID
+SOCIAL_AUTH_VK_OAUTH2_SECRET = settings.VK_CLIENT_SECRET
+
+LOGIN_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
 
@@ -42,6 +50,11 @@ LOGGING = {
     },
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
 INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.admin',
@@ -50,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'pages',
     'customuser',
     'cp'

@@ -32,145 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="lkCard">
-                        <div class="score">
-                            <div class="score-wrap">
-                                <form  id="pay_form_1" action="https://money.yandex.ru/quickpay/confirm.xml" method="post" onsubmit="pay_request(event,this)">
-
-                                    <div class="private-block private-block__small">
-                                        <p>Сумма пополнения</p>
-                                        <div class="input-block">
-                                            <div  class="input-block__wrap">
-                                                <input id="amount_1" required name="sum" value=""  data-type="number" type="number" >
-                                                <div class="input-ico">
-                                                    <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2Z" fill="#6B6B6B"/></svg>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <input type="hidden" name="receiver" value="4100110883820369">
-                                    <input type="hidden" name="quickpay-form" value="shop">
-                                    <input type="hidden" name="targets"
-                                           value="Пополнение баланса пользователя {{ request.user.first_name }} {{ request.user.last_name }}">
-                                    <input type="hidden" name="paymentType" value="AC">
-                                    <input id="label_1" type="hidden" name="label" value="">
-                                    <input type="hidden" name="successURL" value="https://ugscash.ru/user/profile/finance?pay_complete=!">
-
-
-
-                                    <div class="lkCard-private">
-                                        <div class="private-top">
-                                            <div class="private-wrap">
-                                                <span class="private-title">Ваша привязанная карта</span>
-                                                <span class="private-num">1424 **** **** 1934</span>
-                                                <span class="private-date">04/22</span>
-                                                <span class="private-name">
-												VLADIMIR FYODOROVICH
-												<img src="img/visa-2-1.svg" alt="">
-											</span>
-                                            </div>
-                                            <div class="private-btns">
-                                                <button type="submit" class="main-btn">Пополнить баланс</button>
-
-                                                <a href="#" class="second-btn">Отвязать карту</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="private-block">
-                                    <p>Привязать карту</p>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <div class="private-form">
-                                            <div class="input-block">
-                                                <div class="input-block__wrap">
-                                                    <input type="text" id="card_mask" name="card" required placeholder="0000 0000 0000 0000">
-                                                    <div class="input-ico">
-                                                        {#												<img src="img/visa.svg" alt="">#}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="score-wrap__all">
-                                            <div class="score-wrap__row">
-                                                <div class="score-wrap__col score-wrap__col-1">
-                                                    <div class="input-block">
-                                                        <div class="input-block__wrap">
-                                                            <span class="score-wrap__text">VALID THRU</span>
-                                                            <input type="text" id="valid_mask" name="valid" required placeholder="00/00">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="score-wrap__col score-wrap__col-2">
-                                                    <div class="input-block">
-                                                        <div class="input-block__wrap">
-                                                            <input type="text" id="cvc_mask" name="cvc" required maxlength="3" placeholder="CVC">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" name="add_card" value="0">
-                                                <div class="score-wrap__col score-wrap__col-3">
-                                                    <button type="submit" class="main-btn">Привязать</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="private-block">
-                                    <p>Ваш Яндекс кошелек</p>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <div class="private-form">
-                                            <div class="input-block">
-                                                <div class="input-block__wrap">
-                                                    <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
-                                                    <div class="input-ico">
-                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="add_card" value="1">
-                                            <button type="submit" class="main-btn">Привязать</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="private-block">
-                                    <p>Ваш Яндекс кошелек</p>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <div class="private-form">
-                                            <div class="input-block">
-                                                <div class="input-block__wrap">
-                                                    <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
-                                                    <div class="input-ico">
-                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="add_card" value="2">
-                                            <button type="submit" class="main-btn">Привязать</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="private-block">
-                                    <p>Ваш Яндекс кошелек</p>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <div class="private-form">
-                                            <div class="input-block">
-                                                <div class="input-block__wrap">
-                                                    <input type="text" id="ya_mask" name="ya" required placeholder="124512487945124">
-                                                    <div class="input-ico">
-                                                        <img src="{% static 'img/yandex.svg' %}" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="add_card" value="3">
-                                            <button type="submit" class="main-btn">Привязать</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   {% include 'user/add_to_balance_form.html' %}
                 </div>
                 <div class="operations operations-second">
                     <div class="period">
@@ -178,79 +40,127 @@
                             <div class="period-row">
                                 <div class="period-col">
                                     <p>Период времени</p>
-                                    <div class="input-block">
-                                        <select name="time">
-                                            <option {% if time_filter == 'all' %}selected{% endif %} value="all">За весь период</option>
-                                            <option {% if time_filter == 'c_m' %}selected{% endif %} value="c_m">Текущий месяц</option>
-                                            <option {% if time_filter == 'l_m' %}selected{% endif %} value="l_m">Прошлый месяц</option>
-                                        </select>
+                                    <div class="input-block select-input">
+                                        <div class="select">
+                                            <div class="select-main">
+                                                {% if time_filter == 'all' or not time_filter %}<div class="select-text">За весь период</div>{% endif %}
+                                                {% if time_filter == 'c_m' %}<div class="select-text">Текущий месяц</div>{% endif %}
+                                                {% if time_filter == 'l_m' %}<div class="select-text">Прошлый месяц</div>{% endif %}
+                                                <div class="input-icon">
+                                                    <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325656L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#1B1B1B"/></svg>
+                                                </div>
+                                            </div>
+                                            <div class="select-info">
+                                                <ul>
+                                                    <li data-value="all">За весь период</li>
+                                                    <li data-value="c_m">Текущий месяц</li>
+                                                    <li data-value="l_m">Прошлый месяц</li>
+                                                </ul>
+                                            </div>
+                                            {% if time_filter == 'all' or not time_filter %}<input type="text" name="time" class="select-value" value="all">{% endif %}
+                                            {% if time_filter == 'c_m' %}<input type="text" name="time" class="select-value" value="c_m">{% endif %}
+                                            {% if time_filter == 'l_m' %}<input type="text" name="time" class="select-value" value="l_m">{% endif %}
+
                                     </div>
                                 </div>
-                                <div class="period-col">
-                                    <p>Сумма операции</p>
-                                    <div class="input-block">
-                                        <select name="summ">
-                                            <option {% if summ_filter == 'all' %}selected{% endif %} value="all">Все операции</option>
-                                            <option {% if summ_filter == 100 %}selected{% endif %} value="100">от 100 руб</option>
-                                            <option {% if summ_filter == 300 %}selected{% endif %} value="300">от 300 руб</option>
-                                            <option {% if summ_filter == 500 %}selected{% endif %} value="500">от 500 руб</option>
-                                            <option {% if summ_filter == 1000 %}selected{% endif %} value="1000">от 1000 руб</option>
-                                            <option {% if summ_filter == 5000 %}selected{% endif %} value="5000">от 5000 руб</option>
-                                            <option {% if summ_filter == 10000 %}selected{% endif %} value="100000">от 100000 руб</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="period-col">
-                                    <p></p>
-                                    <button class="main-btn">Применить</button>
-                                </div>
+{#                                <div class="input-block">#}
+{#                                    <select name="time">#}
+{#                                        <option {% if time_filter == 'all' %}selected{% endif %} value="all">За весь период</option>#}
+{#                                        <option {% if time_filter == 'c_m' %}selected{% endif %} value="c_m">Текущий месяц</option>#}
+{#                                        <option {% if time_filter == 'l_m' %}selected{% endif %} value="l_m">Прошлый месяц</option>#}
+{#                                    </select>#}
+{#                                </div>#}
                             </div>
-                        </form>
+                            <div class="period-col">
+                                <p>Сумма операции</p>
+                             <div class="input-block select-input">
+                                        <div class="select">
+                                            <div class="select-main">
+                                                {% if summ_filter == 'all' or not summ_filter %}<div class="select-text">Все операции</div>{% endif %}
+                                                {% if summ_filter == 100 %}<div class="select-text">от 100 руб</div>{% endif %}
+                                                {% if summ_filter == 300 %}<div class="select-text">от 300 руб</div>{% endif %}
+                                                {% if summ_filter == 500 %}<div class="select-text">от 500 руб</div>{% endif %}
+                                                {% if summ_filter == 1000 %}<div class="select-text">от 1000 руб</div>{% endif %}
+                                                {% if summ_filter == 5000 %}<div class="select-text">от 5000 руб</div>{% endif %}
+                                                {% if summ_filter == 10000 %}<div class="select-text">от 10000 руб</div>{% endif %}
+
+                                                <div class="input-icon">
+                                                    <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.381653 2.25084C0.17426 2.05294 0.175367 1.72156 0.384077 1.52505L1.65814 0.325514C1.8519 0.143086 2.1546 0.144398 2.34678 0.328499L8.15679 5.89449C8.35024 6.07981 8.65537 6.07975 8.84873 5.89434L14.6532 0.328791C14.8454 0.144548 15.1482 0.14317 15.342 0.325656L16.6161 1.52517C16.8247 1.72163 16.8259 2.05293 16.6186 2.25084L8.84801 9.67042C8.65483 9.85487 8.35079 9.85492 8.15755 9.67053L0.381653 2.25084Z" fill="#1B1B1B"/></svg>
+                                                </div>
+                                            </div>
+                                            <div class="select-info">
+                                                <ul>
+                                                    <li data-value="all">Все операции</li>
+                                                    <li data-value="100">от 100 руб</li>
+                                                    <li data-value="300">от 300 руб</li>
+                                                    <li data-value="500">от 500 руб</li>
+                                                    <li data-value="1000">от 1000 руб</li>
+                                                    <li data-value="5000">от 5000 руб</li>
+                                                    <li data-value="10000">от 10000 руб</li>
+                                                </ul>
+                                            </div>
+                                            {% if summ_filter == 'all' or not summ_filter %}<input type="text" name="summ" class="select-value" value="all">{% endif %}
+                                            {% if summ_filter == 100 %}<input type="text" name="summ" class="select-value" value="100">{% endif %}
+                                            {% if summ_filter == 300 %}<input type="text" name="summ" class="select-value" value="300">{% endif %}
+                                            {% if summ_filter == 500 %}<input type="text" name="summ" class="select-value" value="500">{% endif %}
+                                            {% if summ_filter == 1000 %}<input type="text" name="summ" class="select-value" value="1000">{% endif %}
+                                            {% if summ_filter == 5000 %}<input type="text" name="summ" class="select-value" value="5000">{% endif %}
+                                            {% if summ_filter == 10000 %}<input type="text" name="summ" class="select-value" value="10000">{% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="period-col">
+                                <p></p>
+                                <button class="main-btn">Применить</button>
+                            </div>
                     </div>
-                    <div class="operations-table">
-                        <div class="operations-row operations-top">
-                            <div  class="operations-col operations-col__1">
-                                <span>Время</span>
+                    </form>
+                </div>
+                <div class="operations-table">
+                    <div class="operations-row operations-top">
+                        <div  class="operations-col operations-col__1">
+                            <span>Время</span>
+                        </div>
+                        <div class="operations-col operations-col__2">
+                            <span>Сумма</span>
+                        </div>
+                        {#							<div class="operations-col operations-col__3">#}
+                        {#								<span>КЭШБЭК</span>#}
+                        {#							</div>#}
+                        {#							<div class="operations-col operations-col__4">#}
+                        {#								<span>Валюта</span>#}
+                        {#							</div>#}
+                        <div class="operations-col operations-col__5">
+                            <span>Статус</span>
+                        </div>
+                    </div>
+                    {% for pay in allPayments %}
+                        <div class="operations-row">
+                            <div class="operations-col operations-col__1">
+                                <span>{{ pay.created_at |date:'d.m.Y'}}</span>
                             </div>
                             <div class="operations-col operations-col__2">
-                                <span>Сумма</span>
+                                <span>₽ {{ pay.amount }}</span>
                             </div>
                             {#							<div class="operations-col operations-col__3">#}
-                            {#								<span>КЭШБЭК</span>#}
+                            {#								<span>2%</span>#}
                             {#							</div>#}
                             {#							<div class="operations-col operations-col__4">#}
-                            {#								<span>Валюта</span>#}
+                            {#								<span>₽ 20</span>#}
                             {#							</div>#}
                             <div class="operations-col operations-col__5">
-                                <span>Статус</span>
+                                {% if pay.status %}
+                                    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% else %}
+                                    <img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
                             </div>
                         </div>
-                        {% for pay in allPayments %}
-                            <div class="operations-row">
-                                <div class="operations-col operations-col__1">
-                                    <span>{{ pay.created_at |date:'d.m.Y'}}</span>
-                                </div>
-                                <div class="operations-col operations-col__2">
-                                    <span>₽ {{ pay.amount }}</span>
-                                </div>
-                                {#							<div class="operations-col operations-col__3">#}
-                                {#								<span>2%</span>#}
-                                {#							</div>#}
-                                {#							<div class="operations-col operations-col__4">#}
-                                {#								<span>₽ 20</span>#}
-                                {#							</div>#}
-                                <div class="operations-col operations-col__5">
-                                    {% if pay.status %}
-                                        <img src="{% static 'img/check.svg' %}" alt="">
-                                    {% else %}
-                                        <img src="{% static 'img/close.svg' %}" alt="">
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <!-- end personalArea -->

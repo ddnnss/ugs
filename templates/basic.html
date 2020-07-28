@@ -17,102 +17,11 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/notifi.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <meta name="theme-color" content="#000">
     <meta name="msapplication-navbutton-color" content="#000">
     <meta name="apple-mobile-web-app-status-bar-style" content="#000">
-    <style>
-        .statistics-hidden{
-            display: none;
-        }
-        #team_input:disabled{
-            opacity: .8;
-            cursor: not-allowed;
-        }
 
-        .no_winner_label{
-
-            height: 60px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-        .color-red{
-            color: red;
-            font-size: 13px;
-        }
-        .not-visible{
-            display: none;
-        }
-        .form-error{
-            margin-bottom: 20px;
-        }
-        .faq-second{
-            opacity: 0 !important;
-            min-height: 0;
-            height: 0;
-        }
-        .bet-image{
-            font-size: 16px;
-            line-height: 1.4;
-            color: #1b1b1b;
-            text-decoration: underline;
-        }
-        .btn-disabled{
-            opacity: .8;
-            pointer-events: none;
-        }
-        .admin-row:hover{
-            cursor: pointer;
-            background: #c4c4c4;
-        }
-        .time-col{
-            width: 235px;
-            min-width: 235px;
-        }
-        .admin-input{
-            display: inline-block;
-            width: 200px;
-            text-align: center;
-            height: 40px;
-            border: none;
-            background-color: #f8f8f8;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            padding: 0 23px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #1b1b1b;
-        }
-        .admin-select{
-            display: inline-block;
-            width: 200px;
-            height: 40px;
-            border: none;
-            background-color: #f8f8f8;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            padding: 0 23px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #1b1b1b;
-        }
-        .header{z-index: 90 !important;}
-        .not-visible{
-            display: none !important;
-        }
-    </style>
 </head>
 <body>
 {% if request.user.is_authenticated %}
@@ -134,6 +43,7 @@
 
 
     <script>
+
         {% if messages %}
             {% for message in messages %}
                 var content ='{{ message }}';
@@ -348,12 +258,19 @@
                         if(res['pay_type'] === 'yandex'){
                             console.log('ya-pay')
                                $('#label_1').val(res['p_id'])
-                           // document.getElementById(form).submit()
+                               $('#ya_sum').val($('#amount_1').val())
+                            document.getElementById(form).submit()
+                        }
+                        if(res['pay_type'] === 'webmoney'){
+                            console.log('ya-pay')
+                               $('#wm_id').val(res['p_id'])
+                               $('#wm_sum').val($('#amount_1').val())
+                            document.getElementById(form).submit()
                         }
                         if(res['pay_type'] === 'qiwi'){
                             console.log('ya-"qiwi"')
                               window.location.href=res['pay_url']
-                           // document.getElementById(form).submit()
+
                         }
 
                     }

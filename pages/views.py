@@ -39,3 +39,7 @@ def customhandler404(request, exception, template_name='404.html'):
     pageTitle = 'UGS | Ошибка 404 | КЭШБЭК СЕРВИС В СТАВКАХ НА СПОРТ'
     pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
     return render(request, 'pages/404.html', None,None,status=404)
+
+
+def receiver(request):
+    return render(request, 'pages/receiver.html', locals())

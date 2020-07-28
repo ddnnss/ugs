@@ -1,5 +1,5 @@
 import json
-import logging
+
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib import messages
@@ -15,15 +15,14 @@ import settings
 import uuid
 import requests
 from django.utils.http import urlquote
-
 from django.http import JsonResponse, HttpResponseRedirect
+from .services import check_qiwi,print_log
 
-logger = logging.getLogger('django', )
 
-def print_log(text):
-    logger.info('--------------------------------------------')
-    logger.info(f'{datetime.now()} | {text}')
-    logger.info('---------------------------------------------')
+
+
+
+
 
 def login_req(request):
     request_unicode = request.body.decode('utf-8')
@@ -59,6 +58,7 @@ def logout_page(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+
 def change_avatar(request):
     form = ChangeAvatar(request.POST, request.FILES, instance=request.user)
     if form.is_valid():
@@ -84,6 +84,7 @@ def new_bet(request):
             return JsonResponse({'status': 'error'}, safe=False)
     # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 def complete_bets(request):
     print(request.POST)
     bets = request.POST.get('bets').split(',')
@@ -97,8 +98,8 @@ def complete_bets(request):
         except:
             messages.success(request, 'Возникла ошибка при регистрации ставок')
             pass
-
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 def password_recovery(request):
     if request.POST:
@@ -117,6 +118,8 @@ def password_recovery(request):
             messages.success(request, 'Проверьте введенные данные')
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def profile_index(request):
     if request.user.is_authenticated:
         profilePage = True
@@ -125,6 +128,7 @@ def profile_index(request):
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         lastBets = Bet.objects.filter(user=request.user).order_by('-created_at')
         return render(request, 'user/profile_index.html', locals())
+
 
 def profile_edit(request):
     if request.user.is_authenticated:
@@ -138,8 +142,10 @@ def profile_edit(request):
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         profilePage = True
         profile_edit = 'active'
+
         form = UpdateForm()
         return render(request, 'user/edit_profile.html', locals())
+
 
 def profile_finance(request):
     if request.user.is_authenticated:
@@ -154,6 +160,8 @@ def profile_finance(request):
 
         if request.GET.get('pay_complete'):
             p_c =True
+        if request.GET.get('pid'):
+            check_qiwi(request.GET.get('pid'))
 
         if request.GET.get('time') and request.GET.get('time') != 'all':
             time_filter = request.GET.get('time')
@@ -175,6 +183,10 @@ def profile_finance(request):
         else:
             allPayments = allPayments_temp
         pageTitle = 'Личный кабинет | UGS'
+        cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
+        ya_wallet = settings.YA_WALLET
+        wm_wallet = settings.WM_WALLET
+        success_url = f'{settings.SUCCES_URL}yandex'
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/finances.html', locals())
 
@@ -217,6 +229,7 @@ def profile_balance(request):
         profile_balance = 'active'
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
         ya_wallet = settings.YA_WALLET
+        wm_wallet = settings.WM_WALLET
         success_url = f'{settings.SUCCES_URL}yandex'
         pageTitle = 'Личный кабинет | UGS'
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
@@ -274,6 +287,8 @@ def new_payment(request):
     new_pay.save()
     if request_body['pay_type'] == 'yandex':
         return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
+    if request_body['pay_type'] == 'webmoney':
+        return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
     if request_body['pay_type'] == 'qiwi':
         headers = {
             'Content-Type': 'application/json',
@@ -292,16 +307,13 @@ def new_payment(request):
                     'phone': UserCard.objects.get(id=request_body['card_id']).qiwi_wallet,
                     'email': request.user.email,
                     'account': request.user.id,
-
-
             },
-
             "customFields": {},
             }
         respond = requests.put(f'https://api.qiwi.com/partner/bill/v1/bills/{new_pay.id}', headers=headers,data=json.dumps(data))
         print(respond.json())
         pay_url = respond.json()['payUrl']
-        return_url = urlquote(u'{}qiwi'.format(settings.SUCCES_URL))
+        return_url = urlquote(u'{}qiwi&pid={}'.format(settings.SUCCES_URL,new_pay.payment_id))
         full_url= f'{pay_url}&paySource=qw&allowedPaySources=qw&successUrl={return_url}'
         return JsonResponse({'pay_url':full_url,'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
 
@@ -325,6 +337,9 @@ def pay_complete(request):
 
 @csrf_exempt
 def pay_qiwi_complete(request):
+    request_unicode = request.body.decode('utf-8')
+    request_body = json.loads(request_unicode)
+    print(request_body)
     print_log(request.GET)
     print_log(request.POST)
 
