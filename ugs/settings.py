@@ -29,7 +29,18 @@ SOCIAL_AUTH_MAILRU_OAUTH2_SECRET = settings.MAIL_SECRET
 
 SOCIAL_AUTH_FACEBOOK_KEY = settings.FACEBOOK_KEY
 SOCIAL_AUTH_FACEBOOK_SECRET = settings.FACEBOOK_SECRET
-
+SOCIAL_AUTH_FACEBOOK_API_VERSION = '2.8'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] # add this
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
+  'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
