@@ -54,7 +54,7 @@
 												<div class="input-block__wrap">
 													<div class="select">
 														<div class="select-main">
-                                                            {% if request.user.sex == 0 %} <div class="select-text">Женский</div> {% endif %}
+                                                            {% if request.user.sex == 0 or not request.user.sex %} <div class="select-text">Женский</div> {% endif %}
                                                             {% if request.user.sex == 1 %} <div class="select-text">Мужской</div> {% endif %}
 
 															<div class="input-icon">
@@ -68,7 +68,7 @@
 															</ul>
 														</div>
 														<input type="text" name="{{ form.sex.name }}" class="select-value">
-                                                    {% if request.user.sex == 0 %} <input type="text" name="{{ form.sex.name }}" class="select-value" value="0"> {% endif %}
+                                                    {% if request.user.sex == 0 or not request.user.sex %} <input type="text" name="{{ form.sex.name }}" class="select-value" value="0"> {% endif %}
                                                             {% if request.user.sex == 1 %}<input type="text" name="{{ form.sex.name }}" class="select-value" value="1"> {% endif %}
 													</div>
 												</div>
