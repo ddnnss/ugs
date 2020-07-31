@@ -24,7 +24,9 @@
                 <input id="label_1" type="hidden" name="label" value="">
                 <input type="hidden" name="successURL" value="{{ success_url }}">
             </form>
+
             <div class="private-block private-block__small private-block__small-2">
+             {% if cards %}
                 <p>Сумма пополнения</p>
                 <div class="private-form private-form__2">
                     <div class="input-block">
@@ -35,10 +37,17 @@
                             </div>
                         </div>
                     </div>
-                    <button  onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>
+{#                    <button  onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>#}
                 </div>
+                {% else %}
+
+             <p>У Вас нет привязанных карт или кошельков</p>
+
 
             </div>
+
+        {% endif %}
+
             <div class="lkCard-private">
                 {% for card in  cards %}
                     {% if card.card_number %}

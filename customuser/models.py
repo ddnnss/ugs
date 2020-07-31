@@ -205,9 +205,13 @@ def bet_post_save(sender, instance, created, **kwargs):
                            text=f'Пользователь ID:{instance.user.id} зарегистрировал ставку на сумму {instance.amount}')
     else:
         if instance.is_complete:
-            BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
-            instance.user.balance -= instance.amount
-            instance.user.save()
+            try:
+                BalanceFreeze.objects.get(bet=instance, user=instance.user, amount=instance.amount)
+
+            except:
+                BalanceFreeze.objects.create(bet=instance, user=instance.user, amount=instance.amount)
+                instance.user.balance -= instance.amount
+                instance.user.save()
             print('money done')
         if not instance.bet_result_amount:
             if instance.bet_result == True:

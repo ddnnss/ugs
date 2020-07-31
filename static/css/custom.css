@@ -1,3 +1,13 @@
+.rub-sign{
+    position: absolute;
+    top: 50%;
+    right: 21px;
+    -webkit-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    max-width: 13px;
+}
+
 .score .main-btn {
     padding: 22px 28px;
 }

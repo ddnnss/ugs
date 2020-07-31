@@ -358,7 +358,6 @@ def new_message(request):
         form.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-@csrf_exempt
 def view_notify(request):
     temp = Message.objects.filter(user=request.user)
     if temp:

@@ -52,15 +52,35 @@
         {% endif %}
         let u_b = {{ request.user.balance }}
 
+            function clearNotify () {
+                 $.ajax({
+            type: "POST",
+            url: "{% url 'view_notify' %}",
+            data: {},
+            headers:{"X-CSRFToken": '{{ csrf_token }}'},
+            success: function (newEnd) {
 
-            function checkB(el) {
-                if (el.value > 0 && u_b>=el.value){
-                    $('#bet_btn').removeClass('btn-disabled')
-                }else {
-                    $('#bet_btn').addClass('btn-disabled')
-                }
+                 $('#msgCount').addClass('not-visible')
+            },
+            error: function () {
 
             }
+        });
+
+
+
+
+            }
+
+
+        function checkB(el) {
+            if (el.value > 0 && u_b>=el.value){
+                $('#bet_btn').removeClass('btn-disabled')
+            }else {
+                $('#bet_btn').addClass('btn-disabled')
+            }
+
+        }
         function checkW(el){
             if (el.checked){
                 document.getElementById('team_input').setAttribute('disabled','disabled')
@@ -235,7 +255,7 @@
 
 
     </script>
-      <script>
+    <script>
         function pay_request(e,form,pay_type,card_id) {
             e.preventDefault()
 
@@ -257,19 +277,19 @@
                     if(res['status']==='ok'){
                         if(res['pay_type'] === 'yandex'){
                             console.log('ya-pay')
-                               $('#label_1').val(res['p_id'])
-                               $('#ya_sum').val($('#amount_1').val())
+                            $('#label_1').val(res['p_id'])
+                            $('#ya_sum').val($('#amount_1').val())
                             document.getElementById(form).submit()
                         }
                         if(res['pay_type'] === 'webmoney'){
                             console.log('ya-pay')
-                               $('#wm_id').val(res['p_id'])
-                               $('#wm_sum').val($('#amount_1').val())
+                            $('#wm_id').val(res['p_id'])
+                            $('#wm_sum').val($('#amount_1').val())
                             document.getElementById(form).submit()
                         }
                         if(res['pay_type'] === 'qiwi'){
                             console.log('ya-"qiwi"')
-                              window.location.href=res['pay_url']
+                            window.location.href=res['pay_url']
 
                         }
 
