@@ -204,7 +204,7 @@ def bet_post_save(sender, instance, created, **kwargs):
         Log.objects.create(user=instance.user,
                            text=f'Пользователь ID:{instance.user.id} зарегистрировал ставку на сумму {instance.amount}')
     else:
-        if instance.is_complete:
+        if instance.is_complete and not instance.bet_result_amount:
             try:
                 BalanceFreeze.objects.get(bet=instance, user=instance.user, amount=instance.amount)
 
@@ -227,7 +227,11 @@ def bet_post_save(sender, instance, created, **kwargs):
                 instance.bet_result_amount = instance.amount * decimal.Decimal(instance.coefficient)
                 instance.save()
             elif instance.bet_result == False:
-                instance.user.balance += instance.amount * decimal.Decimal(int(instance.cashback) / 100)
+                print('instance.amount',instance.amount)
+                print('instance.user.balance1',instance.user.balance)
+                print('decimal.Decimal(int(instance.cashback) / 100',decimal.Decimal(int(instance.cashback) / 100))
+                instance.user.balance = instance.user.balance + ( instance.amount * decimal.Decimal(int(instance.cashback) / 100))
+                print('instance.user.balance2', instance.user.balance)
                 instance.user.save()
                 Log.objects.create(user=instance.user,
                                    text=f'Пользователь ID:{instance.user.id} провыиграл ставку на сумму {instance.amount} с кешбеком {instance.cashback} %')
@@ -238,8 +242,9 @@ def bet_post_save(sender, instance, created, **kwargs):
                                             f' Ваш счет пополнен на {instance.bet_result_amount:.2f} руб,'
                                             f' кешбек {int(instance.cashback):.2f} %')
                 BalanceFreeze.objects.get(bet=instance).delete()
-
+                print('instance.user.balance3', instance.user.balance)
                 instance.save()
+                print('instance.user.balance4', instance.user.balance)
             else:
                 print('unkown')
 
