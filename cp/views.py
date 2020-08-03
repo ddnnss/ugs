@@ -6,9 +6,11 @@ from pages.forms import FeedbackForm
 
 def users(request):
     allUsers = User.objects.filter(is_superuser=False)
+    profilePage = True
     return render(request, 'cp/users.html', locals())
 
 def user(request,id):
+    profilePage = True
     user = User.objects.get(id=id)
     if request.POST:
         user.balance = float(request.POST.get('balance'))
@@ -24,10 +26,12 @@ def user(request,id):
     return render(request, 'cp/user.html', locals())
 
 def bets(request):
+    profilePage = True
     allBets = Bet.objects.filter(is_complete=True).order_by('-id')
     return render(request, 'cp/bets.html', locals())
 
 def bet(request,id):
+    profilePage = True
     bet = Bet.objects.get(id=id)
     if request.POST:
         bet.cashback = request.POST.get('cb')
@@ -47,18 +51,22 @@ def bet(request,id):
     return render(request, 'cp/bet.html', locals())
 
 def withdraws(request):
+    profilePage = True
     allWithdraws = Withdraw.objects.all()
     return render(request, 'cp/withdraws.html', locals())
 
 def withdraw(request,id):
+    profilePage = True
     withdrawInfo = Withdraw.objects.get(id=id)
     return render(request, 'cp/withdraw.html', locals())
 
 def messages(request):
+    profilePage = True
     allMessages = MessageForm.objects.all().order_by('is_open')
     return render(request, 'cp/messages.html', locals())
 
 def message(request,id):
+    profilePage = True
     messageInfo = MessageForm.objects.get(id=id)
     messageInfo.is_open = True
     messageInfo.save()
@@ -88,10 +96,12 @@ def withdraw_cancel(request,id):
 
 
 def payments(request):
+    profilePage = True
     allPayments = Payment.objects.all()
     return render(request, 'cp/payments.html', locals())
 
 def feedbacks(request):
+    profilePage = True
     allFeedbacks = Feedback.objects.all()
     return render(request, 'cp/feedbacks.html', locals())
 
