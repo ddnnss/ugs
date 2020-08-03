@@ -17,8 +17,10 @@
                 <div class="score">
                     <h3 class="personalArea-title">Баланс:<span>{{ request.user.balance }} ₽</span></h3>
                     <p>Вы можете вывести средства с баланса в любое удобное для вас время. Убедитесь, что вы привязали платежное средство к аккаунту.</p>
-                   	<a href="#" class="main-btn private-btn">Вывести средства</a>
+                  <div class="row-btns">
+						<a href="#" class="main-btn private-btn">Вывести средства</a>
 						<a href="#" class="main-btn card-btn">Пополнить баланс</a>
+					</div>
                   {% include 'user/add_to_balance_form.html' %}
                   {% include 'user/withdraw_form.html' %}
 

@@ -7,7 +7,10 @@
     transform: translate(0,-50%);
     max-width: 13px;
 }
-
+.dolbanyi-input{
+    padding-right: 40px !important;
+    padding-left: 10px !important;
+}
 .score .main-btn {
     padding: 22px 28px;
 }

@@ -26,7 +26,7 @@
             </form>
 
             <div class="private-block private-block__small private-block__small-2">
-             {% if cards %}
+
                 <p>Сумма пополнения</p>
                 <div class="private-form private-form__2">
                     <div class="input-block">
@@ -39,16 +39,9 @@
                     </div>
 {#                    <button  onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>#}
                 </div>
-                {% else %}
-
-             <p>У Вас нет привязанных карт или кошельков</p>
 
 
-            </div>
-
-        {% endif %}
-
-            <div class="lkCard-private">
+            <div class="lkCard-private lkCard-private__down">
                 {% for card in  cards %}
                     {% if card.card_number %}
                         <div class="private-top">
@@ -76,6 +69,46 @@
 
 
             </div>
+        <div class="private-block private-block__2">
+									<p>Другая карта</p>
+									<form action="">
+										<div class="input-block input-block__down">
+											<div class="input-block__wrap">
+												<input class="input-card" type="text" name="text" placeholder="0000 0000 0000 0000">
+												<div class="input-ico">
+													<img src="{% static 'img/visa.svg' %}" alt="">
+												</div>
+											</div>
+										</div>
+										<div class="input-block">
+											<div class="input-block__wrap">
+												<input type="text" name="text" placeholder="ИМЯ ФАМИЛИЯ">
+											</div>
+										</div>
+										<div class="score-wrap__all score-wrap__all-2">
+											<div class="score-wrap__row">
+												<div class="score-wrap__col score-wrap__col-1">
+													<div class="input-block">
+														<div class="input-block__wrap">
+															<span class="score-wrap__text">VALID THRU</span>
+															<input type="text" name="text" placeholder="00/00" class="input-valid">
+														</div>
+													</div>
+												</div>
+												<div class="score-wrap__col score-wrap__col-2">
+													<div class="input-block">
+														<div class="input-block__wrap">
+															<input type="text" name="text" placeholder="CVC" class="input-CVC">
+														</div>
+													</div>
+												</div>
+												<div class="score-wrap__col score-wrap__col-3">
+													<button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
             {% for card in cards %}
 
                 <div style="margin-bottom: 15px" class="private-form">
