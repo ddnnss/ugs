@@ -22,7 +22,7 @@
 						<div class="income-info">
 							<p>Узнай подробнее, как зарабатывать на <b>UGS</b></p>
 							<div class="income-btns">
-								<a href="#" class="main-btn bid-btn">Зарегистрировать ставку</a>
+								<a id="open_btn" href="#" class="main-btn bid-btn">Зарегистрировать ставку</a>
 								<a href="{% url 'profile_balance' %}" class="second-btn">Как потратить</a>
 							</div>
 						</div>
@@ -105,5 +105,11 @@
 
 {% block js %}
     {{ block.super }}
+    <script>
+    $( document ).ready(function() {
+    $('#open_btn').click()
+});
+    </script>
+
 
 {% endblock %}

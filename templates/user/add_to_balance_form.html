@@ -95,13 +95,13 @@
 														</div>
 													</div>
 												</div>
-												<div class="score-wrap__col score-wrap__col-2">
-													<div class="input-block">
-														<div class="input-block__wrap">
-															<input type="text" name="text" placeholder="CVC" class="input-CVC">
-														</div>
-													</div>
-												</div>
+{#												<div class="score-wrap__col score-wrap__col-2">#}
+{#													<div class="input-block">#}
+{#														<div class="input-block__wrap">#}
+{#															<input type="text" name="text" placeholder="CVC" class="input-CVC">#}
+{#														</div>#}
+{#													</div>#}
+{#												</div>#}
 												<div class="score-wrap__col score-wrap__col-3">
 													<button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>
 												</div>
@@ -142,10 +142,23 @@
 
                     {% elif card.yandex_wallet %}
                         <button type="submit" onclick="pay_request(event,'pay_form_1','yandex',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                        <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
+                                    <input type="hidden" name="remove_card" value="{{ card.id }}">
+                                    <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>
+                                </form>
+
                     {% elif card.qiwi_wallet %}
                         <button type="submit" onclick="pay_request(event,'pay_form_qiwi','qiwi',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                         <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
+                                    <input type="hidden" name="remove_card" value="{{ card.id }}">
+                                    <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>
+                                </form>
                     {% elif card.webmoney_wallet %}
                         <button type="submit" onclick="pay_request(event,'pay_form_webmoney','webmoney',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                         <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
+                                    <input type="hidden" name="remove_card" value="{{ card.id }}">
+                                    <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>
+                                </form>
                     {% endif %}
 
 
@@ -154,5 +167,5 @@
         </div>
     </div>
 </div>
-
+</div>
 

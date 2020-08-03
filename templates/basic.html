@@ -51,28 +51,21 @@
             {% endfor %}
         {% endif %}
         let u_b = {{ request.user.balance }}
-
             function clearNotify () {
-                 $.ajax({
-            type: "POST",
-            url: "{% url 'view_notify' %}",
-            data: {},
-            headers:{"X-CSRFToken": '{{ csrf_token }}'},
-            success: function (newEnd) {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'view_notify' %}",
+                    data: {},
+                    headers:{"X-CSRFToken": '{{ csrf_token }}'},
+                    success: function (newEnd) {
 
-                 $('#msgCount').addClass('not-visible')
-            },
-            error: function () {
+                        $('#msgCount').addClass('not-visible')
+                    },
+                    error: function () {
 
+                    }
+                });
             }
-        });
-
-
-
-
-            }
-
-
         function checkB(el) {
             if (el.value > 0 && u_b>=el.value){
                 $('#bet_btn').removeClass('btn-disabled')

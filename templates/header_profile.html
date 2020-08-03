@@ -17,7 +17,7 @@
                         <li><a href="{% url 'contacts' %}">Контакты</a></li>
                         {% if request.user.is_superuser %}
                              <li><a href="{% url 'cp_users' %}">Админка</a></li>
-
+                             <li><a href="{% url 'logout_page' %}">Выход</a></li>
                         {% endif %}
 					</ul>
 				</div>
@@ -48,6 +48,7 @@
 								<svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.36617 6.76113L0.26458 2.15319C-0.0880305 1.8347 -0.0880305 1.3197 0.26458 1.0046L1.11234 0.238867C1.46495 -0.0796225 2.03513 -0.0796225 2.38399 0.238867L6.00012 3.50508L9.61625 0.238867C9.96886 -0.0796225 10.539 -0.0796225 10.8879 0.238867L11.7357 1.0046C12.0883 1.32309 12.0883 1.83809 11.7357 2.15319L6.63407 6.76113C6.28896 7.07962 5.71878 7.07962 5.36617 6.76113Z" fill="#F8F8F8"/></svg>
 							</div>
 						</div>
+                     {% if not request.user.is_superuser %}
 						<div class="header-drop">
 							<div class="header-menu">
 								   <ul>
@@ -82,6 +83,7 @@
 								<a href="{% url 'profile_finance' %}" class="main-btn">Пополнить баланс</a>
 							</div>
 						</div>
+                    {% endif %}
 						<div class="drop-replenish" id="replenish">
 							<div class="private">
 								<div class="private-over">

@@ -35,7 +35,7 @@
                                         <div class="input-block__wrap">
                                             <input type="text" id="card_mask" name="card" required placeholder="0000 0000 0000 0000">
                                             <div class="input-ico">
-                                                												<img src="img/visa.svg" alt="">
+                                                <img src="{% static 'img/visa.svg' %}" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -50,13 +50,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="score-wrap__col score-wrap__col-2">
-                                            <div class="input-block">
-                                                <div class="input-block__wrap">
-                                                    <input type="text" id="cvc_mask" name="cvc" required maxlength="3" placeholder="CVC">
-                                                </div>
-                                            </div>
-                                        </div>
+{#                                        <div class="score-wrap__col score-wrap__col-2">#}
+{#                                            <div class="input-block">#}
+{#                                                <div class="input-block__wrap">#}
+{#                                                    <input type="text" id="cvc_mask" name="cvc" required maxlength="3" placeholder="CVC">#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
                                         <input type="hidden" name="add_card" value="0">
                                         <div class="score-wrap__col score-wrap__col-3">
                                             <button type="submit" class="main-btn">Привязать</button>

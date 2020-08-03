@@ -36,12 +36,24 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField('Эл. почта', unique=True)
+    email_add = models.EmailField('Эл. почта', blank=True, null=True)
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
+    phone_add = models.CharField('Телефон', max_length=50, blank=True, null=True)
     profile_ok = models.BooleanField(default=False)
     avatar = models.ImageField('Фото профиля', upload_to='avatar/', blank=True)
     balance = models.DecimalField('Баланс', decimal_places=2,max_digits=10,default=1)
     sex = models.BooleanField('Пол', blank=True, null=True, default=True)
     birthday = models.DateField('ДР', blank=True, null=True)
+    country = models.CharField('Страна', max_length=150, blank=True, null=True)
+    billing_country = models.CharField('Страна', max_length=150, blank=True, null=True)
+    town = models.CharField('Город', max_length=150, blank=True, null=True)
+    billing_town = models.CharField('Город', max_length=150, blank=True, null=True)
+    house = models.CharField('Дом', max_length=150, blank=True, null=True)
+    billing_house = models.CharField('Дом', max_length=150, blank=True, null=True)
+    address = models.CharField('Адрес', max_length=150, blank=True, null=True)
+    billing_address = models.CharField('Адрес', max_length=150, blank=True, null=True)
+    billing_post = models.CharField('Индекс', max_length=150, blank=True, null=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()

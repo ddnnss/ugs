@@ -35,9 +35,28 @@ class NewMessageForm(ModelForm):
 class UpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name',  'birthday','sex')
+        fields = ('email',
+                  'email_add',
+                  'first_name',
+                  'last_name',
+                  'birthday',
+                  'sex',
+                  'phone',
+                  'phone_add',
+                  'country',
+                  'billing_country',
+                  'town',
+                  'billing_town',
+                  'billing_post',
+                  'house',
+                  'billing_house',
+                  'address',
+                  'billing_address',
+                  )
 
         error_messages = {
              'email': {
                  'unique': "Указанный адрес уже кем-то используется",
              },}
+
+
