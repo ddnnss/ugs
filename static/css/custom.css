@@ -105,3 +105,6 @@
         .not-visible{
             display: none !important;
         }
+.adminArea{
+    height: 100vh;
+}
