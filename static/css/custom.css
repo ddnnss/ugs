@@ -108,3 +108,6 @@
 .adminArea{
     height: 100vh;
 }
+.lkCard-private .private-wrap{
+    min-height: 135px;
+}

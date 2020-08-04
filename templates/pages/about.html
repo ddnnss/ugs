@@ -151,7 +151,7 @@
 				<p>Ниже представлены отзывы от самых ярых игроков, которые всегда играют на крупные суммы. </p>
 			</div>
 		</div>
-		<div class="testimonials-slider">
+		<div class="testimonials-slider owl-carousel">
             {% for feedback in allFeedbacks %}
 			    <div class="testimonials-slide">
 				<div class="testimonials-wrap">
@@ -172,7 +172,8 @@
             {% endfor %}
 		</div>
 		<div class="testimonials-range">
-			<input type="range" id="range" min="1" value="1" step="1" class="range"/>
+			<div id="range" class="range-bar"></div>
+			<input type="text" class="range-input">
 		</div>
 	</section>
 	<!-- end testimonials -->

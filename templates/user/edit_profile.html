@@ -90,7 +90,7 @@
 											<label for="i-6">Телефон</label>
 											<div class="input-block">
 												<div class="input-block__wrap">
-													<input id="phone_1" type="text" name="{{ form.phone.name }}" value="{{ request.user.phone }}" placeholder="Телефон">
+													<input id="phone_1" type="text" name="{{ form.phone.name }}" value="{{ request.user.phone }}" placeholder="+7">
 												</div>
 											</div>
 										</div>
@@ -284,10 +284,10 @@
         $("#phone_1").click(function(){
             console.log('cc')
             $(this).setCursorPosition(0);
-        }).mask("+7 (999) 999-99-99");
+        }).mask("+9 (999) 999-99-99");
         $("#phone_2").click(function(){
             console.log('cc')
             $(this).setCursorPosition(0);
-        }).mask("+7 (999) 999-99-99");
+        }).mask("+9 (999) 999-99-99");
         </script>
 {% endblock %}
