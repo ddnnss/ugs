@@ -1,0 +1,64 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+<!-- start personalArea -->
+	<section class="personalArea adminArea">
+		<div class="personalArea-bg" style="background-image: url({% static 'img/personalArea-bg.svg' %});"></div>
+		<div class="wrapper">
+		{% include 'user/sidebar.html' %}
+				<div class="personalArea-content">
+				<div class="section-top">
+					<h2 class="section-title">Статьи</h2>
+					<span>Статьи</span>
+				</div>
+                <div class="profile-col profile-btn">
+                            <a href="{% url 'cp_new_post' %}" class="main-btn">Новый пост</a>
+                        </div>
+					<div class="operations-table">
+						<div class="operations-row operations-top">
+							<div class="operations-col operations-col__1 time-col">
+								<span>ID</span>
+							</div>
+							<div class="operations-col operations-col__2">
+								<span>Название</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>Категория</span>
+							</div>
+							<div class="operations-col operations-col__4">
+								<span>Опубликовано</span>
+							</div>
+
+						</div>
+						   {% for post in allPosts %}
+				    		<div class="operations-row admin-row" onclick="window.location.href = '/cp/post/{{ post.id }}'">
+							<div class="operations-col operations-col__1 time-col">
+								<span>{{ post.id }}</span>
+							</div>
+							<div class="operations-col operations-col__2">
+							   <span>{{ post.name }}</span>
+							</div>
+							<div class="operations-col operations-col__3">
+								<span>{{  post.category.name }}</span>
+							</div>
+
+							<div class="operations-col operations-col__5">
+                                {% if post.is_active == True %}
+								    <img src="{% static 'img/check.svg' %}" alt="">
+                                {% else %}
+                                 	<img src="{% static 'img/close.svg' %}" alt="">
+                                {% endif %}
+							</div>
+						</div>
+					    {% endfor %}
+					</div>
+			</div>
+		</div>
+	</section>
+	<!-- end personalArea -->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}

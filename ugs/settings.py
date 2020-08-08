@@ -35,11 +35,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email',
 }
 
-SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_KEY = settings.OK_ID
-SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SECRET = settings.OK_SECRET
-SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_PUBLIC_NAME = 'Ugscash'
-
-SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SCOPE = ['email','name']
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = settings.YT_CLIENT_ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = settings.YT_CLIENT_SECRET
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -122,7 +119,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'social_core.backends.mailru.MailruOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.odnoklassniki.OdnoklassnikiOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
@@ -135,9 +132,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'ckeditor',
+    'ckeditor_uploader',
+
     'pages',
     'customuser',
-    'cp'
+    'cp',
+    'blog'
 ]
 
 MIDDLEWARE = [

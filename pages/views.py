@@ -47,3 +47,15 @@ def customhandler404(request, exception, template_name='404.html'):
 
 def receiver(request):
     return render(request, 'pages/receiver.html', locals())
+
+def rules(request):
+    pageTitle = 'UGS | Правила | КЭШБЭК СЕРВИС В СТАВКАХ НА СПОРТ'
+    pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
+
+    return render(request, 'pages/rules.html', locals())
+
+def policy(request):
+    pageTitle = 'UGS | Политика конфидициальности | КЭШБЭК СЕРВИС В СТАВКАХ НА СПОРТ'
+    pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
+
+    return render(request, 'pages/policy.html', locals())

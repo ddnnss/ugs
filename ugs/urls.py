@@ -14,16 +14,18 @@ admin.site.index_title = "UGS администрирование"
 
 sitemaps = {
     'static': StaticViewSitemap,
+    'blog': BlogSitemap
 }
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cp/', include('cp.urls')),
     path('user/', include('customuser.urls')),
+    path('blog/', include('blog.urls')),
     path('index.html', RedirectView.as_view(url='/', permanent=False), name='index1'),
     path('index.php', RedirectView.as_view(url='/', permanent=False), name='index2'),
     path('oauth/', include('social_django.urls', namespace='social')),
-    # path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps}),
     path('', include('pages.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

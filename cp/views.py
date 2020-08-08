@@ -3,6 +3,7 @@ from django.shortcuts import render
 from customuser.models import *
 from pages.models import *
 from pages.forms import FeedbackForm
+from blog.models import *
 
 def users(request):
     allUsers = User.objects.filter(is_superuser=False)
@@ -49,6 +50,57 @@ def bet(request,id):
     elif bet.bet_result == False:
         result = '0'
     return render(request, 'cp/bet.html', locals())
+
+def posts(request):
+    profilePage = True
+    allPosts = BlogPost.objects.all()
+    return render(request, 'cp/posts.html', locals())
+
+def post(request,id):
+    if request.POST:
+        print(request.POST)
+        post = BlogPost.objects.get(id=request.POST.get('p_id'))
+        post.category_id = request.POST.get('category')
+        post.text = request.POST.get('text')
+        post.name =  name=request.POST.get('name')
+        if request.POST.get('is_active') == '0':
+            post.is_active=False
+        else:
+            post.is_active = True
+        post.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+    profilePage = True
+    post = BlogPost.objects.get(id=id)
+    allCats = BlogCategory.objects.all()
+    return render(request, 'cp/post.html', locals())
+
+def new_post(request):
+    if request.POST:
+        print(request.POST)
+        if request.POST.get('new_category'):
+            BlogCategory.objects.create(name=request.POST.get('new_category'))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            post = BlogPost.objects.create(category_id=request.POST.get('category'),
+                                           text=request.POST.get('text'),
+                                           name=request.POST.get('name'),
+                                           image=request.FILES.get('preview_img'),
+                                           image_post=request.FILES.get('full_img'),
+                                           short_description=request.POST.get('short'),
+                                           is_active= request.POST.get('is_active')
+                                           )
+            post.category_id = request.POST.get('category')
+            post.text = request.POST.get('text')
+            post.save()
+            return HttpResponseRedirect('/cp/posts')
+
+
+    profilePage = True
+
+    allCats = BlogCategory.objects.all()
+    return render(request, 'cp/new_post.html', locals())
 
 def withdraws(request):
     profilePage = True
