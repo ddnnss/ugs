@@ -61,6 +61,28 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Z3GCTF"
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    {% if indexPage %}
+ <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+       {% for q in allFaq %}
+      {
+
+        "@type": "Question",
+        "name": "{{ q.title }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ q.text }}"
+        }
+      },
+      {% endfor %}
+
+       ]
+    }
+    </script>
+    {% endif %}
 
 </head>
 <body>

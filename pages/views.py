@@ -6,6 +6,9 @@ from customuser.forms import NewMessageForm
 
 def index(request):
     nonLK = True
+    indexPage = True
+
+    allFaq = Faq.objects.all()
     allFaqFirst = Faq.objects.filter(is_first=True)
     allFaqSecond = Faq.objects.filter(is_first=False)
     pageTitle = 'Кэшбэк ставки на спорт | Cash Back с проигрышей | Кэшбэк со ставок '
