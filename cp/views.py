@@ -62,6 +62,8 @@ def post(request,id):
         post = BlogPost.objects.get(id=request.POST.get('p_id'))
         post.category_id = request.POST.get('category')
         post.text = request.POST.get('text')
+        post.title = request.POST.get('title')
+        post.description = request.POST.get('description')
         post.name =  name=request.POST.get('name')
         if request.POST.get('is_active') == '0':
             post.is_active=False
