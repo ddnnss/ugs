@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/notifi.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% if rel_link %}
+        <link rel="canonical" href="{{ rel_link }}">
+    {% endif %}
     <meta name="theme-color" content="#000">
     <meta name="msapplication-navbutton-color" content="#000">
     <meta name="apple-mobile-web-app-status-bar-style" content="#000">
@@ -337,6 +340,13 @@
                             console.log('ya-pay')
                             $('#label_1').val(res['p_id'])
                             $('#ya_sum').val($('#amount_1').val())
+                            document.getElementById(form).submit()
+                        }
+                         if(res['pay_type'] === 'ik'){
+                            console.log('ik-pay')
+                            $('#ik_sum').val($('#amount_1').val())
+                            $('#ik_x_label').val(res['p_id'])
+                            $('#ik_pm_no').val(`${res['p_id']}`)
                             document.getElementById(form).submit()
                         }
                         if(res['pay_type'] === 'webmoney'){

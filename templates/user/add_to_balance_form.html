@@ -25,19 +25,32 @@
                 <input type="hidden" name="successURL" value="{{ success_url }}">
             </form>
 
+        <form id="ik_payment" name="payment" method="post" action="https://sci.interkassa.com/" enctype="utf-8">
+            <input type="hidden" name="ik_co_id" value="5f3179781ae1bd2c008b4577" />
+            <input id="ik_pm_no" type="hidden" name="ik_pm_no" value="" />
+            <input id="ik_sum" type="hidden" name="ik_am" value="" />
+            <input type="hidden" name="ik_cur" value="RUB" />
+            <input type="hidden" name="ik_desc" value="Пополнение баланса {{ request.user.first_name }} {{ request.user.last_name }}" />
+            <input type="hidden" name="ik_suc_u" value="{{ success_url }}" />
+            <input type="hidden" name="ik_suc_m" value="post" />
+
+            <input type="hidden" id="ik_x_label"  name="ik_x_label" value="" />
+
+        </form>
+
             <div class="private-block private-block__small private-block__small-2">
 
                 <p>Сумма пополнения</p>
                 <div class="private-form private-form__2">
                     <div class="input-block">
                         <div class="input-block__wrap">
-                            <input id="amount_1"  name="sum" value="0"  data-type="number" type="number" >
+                            <input id="amount_1"  name="sum" value="100" min="1"  data-type="number" type="number" >
                             <div class="input-ico">
                                 <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M0 7H1V0H8.5C11 0 13 2 13 4.5C13 7 11 9 8.5 9H3V11H9V13H3V18H1V13H0V11H1V9H0V7ZM8.5 2H3V7H8.5C9.16304 7 9.79893 6.73661 10.2678 6.26777C10.7366 5.79893 11 5.16304 11 4.5C11 3.83696 10.7366 3.20107 10.2678 2.73223C9.79893 2.26339 9.16304 2 8.5 2Z" fill="#6B6B6B"></path></svg>
                             </div>
                         </div>
                     </div>
-{#                    <button  onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>#}
+                    <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
                 </div>
 
 
@@ -55,8 +68,8 @@
                                 {#											</span>#}
                             </div>
                             <div class="private-btns">
-                                <button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>
-
+{#                                <button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>#}
+  <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
                                 <form id="removeCard_form" action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
                                     <input type="hidden" name="remove_card" value="{{ card.id }}">
                                     <a onclick="document.getElementById('removeCard_form').submit()"  class="second-btn">Отвязать карту</a>
@@ -103,7 +116,8 @@
 {#													</div>#}
 {#												</div>#}
 												<div class="score-wrap__col score-wrap__col-3">
-													<button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>
+                                                      <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
+{#													<button onclick="pay_request(event,'pay_form_1','yandex',0)" class="main-btn withdraw-btn">Пополнить</button>#}
 												</div>
 											</div>
 										</div>
@@ -141,20 +155,20 @@
                         {#                            <button type="submit" onclick="setCID({{card.id}})" class="main-btn withdraw-btn">Пополнить</button>#}
 
                     {% elif card.yandex_wallet %}
-                        <button type="submit" onclick="pay_request(event,'pay_form_1','yandex',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                       <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
                         <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
                                     <input type="hidden" name="remove_card" value="{{ card.id }}">
                                     <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>
                                 </form>
 
                     {% elif card.qiwi_wallet %}
-                        <button type="submit" onclick="pay_request(event,'pay_form_qiwi','qiwi',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                         <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
                          <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
                                     <input type="hidden" name="remove_card" value="{{ card.id }}">
                                     <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>
                                 </form>
                     {% elif card.webmoney_wallet %}
-                        <button type="submit" onclick="pay_request(event,'pay_form_webmoney','webmoney',{{ card.id }})" class="main-btn withdraw-btn">Пополнить</button>
+                         <button  onclick="pay_request(event,'ik_payment','ik',0)" class="main-btn withdraw-btn">Пополнить</button>
                          <form action="{% url 'profile_balance' %}" method="post">{% csrf_token %}
                                     <input type="hidden" name="remove_card" value="{{ card.id }}">
                                     <button type="submit"  class="main-btn withdraw-btn">Отвязать</button>

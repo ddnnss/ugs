@@ -21,6 +21,8 @@ class BlogPost(models.Model):
     name_slug = models.CharField(max_length=255, blank=True, null=True, editable=False, db_index=True)
     image = models.ImageField('Изображение превью 200x200)', upload_to='article/', blank=False,null=True)
     image_post = models.ImageField('Изображение превью 200x200)', upload_to='article/', blank=False,null=True)
+    title = models.CharField('TITLE', max_length=120, blank=False, null=True)
+    description = models.TextField('DESCRIPTION', blank=False,null=True)
     short_description = models.TextField('Короткое описание', blank=False,null=True)
     text = RichTextUploadingField('Статья.', blank=False, null=True)
     views = models.IntegerField('Просмотров', default=0)

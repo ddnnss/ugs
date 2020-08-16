@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import *
 
 def posts(request):
+    rel_link = 'https://ugscash.ru/blog/'
     all_posts = BlogPost.objects.filter(is_active=True).order_by('-created_at')
     all_filters = BlogCategory.objects.all()
     pageTitle = 'UGS | Блог | КЭШБЭК СЕРВИС В СТАВКАХ НА СПОРТ'
@@ -11,6 +12,7 @@ def posts(request):
 
 
 def post(request,article_name_slug):
+
     if request.POST:
         if request.POST.get('c_id') == '':
             BlogComment.objects.create(category_id=request.POST.get('p_id'),
@@ -21,14 +23,20 @@ def post(request,article_name_slug):
                                               user_id=request.POST.get('u_id'),
                                               text=request.POST.get('text'))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    post = get_object_or_404(BlogPost, name_slug=article_name_slug)
-    pageTitle = post.name
-    pageDescription = post.short_description
-    allComments = BlogComment.objects.filter(category=post)
+    print(article_name_slug)
+    if article_name_slug == 'ttt':
+        return HttpResponseRedirect('/')
+    else:
+        post = get_object_or_404(BlogPost, name_slug=article_name_slug)
 
-    try:
-        mostLike= BlogPost.objects.filter(is_active=True).order_by('-created_at')[0:3]
+        pageTitle = post.title
+        pageDescription = post.description
+        allComments = BlogComment.objects.filter(category=post)
+        rel_link = f'https://ugscash.ru/blog/{post.name_slug}'
 
-    except:
-        mostLike = None
-    return render(request, 'blog/post.html', locals())
+        try:
+            mostLike = BlogPost.objects.filter(is_active=True).order_by('-created_at')[0:3]
+
+        except:
+            mostLike = None
+        return render(request, 'blog/post.html', locals())

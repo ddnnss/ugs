@@ -89,6 +89,8 @@ def new_post(request):
                                            image=request.FILES.get('preview_img'),
                                            image_post=request.FILES.get('full_img'),
                                            short_description=request.POST.get('short'),
+                                           title=request.POST.get('title'),
+                                           description=request.POST.get('description'),
                                            is_active= request.POST.get('is_active')
                                            )
             post.category_id = request.POST.get('category')

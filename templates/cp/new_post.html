@@ -26,6 +26,8 @@
 
                             </select>
                     </h3>
+                     <h3 class="personalArea-title">TITLE: <input required class="admin-input" name="title"  type="text" value=""></h3>
+                        <h3 class="personalArea-title">DESCRIPTION: <textarea style="height: 200px;width: 400px" class="admin-input" required  name="description"  ></textarea></h3>
                     <h3 class="personalArea-title">Название: <input required class="admin-input" name="name"  type="text" value="{{ post.name }}"></h3>
                         <h3 class="personalArea-title">Краткое описание: <textarea style="height: 200px;width: 400px" class="admin-input" required  name="short"  ></textarea></h3>
                     <h3 class="personalArea-title">Картинка превью: <input required class="admin-input" name="preview_img"  type="file" ></h3>
@@ -61,9 +63,10 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.14.1/full/ckeditor.js"></script>
     <script>
 
-        CKEDITOR.replace( 'text' );
+       CKEDITOR.replace( 'text' );
+
     </script>
 {% endblock %}

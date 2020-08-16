@@ -172,6 +172,7 @@ def profile_finance(request):
         if request.GET.get('pid'):
             check_qiwi(request.GET.get('pid'))
 
+
         if request.GET.get('time') and request.GET.get('time') != 'all':
             time_filter = request.GET.get('time')
             if time_filter == 'c_m':
@@ -195,7 +196,7 @@ def profile_finance(request):
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
         ya_wallet = settings.YA_WALLET
         wm_wallet = settings.WM_WALLET
-        success_url = f'{settings.SUCCES_URL}yandex'
+        success_url = settings.SUCCES_URL
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/finances.html', locals())
 
@@ -239,7 +240,7 @@ def profile_balance(request):
         cards = UserCard.objects.filter(user=request.user).order_by('-card_number')
         ya_wallet = settings.YA_WALLET
         wm_wallet = settings.WM_WALLET
-        success_url = f'{settings.SUCCES_URL}yandex'
+        success_url = settings.SUCCES_URL
         pageTitle = 'Личный кабинет | UGS'
         pageDescription = 'Сервис создан для игроков, которые любят и будут рисковать. UGS - финансовая подушка для игроков, которые привыкли играть на крупные суммы'
         return render(request, 'user/balance.html', locals())
@@ -296,6 +297,8 @@ def new_payment(request):
     new_pay.save()
     if request_body['pay_type'] == 'yandex':
         return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
+    if request_body['pay_type'] == 'ik':
+        return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
     if request_body['pay_type'] == 'webmoney':
         return JsonResponse({'status': 'ok', 'p_id': new_pay.id, 'pay_type': request_body['pay_type']}, safe=False)
     if request_body['pay_type'] == 'qiwi':
@@ -334,15 +337,15 @@ def new_payment(request):
 
 @csrf_exempt
 def pay_complete(request):
-
+    print(request.POST)
     req = request.POST
     try:
-        payment = Payment.objects.get(id=int(req.get('label')))
+        payment = Payment.objects.get(id=int(req.get('ik_pm_no')))
         payment.status = True
         payment.save()
     except:
         pass
-    return JsonResponse({'status': 'ok'}, safe=False)\
+    return HttpResponseRedirect('/user/profile/finance?pay_complete=ik')
 
 @csrf_exempt
 def pay_qiwi_complete(request):
