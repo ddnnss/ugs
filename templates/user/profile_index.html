@@ -73,10 +73,10 @@
                                         <span>{{ bet.created_at |date:'d.m.Y'}}</span>
                                     </div>
                                     <div class="operations-col operations-col__2">
-                                        {% if bet.image%}
-                                            <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>₽ {{ bet.amount }}</span></a>
+                                       {% if bet.image%}
+                                            <a href="{{ bet.image.url }}" target="_blank" class="bet-image"><span>скрин</span></a>
                                         {% else %}
-                                            <span>{{ bet.url }}</span>
+                                            <a href="{{ bet.url }}" target="_blank" class="bet-image"><span>ссылка</span></a>
                                         {% endif %}
                                     </div>
                                     <div class="operations-col operations-col__3">
