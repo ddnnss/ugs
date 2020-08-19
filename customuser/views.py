@@ -45,7 +45,7 @@ def register(request):
         new_user.save()
         login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
         msg_html = render_to_string('email/new_user.html')
-        send_mail(f'Регистрация на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+        send_mail(f'Регистрация на сайте ugscash.ru', None, 'UGSsupport@ugscash.ru',
                   [new_user.email],
                   fail_silently=False, html_message=msg_html)
         return JsonResponse({'status': 'success'}, safe=False)
@@ -110,7 +110,7 @@ def password_recovery(request):
             user.set_password(new_password)
             user.save()
             msg_html = render_to_string('email/new_password.html',{'new_password':new_password})
-            send_mail(f'Новый пароль на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+            send_mail(f'Новый пароль на сайте ugscash.ru', None, 'UGSsupport@ugscash.ru',
                       [email],
                       fail_silently=False, html_message=msg_html)
             messages.success(request, 'Спасибо, Ваш новый пароль выслан на почту')

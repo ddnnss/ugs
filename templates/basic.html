@@ -65,25 +65,23 @@
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     {% if indexPage %}
- <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-       {% for q in allFaq %}
-      {
-
-        "@type": "Question",
-        "name": "{{ q.title }}",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "{{ q.text }}"
-        }
-      },
-      {% endfor %}
-
-       ]
-    }
+         <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+               {% for q in allFaq %}
+                  {
+                    "@type": "Question",
+                    "name": "{{ q.title }}",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "{{ q.text }}"
+                    }
+                  },
+              {% endfor %}
+               ]
+            }
     </script>
     {% endif %}
 
@@ -136,8 +134,12 @@
         function checkB(el) {
             if (el.value > 0 && u_b>=el.value){
                 $('#bet_btn').removeClass('btn-disabled')
+                $('#bet_btn').html('Добавить')
+
             }else {
                 $('#bet_btn').addClass('btn-disabled')
+                $('#bet_btn').html('Не достаточно средств')
+
             }
 
         }

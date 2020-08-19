@@ -107,7 +107,7 @@ class Message(models.Model):
 def message_post_save(sender, instance, created, **kwargs):
     if not instance.is_viewed:
         msg_html = render_to_string('email/notify.html',{'text':instance.text})
-        send_mail(f'Оповещение на сайте ugscash.ru', None, 'no-reply@ugscash.ru',
+        send_mail(f'Оповещение на сайте ugscash.ru', None, 'UGSsupport@ugscash.ru',
                   [instance.user.email],
                   fail_silently=False, html_message=msg_html)
 
