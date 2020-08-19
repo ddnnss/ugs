@@ -78,7 +78,7 @@
                       "@type": "Answer",
                       "text": "{{ q.text }}"
                     }
-                  },
+                  } {% if not forloop.last %},{% endif %}
               {% endfor %}
                ]
             }
