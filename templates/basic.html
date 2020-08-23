@@ -242,6 +242,7 @@
         }
         function reg(e){
             e.preventDefault()
+            ym(66336922,'reachGoal','registr')
             reg_form_error.classList.add('not-visible')
             //if (password1_reg.value !== password2_reg.value ){
             //    error_text.innerText = 'Пароли не совпадают'
@@ -320,7 +321,7 @@
     <script>
         function pay_request(e,form,pay_type,card_id) {
             e.preventDefault()
-
+            ym(66336922,'reachGoal','depozit');
             console.log('pay',pay_type,card_id,$('#amount_1').val())
             let body = {
                 'amount':$('#amount_1').val(),
