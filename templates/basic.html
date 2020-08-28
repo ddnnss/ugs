@@ -44,7 +44,8 @@
         ym(66336922, "init", {
             clickmap:true,
             trackLinks:true,
-            accurateTrackBounce:true
+            accurateTrackBounce:true,
+            webvisor:true
         });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/66336922" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
@@ -65,7 +66,7 @@
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     {% if indexPage %}
-         <script type="application/ld+json">
+        <script type="application/ld+json">
             {
               "@context": "https://schema.org",
               "@type": "FAQPage",
@@ -344,7 +345,7 @@
                             $('#ya_sum').val($('#amount_1').val())
                             document.getElementById(form).submit()
                         }
-                         if(res['pay_type'] === 'ik'){
+                        if(res['pay_type'] === 'ik'){
                             console.log('ik-pay')
                             $('#ik_sum').val($('#amount_1').val())
                             $('#ik_x_label').val(res['p_id'])
